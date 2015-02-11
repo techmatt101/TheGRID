@@ -1,5 +1,5 @@
-# TheGRID
-### Leaderboard API with Social Platform for HTML5 Games - May 2015 BSc (Hons) Computing Science Staffordshire University by Matthew J. Kemp 
+![The GRID](/design/The-Grid-Logo-Print.png)
+### Leaderboard API with Social Platform for HTML5 Games - May 2015 BSc (Hons) Computing Science Staffordshire University by Matthew J. Kemp
 
 > “The Grid. A digital frontier. I tried to picture clusters of players as they moved up the leaderboards. What did they look like? Were the leaderboards like freeways?
 > I kept dreaming of a world I thought I'd never see…” - Tron Legacy*
