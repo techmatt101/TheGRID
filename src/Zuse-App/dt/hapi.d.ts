@@ -472,6 +472,7 @@ declare module Hapi {
         proxy (options : any) : void;
         redirect (uri : string) : void;
         continue (data : any) : void;
+        success () : void;
     }
 
     export function createServer (host : string, port : number, options? : ServerOptions) : Server;
