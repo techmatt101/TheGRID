@@ -1,0 +1,19 @@
+{
+  "name": "Zuse-App",
+  "version": "1.0.0",
+  "description": "Developer Interface to the GRID",
+  "author": "Matthew Kemp",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc app.ts --outDir build/ --target ES5 --module commonjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "boom": "^2.6.1",
+    "config": "^1.10.0",
+    "good": "^5.1.1",
+    "good-console": "^4.1.0",
+    "hapi": "^8.1.0",
+    "joi": "^5.1.0"
+  }
+}
