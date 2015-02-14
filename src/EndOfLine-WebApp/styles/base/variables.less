@@ -1,0 +1,52 @@
+// Global Variables
+
+// Colors =============================== //
+@body-bg: #111;
+@text-color: #eee;
+
+@white: #FFF;
+@white--dark: darken(@white, 10%);
+@black: #000;
+@black--light: lighten(@black, 10%);
+@grey: #bbb;
+@grey--dark: darken(@grey, 7%);
+@grey--light: lighten(@grey, 7%);
+
+@brand-color: #009688;
+@brand-color--light: #ffff8d;
+@brand-color--dark: darken(@brand-color, 10%);
+
+@link-color: #444;
+@highlight-color: @brand-color--light;
+
+@brand-success: #5cb85c;
+@brand-info: #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger: #d9534f;
+
+// Style =============================== //
+@font-family: 'Roboto', 'Open Sans', sans-serif;
+@font-family--sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family--serif: Georgia, "Times New Roman", Times, serif;
+@font-family--mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@font-size: 14px;
+@font-size--large: ceil((@font-size * 1.25));
+@font-size--small: ceil((@font-size * 0.85));
+
+@letter-spacing: 0.05em;
+
+// Layout =============================== //
+@average-screen-width: 1366px;
+@average-screen-height: 768px;
+
+@global-margin-x: 5%;
+@global-margin-y: 2%;
+@global-margin: @global-margin-y @global-margin-x;
+
+@global-padding-x: 5%;
+@global-padding-y: 2%;
+@global-padding: @global-padding-y @global-padding-x;
+
+@border-radius: 4px;
+@box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);

@@ -1,0 +1,37 @@
+{
+  "name": "EndOfLine-WebApp",
+  "version": "1.0.0",
+  "description": "User web interface for the GRID",
+  "author": "Matthew Kemp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "boom": "~2.6.1",
+    "config": "^1.10.0",
+    "good": "^5.1.1",
+    "good-console": "^4.1.0",
+    "handlebars": "^2.0.0",
+    "hapi": "^8.1.0"
+  },
+  "devDependencies": {
+    "chalk": "^0.5.1",
+    "del": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-autoprefixer": "^2.0.0",
+    "gulp-cleancss": "^0.2.2",
+    "gulp-concat": "^2.4.2",
+    "gulp-group-css-media-queries": "^1.0.0",
+    "gulp-if": "^1.2.5",
+    "gulp-image-resize": "^0.6.0",
+    "gulp-less": "^2.0.1",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-size": "^1.1.0",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-typescript": "~2.3.0",
+    "gulp-uglify": "^1.0.2",
+    "gulp-util": "^3.0.1",
+    "less-plugin-bower-resolve": "^0.1.0"
+  }
+}
