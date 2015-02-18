@@ -16,32 +16,49 @@ server.connection({
     host: config.get('Server.host')
 });
 
-server.register({
-    register: require('good'),
-    options: {
-        reporters: [{
-            reporter: require('good-console'),
-            args: [{ log: '*', response: '*' }]
-        }]
+server.register([
+        {register: require('hapi-named-routes')},
+        {
+            register: require('good'),
+            options: {
+                reporters: [{
+                    reporter: require('good-console'),
+                    args: [{log: '*', response: '*'}]
+                }]
+            }
+        }
+    ], (err) => {
+        if (err) throw err;
+        server.start(() => {
+            console.log('Server running at: ' + server.info.uri);
+        });
     }
-}, (err) => {
-    if (err) console.error('Failed to load a plugin:', err);
-});
+);
 
 server.views({
-    engines: { hbs: require("handlebars") },
+    engines: {hbs: require("handlebars")},
     relativeTo: process.cwd(),
     path: 'views',
     partialsPath: 'views/partials'
 });
 
 // Content Resources
-server.route({ //TODO: might be a better way to do this.
+server.route({ //TODO: might be a better way to do this. //TODO: not including favicon.ico and robot.txt
     method: 'GET',
     path: '/content/{resource*}',
     handler: (request, reply) => {
         reply.file('content/' + request.params.resource);
     }
+});
+
+// Style Guide
+server.route({
+    method: "GET",
+    path: "/style-guide",
+    handler: (request, reply) => {
+        reply.view("style-guide");
+    },
+    config: {id: 'style_guide'}
 });
 
 // Home
@@ -50,7 +67,8 @@ server.route({
     path: "/",
     handler: (request, reply) => {
         reply.view("public/home");
-    }
+    },
+    config: {'id': 'home'}
 });
 
 // Developers
@@ -59,7 +77,8 @@ server.route({
     path: "/dev",
     handler: (request, reply) => {
         reply.view("public/developers");
-    }
+    },
+    config: {'id': 'developers'}
 });
 
 // Login
@@ -68,7 +87,8 @@ server.route({
     path: "/login",
     handler: (request, reply) => {
         reply.view("public/login");
-    }
+    },
+    config: {'id': 'login'}
 });
 
 // Register
@@ -77,9 +97,6 @@ server.route({
     path: "/join",
     handler: (request, reply) => {
         reply.view("public/register");
-    }
-});
-
-server.start(() => {
-    console.log('Server running at: ' + server.info.uri);
+    },
+    config: {'id': 'register'}
 });

@@ -13,7 +13,8 @@
     "good": "^5.1.1",
     "good-console": "^4.1.0",
     "handlebars": "^2.0.0",
-    "hapi": "^8.1.0"
+    "hapi": "^8.1.0",
+    "hapi-named-routes": "^0.3.0"
   },
   "devDependencies": {
     "chalk": "^0.5.1",
