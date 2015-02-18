@@ -1,0 +1,16 @@
+{
+  "name": "EndOfLine-UnitTests",
+  "version": "1.0.0",
+  "description": "User web interface for the GRID",
+  "author": "Matthew Kemp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
