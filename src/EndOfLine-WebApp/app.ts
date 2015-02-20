@@ -5,6 +5,7 @@
 /// <reference path="dt/boom.d.ts" />
 
 import config = require('config');
+import fs = require('fs');
 import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
@@ -43,11 +44,18 @@ server.views({
 });
 
 // Content Resources
-server.route({ //TODO: might be a better way to do this. //TODO: not including favicon.ico and robot.txt
+server.route({
     method: 'GET',
-    path: '/content/{resource*}',
+    path: '/{resource*}',
     handler: (request, reply) => {
-        reply.file('content/' + request.params.resource);
+        var path = 'content/' + request.params.resource;
+        fs.exists(path, (exists) => {
+            if(exists) {
+                reply.file(path);
+            } else {
+                reply.view('404').code(404);
+            }
+        });
     }
 });
 
