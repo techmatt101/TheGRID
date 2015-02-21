@@ -5,3 +5,55 @@
 @import "base/layout";
 
 @import "components/buttons";
+
+
+@font-face {
+    font-family: 'spyagency';
+    src: url('/font/spyagency.woff2') format('woff2'), url('/font/spyagency.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    background: url("/images/bg.jpg") center;
+    background-size: cover;
+    height: 40vh;
+    text-align: center;
+
+    img {
+        height: 50%;
+        max-width: 90%;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    border-bottom: @border;
+}
+
+h1 {
+    color: @brand-highlight;
+    font-family: @font-family--outline;
+    text-shadow: -2px 3px 3px #000, 0 0 20px @brand-highlight;
+}
+
+h2 {
+    color: @brand-highlight--light;
+    font-family: @font-family--outline;
+    text-shadow: -2px 3px 3px #000, 0 0 15px @brand-highlight--light;
+}
+
+section {
+    border: @border;
+    padding: @global-padding;
+    background: @body-bg;
+    margin: @global-margin-y 0;
+    background: fade(@body-bg--tint, 50%);
+    border-radius: @border-radius;
+    box-shadow: 0 0 5px #000, 0 0 30px fade(@brand-primary--light, 30%);
+}
+
+main {
+    background: url("/images/bg-grid.png");
+    padding: @global-padding;
+}

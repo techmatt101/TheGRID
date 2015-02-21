@@ -66,7 +66,7 @@ server.route({
     handler: (request, reply) => {
         reply.view("style-guide");
     },
-    config: {id: 'style_guide'}
+    config: {id: 'styleGuide'}
 });
 
 // Home

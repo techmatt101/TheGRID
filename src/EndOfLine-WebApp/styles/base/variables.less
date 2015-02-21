@@ -2,35 +2,47 @@
 
 // Colors =============================== //
 @body-bg: #111;
+@body-bg--tint: #0f1c34;
 @text-color: #eee;
 
 @white: #FFF;
 @white--dark: darken(@white, 10%);
 @black: #000;
 @black--light: lighten(@black, 10%);
-@grey: #bbb;
-@grey--dark: darken(@grey, 7%);
-@grey--light: lighten(@grey, 7%);
+@grey: #444;
+@grey--dark: darken(@grey, 10%);
+@grey--light: lighten(@grey, 10%);
 
-@brand-color: #009688;
-@brand-color--light: #ffff8d;
-@brand-color--dark: darken(@brand-color, 10%);
+@brand-primary: #29abe2;
+@brand-primary--light: #68eeff;
+@brand-primary--dark: #005ab3;
 
-@link-color: #444;
-@highlight-color: @brand-color--light;
+@brand-secondary: #ed1c24;
+@brand-secondary--light: #f15a24;
+@brand-secondary--dark: #a6121a;
 
-@brand-success: #5cb85c;
-@brand-info: #5bc0de;
-@brand-warning: #f0ad4e;
-@brand-danger: #d9534f;
+@brand-highlight: #f22f8f;
+@brand-highlight--light: #00db98;
+@brand-highlight--dark: #17185c;
+
+@brand-primary-gradient: linear-gradient(to bottom, @black 0%, @brand-highlight 100%);
+@brand-secondary-gradient: linear-gradient(to bottom, @brand-highlight--dark 0%, @brand-secondary 100%);
+
+@link-color: @brand-primary;
+@highlight-color: @brand-primary--dark;
+
+@color-success: #00db98;
+@color-info: #0080e3;
+@color-warning: #f0922d;
+@color-danger: #ed1c24;
 
 // Style =============================== //
-@font-family: 'Roboto', 'Open Sans', sans-serif;
-@font-family--sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-family--serif: Georgia, "Times New Roman", Times, serif;
-@font-family--mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+@font-family: @font-family--mono;
+@font-family--plain: 'Roboto', 'Open Sans', sans-serif;
+@font-family--mono: 'Courier New', monospace;
+@font-family--outline: 'spyagency', monospace;
 
-@font-size: 14px;
+@font-size: 16px;
 @font-size--large: ceil((@font-size * 1.25));
 @font-size--small: ceil((@font-size * 0.85));
 
@@ -48,5 +60,6 @@
 @global-padding-y: 2%;
 @global-padding: @global-padding-y @global-padding-x;
 
-@border-radius: 4px;
-@box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+@border: 2px solid @brand-primary;
+@border-radius: 3px;
+@box-shadow: 5px 5px 0 @brand-primary--dark;
