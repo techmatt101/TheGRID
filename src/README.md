@@ -23,3 +23,7 @@ App to manage authentication
 ## Zuse
 App API that communicates to developers
 > Castor, also known to some programs as Zuse, designed as an interpreter.
+
+
+## Byte
+Cache Server

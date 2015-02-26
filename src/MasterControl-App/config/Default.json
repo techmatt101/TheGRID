@@ -1,0 +1,7 @@
+{
+  "InternalCommunication": {
+    "port": 9838,
+    "hostname": "127.0.0.1"
+  },
+  "mongodbServerUrl": "mongodb://localhost:27017/MasterControl"
+}
