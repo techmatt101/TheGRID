@@ -3,7 +3,7 @@
 // Definitions by: Igor Rogatty <http://github.com/rogatty>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="node.d.ts" />
+/// <reference path="node/node.d.ts" />
 
 declare module Boom {
     interface BoomError {

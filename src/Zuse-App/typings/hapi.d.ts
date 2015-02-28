@@ -3,7 +3,7 @@
 // Definitions by: Hakubo <http://github.com/hakubo>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="node.d.ts" />
+/// <reference path="node/node.d.ts" />
 
 declare module Hapi {
     export interface ServerOptions {
@@ -156,7 +156,7 @@ declare module Hapi {
 //		vhost?: Array<string>;
         vhost?: any;
 //		handler: string;
-        handler: (request : Request, reply : any) => void;
+        handler: (request : Request, reply : Hapi.Reply) => void;
         config?: {
             handler?: any;
             bind?: any;
@@ -458,21 +458,21 @@ declare module Hapi {
     //}
 
     export interface Reply {
-        constructor(data : any);
+        (data : any)
         file (path : string, options : {
             filePath: string;
             options: {
                 filename: string;
                 mode: string
             }
-        }) : void;
+        }) : void
 
-        view (template : string, context? : any, options? : any) : Response;
-        close (options? : any) : void;
-        proxy (options : any) : void;
-        redirect (uri : string) : void;
-        continue (data : any) : void;
-        success () : void;
+        view (template : string, context? : any, options? : any) : Response
+        close (options? : any) : void
+        proxy (options : any) : void
+        redirect (uri : string) : void
+        continue (data : any) : void
+        success () : void
     }
 
     export function createServer (host : string, port : number, options? : ServerOptions) : Server;

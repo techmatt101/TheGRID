@@ -1,41 +1,11 @@
-/// <reference path="dt/node.d.ts" />
-/// <reference path="dt/config.d.ts" />
-/// <reference path="dt/json-socket.d.ts" />
-/// <reference path="dt/hapi.d.ts" />
-/// <reference path="dt/joi.d.ts" />
-/// <reference path="dt/boom.d.ts" />
+/// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
 import net = require('net');
-import JsonSocket = require('json-socket');
 import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
 
-//import Leaderboard = require('./routes/Leaderboard');
-
-//var port : number = config.get('InternalCommunication.port'); //The same port that the server is listening on
-//var host : string = config.get('InternalCommunication.host');
-//var socket = new JsonSocket(new net.Socket()); //Decorate a standard net.Socket with JsonSocket
-
-//server.route({
-//    method: 'GET',
-//    path: '/',
-//    handler: function (request, reply) {
-//        socket.on('message', (message) => {
-//            console.log('The result is: ' + message.result, message);
-//            reply({greeting: 'Leaderboard:' + JSON.stringify(message.table)});
-//        });
-//        socket.sendMessage({a: 5, b: 7});
-//    },
-//    config: routeConfig
-//});
-
-//socket.on('connect', () => { //Don't send until we're connected
-//
-//});
-//
-//socket.connect(port, host);
 
 var server = new Hapi.Server();
 
