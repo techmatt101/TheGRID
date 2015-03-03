@@ -18,26 +18,23 @@ server.connection({
 });
 
 server.register([
-        {register: require('hapi-named-routes')},
-        {
-            register: require('good'),
-            options: {
-                reporters: [{
-                    reporter: require('good-console'),
-                    args: [{log: '*', response: '*'}]
-                }]
-            }
+    require('hapi-named-routes'),
+    {
+        register: require('good'),
+        options: {
+            reporters: [{
+                reporter: require('good-console'),
+                args: [{log: '*', response: '*'}]
+            }]
         }
-    ], (err) => {
-        if (err) throw err;
-        server.start(() => {
-            console.log('Server running at: ' + server.info.uri);
-        });
     }
-);
+], (err) => {
+    if (err) throw err;
+    server.start(() => console.log('Server running at: ' + server.info.uri));
+});
 
 server.views({
-    engines: {hbs: require("handlebars")},
+    engines: {hbs: require('handlebars')},
     relativeTo: process.cwd(),
     path: 'views',
     partialsPath: 'views/partials'
@@ -50,7 +47,7 @@ server.route({
     handler: (request, reply) => {
         var path = 'content/' + request.params.resource;
         fs.exists(path, (exists) => {
-            if(exists) {
+            if (exists) {
                 reply.file(path);
             } else {
                 reply.view('404').code(404);
@@ -61,50 +58,88 @@ server.route({
 
 // Style Guide
 server.route({
-    method: "GET",
-    path: "/style-guide",
+    method: 'GET',
+    path: '/style-guide',
     handler: (request, reply) => {
-        reply.view("style-guide");
+        reply.view('style-guide');
     },
     config: {id: 'styleGuide'}
 });
 
 // Home
 server.route({
-    method: "GET",
-    path: "/",
+    method: 'GET',
+    path: '/',
     handler: (request, reply) => {
-        reply.view("public/home");
+        reply.view('public/home');
     },
-    config: {'id': 'home'}
+    config: {id: 'home'}
 });
 
 // Developers
 server.route({
-    method: "GET",
-    path: "/dev",
+    method: 'GET',
+    path: '/dev',
     handler: (request, reply) => {
-        reply.view("public/developers");
+        reply.view('public/developers');
     },
-    config: {'id': 'developers'}
+    config: {id: 'developers'}
 });
 
 // Login
 server.route({
-    method: "GET",
-    path: "/login",
+    method: 'GET',
+    path: '/login',
     handler: (request, reply) => {
-        reply.view("public/login");
+        reply.view('public/login');
     },
-    config: {'id': 'login'}
+    config: {id: 'login'}
+});
+
+server.route({
+    method: 'POST',
+    path: '/login',
+    handler: (request, reply) => {
+        reply.redirect('/');
+    }
 });
 
 // Register
 server.route({
-    method: "GET",
-    path: "/join",
+    method: 'GET',
+    path: '/join',
     handler: (request, reply) => {
-        reply.view("public/register");
+        reply.view('public/register');
     },
-    config: {'id': 'register'}
+    config: {id: 'register'}
+});
+
+// Activity
+server.route({
+    method: 'GET',
+    path: '/activity',
+    handler: (request, reply) => {
+        reply.view('dashboard/activity');
+    },
+    config: {id: 'activity'}
+});
+
+// Games
+server.route({
+    method: 'GET',
+    path: '/games',
+    handler: (request, reply) => {
+        reply.view('dashboard/games');
+    },
+    config: {id: 'games'}
+});
+
+// Settings
+server.route({
+    method: 'GET',
+    path: '/settings',
+    handler: (request, reply) => {
+        reply.view('dashboard/settings');
+    },
+    config: {id: 'settings'}
 });
