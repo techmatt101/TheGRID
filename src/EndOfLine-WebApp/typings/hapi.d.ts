@@ -3,7 +3,7 @@
 // Definitions by: Hakubo <http://github.com/hakubo>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="node.d.ts" />
+/// <reference path="node/node.d.ts" />
 
 declare module Hapi {
     export interface ServerOptions {

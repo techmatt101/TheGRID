@@ -16,7 +16,7 @@ $RECYCLE.BIN/
 
 # NodeJS
 bower_components
-typings/**/
+#typings/**/ //TODO: hmmm.... need fixing
 node_modules
 npm-debug.log
 

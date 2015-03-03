@@ -5,12 +5,14 @@
   "author": "Matthew Kemp",
   "main": "index.js",
   "scripts": {
-    "install": "tsd reinstall -s -o",
+    "install": "tsd reinstall -s -o && npm run build",
     "build": "tsc app.ts --outDir build/ --target ES5 --module commonjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "config": "^1.10.0",
-    "mongoose": "^3.8.23"
+    "json-socket": "^0.1.2",
+    "mongoose": "^3.8.23",
+    "socket-router": "^1.0.4"
   }
 }

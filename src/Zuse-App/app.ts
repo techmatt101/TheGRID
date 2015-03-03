@@ -1,11 +1,11 @@
 /// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
-import net = require('net');
 import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
 
+import LeaderboardRoutes = require('./routes/LeaderboardRoutes');
 
 var server = new Hapi.Server();
 
@@ -38,83 +38,6 @@ server.route({
     method: '*',
     path: '/docs',
     handler: (request, reply) => reply.redirect('http://docs.thegrid.apiary.io/')
-});
-
-
-// List Scores
-server.route({
-    method: 'GET',
-    path: '/leaderboards/{leaderboardId}/scores',
-    handler: (request : Hapi.Request, reply) => {
-        if (request.params.leaderboardId !== 123) {
-            return reply(Boom.notAcceptable("LeaderboardId '" + request.params.leaderboardId + "' not found."));
-        }
-
-        var maxResults = request.query.maxResults;
-        var playerId = request.query.playerId;
-
-        var scores = [], score = 34231;
-        for (var i = 1; i <= maxResults; i++) {
-            scores.push({
-                id: ~~(Math.random() * 1000),
-                username: "tron" + ~~(Math.random() * 100),
-                score: score -= ~~(Math.random() * 1000),
-                position: i
-            });
-        }
-        reply({scores: scores});
-    },
-    config: {
-        validate: {
-            params: {
-                leaderboardId: Joi.number().integer()
-            },
-            query: {
-                maxResults: Joi.number().integer().min(1).max(100).default(10),
-                playerId: Joi.number().integer()
-            }
-        },
-        jsonp: 'callback'
-    }
-});
-
-// Get Score
-server.route({
-    method: 'GET',
-    path: '/leaderboards/{leaderboardId}/players/{playerId}/score',
-    handler: (request : Hapi.Request, reply) => {
-        reply({
-            position: 74,
-            score: 34231
-        });
-    },
-    config: {
-        validate: {
-            params: {
-                leaderboardId: Joi.number().integer(),
-                playerId: Joi.number().integer()
-            }
-        },
-        jsonp: 'callback'
-    }
-});
-
-// Submit Score
-server.route({
-    method: 'POST',
-    path: '/leaderboards/{leaderboardId}/players/{playerId}/submit',
-    handler: (request : Hapi.Request, reply : Hapi.Reply) => {
-        reply.success();
-    },
-    config: {
-        validate: {
-            params: {
-                leaderboardId: Joi.number().integer(),
-                playerId: Joi.number().integer()
-            }
-        },
-        jsonp: 'callback'
-    }
 });
 
 server.start(() => {

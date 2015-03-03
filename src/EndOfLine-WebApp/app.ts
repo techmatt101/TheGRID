@@ -1,14 +1,11 @@
-/// <reference path="dt/node.d.ts" />
-/// <reference path="dt/config.d.ts" />
-/// <reference path="dt/hapi.d.ts" />
-/// <reference path="dt/joi.d.ts" />
-/// <reference path="dt/boom.d.ts" />
+/// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
 import fs = require('fs');
 import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
+import services = require('services');
 
 var server = new Hapi.Server();
 

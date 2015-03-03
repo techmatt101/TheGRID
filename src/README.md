@@ -1,4 +1,4 @@
-# TheGRID Source Code
+# The GRID Source Code Legend
 
 ## End Of Line
 Webapp for user interface.
