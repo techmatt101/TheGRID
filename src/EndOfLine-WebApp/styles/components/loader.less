@@ -1,0 +1,48 @@
+.loader {
+    animation: loader-clockwise 1.5s linear infinite;
+    display: block;
+    height: 2em;
+    position: relative;
+    width: 2em;
+
+    &,
+    &:before,
+    &:after {
+        border: .2em solid transparent;
+        border-radius: 50%;
+        border-top-color: rgba(25,255,255,0.6);
+        margin: auto;
+    }
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+    }
+
+    &:before {
+        animation: loader-anticlockwise .9s linear infinite;
+        top: -.6em;
+        right: -.6em;
+        bottom: -.6em;
+        left: -.6em;
+    }
+
+    &:after {
+        animation: loader-anticlockwise .66s linear infinite;
+        top: .3em;
+        right: .3em;
+        bottom: .3em;
+        left: .3em;
+    }
+}
+
+@keyframes loader-clockwise {
+    0%  { transform: rotate(0deg) }
+    100%{ transform: rotate(360deg) }
+}
+
+@keyframes loader-anticlockwise {
+    0%  { transform: rotate(360deg) }
+    100%{ transform: rotate(0deg) }
+}

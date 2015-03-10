@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-
-    <title>The GRID</title>
-
-    <link href="/styles/main.css" rel="stylesheet" type="text/css">
-</head>
-<body>
+{{> head}}
 {{> header}}
 <main>
-    <section>
+    <section class="section">
         <h1>Visual Style Guide</h1>
         <ol class="summary-header__anchor-list list-links">
             <li><a href="#colors">Colors</a></li>
@@ -32,42 +22,41 @@
         </ol>
     </section>
 
-    <section id="colors">
+    <section class="section" id="colors">
         <h2>Colors</h2>
     </section>
 
-    <section id="typography">
+    <section class="section" id="typography">
         <h2>Typography</h2>
-        <strong class="subsection-number">Small</strong>
 
+        <h1>Header One</h1>
+        <h2>Header Two</h2>
+        <h3>Header Three</h3>
+        <h4>Header Four</h4>
+
+        <strong>Small</strong>
         <p class="small">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">Base</strong>
-
+        <strong>Base</strong>
         <p class="base">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">Medium</strong>
-
+        <strong>Medium</strong>
         <p class="medium">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">Large</strong>
-
+        <strong>Large</strong>
         <p class="large">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">XLarge</strong>
-
+        <strong>XLarge</strong>
         <p class="xlarge">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">XXLarge</strong>
-
+        <strong>XXLarge</strong>
         <p class="xxlarge">Lorem ipsum dolor sit amet.</p>
 
-        <strong class="subsection-number">Huge</strong>
-
+        <strong>Huge</strong>
         <p class="huge">Lorem ipsum dolor sit amet.</p>
     </section>
 
-    <section id="links">
+    <section class="section" id="links">
         <h2>Links</h2>
         <p>
             Lorem ipsum dolor sit amet, <a href="#">consectetur adipisicing</a> elit. Incidunt, totam, voluptas, harum itaque
@@ -76,7 +65,7 @@
         </p>
     </section>
 
-    <section id="lists">
+    <section class="section" id="lists">
         <h2>Lists</h2>
 
         <h3>Default lists</h3><h4>ul</h4>
@@ -192,7 +181,7 @@
         </ol>
     </section>
 
-    <section id="buttons">
+    <section class="section" id="buttons">
         <h2>Buttons</h2>
         <a href="#" class="btn btn--primary">Primary Button</a>
         <a href="#" class="btn btn--secondary">Secondary Button</a>
@@ -202,15 +191,14 @@
         <a href="#" class="btn btn--danger">Danger Button</a>
     </section>
 
-    <section id="icons">
+    <section class="section" id="icons">
         <h2>Icons</h2>
         <i class="icon icon-plus"></i>
     </section>
 
-    <section id="grid">
+    <section class="section" id="grid">
         <h2>Grid</h2>
     </section>
 </main>
 {{> footer}}
-</body>
-</html>
+{{> foot}}

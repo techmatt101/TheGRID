@@ -40,7 +40,8 @@
 @font-family: @font-family--mono;
 @font-family--plain: 'Roboto', 'Open Sans', sans-serif;
 @font-family--mono: 'Courier New', monospace;
-@font-family--outline: 'spyagency', monospace;
+@font-family--outline: 'spyagency', 'Courier New', monospace;
+@font-family--marker: 'permanent-marker', @font-family--outline;
 
 @font-size: 16px;
 @font-size--large: ceil((@font-size * 1.25));
@@ -52,12 +53,12 @@
 @average-screen-width: 1366px;
 @average-screen-height: 768px;
 
-@global-margin-x: 5%;
-@global-margin-y: 2%;
+@global-margin-x: 2.5vw;
+@global-margin-y: 5vh;
 @global-margin: @global-margin-y @global-margin-x;
 
-@global-padding-x: 5%;
-@global-padding-y: 2%;
+@global-padding-x: 2.5vw;
+@global-padding-y: 2vh;
 @global-padding: @global-padding-y @global-padding-x;
 
 @border: 2px solid @brand-primary;

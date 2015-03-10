@@ -14,7 +14,7 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('clean', del.bind(null, ['content/**/*', 'build/**/*']));
 
-gulp.task('build', ['server', 'styles', 'scripts', 'bowerScripts', 'images', 'other'], function() {
+gulp.task('build', ['server', 'styles', 'scripts', 'bowerScripts', 'images', 'fonts', 'other'], function() {
     if (isProduction) {
         gulp.start('size');
     }
@@ -69,6 +69,11 @@ gulp.task('scripts', function() {
 gulp.task('images', function() {
     return gulp.src('images/**/*.{png,jpg,svg}')
         .pipe(gulp.dest('content/images'));
+});
+
+gulp.task('fonts', function() {
+    return gulp.src('fonts/*/*.{woff,woff2}')
+        .pipe(gulp.dest('content/fonts'));
 });
 
 gulp.task('other', function() {
