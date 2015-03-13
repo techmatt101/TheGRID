@@ -2,13 +2,14 @@
 
 import config = require('config');
 import Hapi = require('hapi');
-import Joi = require('joi');
 import Boom = require('boom');
+import services = require('services');
 
 import LeaderboardRoutes = require('./routes/LeaderboardRoutes');
 
 var server = new Hapi.Server();
 
+// Setup
 server.connection({
     port: config.get('Server.port'),
     host: config.get('Server.host')
@@ -26,6 +27,17 @@ server.register({
     if (err) console.error('Failed to load a plugin:', err);
 });
 
+server.start(() => {
+    console.log('Server running at: ' + server.info.uri);
+});
+
+
+// Routes
+LeaderboardRoutes(server, new services.MasterControlService(
+    config.get('MasterControlService.port'),
+    config.get('MasterControlService.host')
+));
+
 // 404
 server.route({
     method: '*',
@@ -38,8 +50,4 @@ server.route({
     method: '*',
     path: '/docs',
     handler: (request, reply) => reply.redirect('http://docs.thegrid.apiary.io/')
-});
-
-server.start(() => {
-    console.log('Server running at: ' + server.info.uri);
 });

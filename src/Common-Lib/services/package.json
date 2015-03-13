@@ -1,22 +1,24 @@
 {
   "name": "services",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Internal service interface for the GRID",
   "author": "Matthew Kemp",
   "main": "build/index.js",
   "scripts": {
     "install": "tsd reinstall -s -o && npm run build",
-    "build": "tsc index.ts --outDir build/ --target ES5 --module commonjs",
+    "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "config": "^1.10.0",
     "json-socket": "^0.1.2",
-    "socket-router": "^1.0.6"
+    "socket-router": "^1.0.6",
+    "dts-bundle": "^0.2.0",
+    "gulp": "^3.8.11",
+    "gulp-shell": "^0.4.0"
   },
   "typescript": {
     "definitions": [
-      "services.d.ts"
+      "build/services.d.ts"
     ]
   }
 }

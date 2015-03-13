@@ -3,4 +3,4 @@
 /// <reference path="hapi.d.ts" />
 /// <reference path="config.d.ts" />
 /// <reference path="boom.d.ts" />
-/// <reference path="../node_modules/services/services.d.ts" />
+/// <reference path="../node_modules/services/build/services.d.ts" />

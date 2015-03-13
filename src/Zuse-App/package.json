@@ -15,7 +15,6 @@
     "good": "^5.1.1",
     "good-console": "^4.1.0",
     "hapi": "^8.1.0",
-    "joi": "^5.1.0",
-    "services": "file:..\\Common-Lib\\services"
+    "joi": "^5.1.0"
   }
 }

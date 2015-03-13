@@ -5,8 +5,6 @@ import net = require('net');
 import JsonSocket = require('json-socket');
 import SocketRouter = require('socket-router');
 import mongoose = require('mongoose');
-// Models
-import Leaderboards = require('./modules/Leaderboards');
 
 mongoose.connect(config.get("mongodbServerUrl"), (err) => {
     if (err) throw err;
@@ -25,30 +23,21 @@ socketServer.on('connection', (socket) => {
 });
 JsonSocket.prototype.send = JsonSocket.prototype.sendMessage; //TODO: Hack :/
 
-
-export module IRoutes {
-
-    export module Leaderboard {
-
-        export module Scores {
-
-            export interface Data {
-                id : number
-            }
-
-            export interface Return {
-                scores : any[]
-            }
-
-            server.route('leaderboard/scores', (reply, data : Data) => {
-                Leaderboards.getScoreList(data.id, (err, leaderboard) => {
-                    if (err) reply.error(err);
-                    reply(<Return> {
-                        scores: leaderboard.scores
-                    });
-                });
-            });
+function loadController(controller) {
+    for(var key in controller) {
+        var action = controller[key];
+        if(typeof action.PATH === undefined || typeof action.handler === undefined) {
+            throw new Error("Invalid Controller!")
         }
-
+        server.route(action.PATH, action.handler);
     }
 }
+
+// Controllers
+
+export import Leaderboards = require('./controllers/LeaderboardsController');
+loadController(Leaderboards);
+
+export import Games = require('./controllers/GamesController');
+loadController(Games);
+

@@ -2,9 +2,7 @@ import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
 
-declare var server : Hapi.Server;
-
-module LeaderboardRoutes {
+function LeaderboardRoutes (server : Hapi.Server, MasterControlService : services.MasterControlService) {
     // List Scores
     server.route({
         method: 'GET',
@@ -14,9 +12,9 @@ module LeaderboardRoutes {
                 return reply(Boom.notAcceptable("LeaderboardId '" + request.params.leaderboardId + "' not found."));
             }
 
-            services.MasterControlService.requestLeaderboardScores({id: 1}, (err, data) => {
+            MasterControlService.requestLeaderboardScores({ id: 1 }, (err, data) => {
                 if (err) return reply(Boom.badImplementation());
-                reply({scores: data});
+                reply({ scores: data.scores });
             });
         },
         config: {

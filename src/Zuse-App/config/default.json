@@ -3,7 +3,7 @@
     "port": 80,
     "host": "127.0.0.1"
   },
-  "InternalCommunication": {
+  "MasterControlService": {
     "port": 9838,
     "host": "127.0.0.1"
   }
