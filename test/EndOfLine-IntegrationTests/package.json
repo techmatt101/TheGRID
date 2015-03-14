@@ -1,0 +1,10 @@
+{
+  "name": "EndOfLine-IntegrationTests",
+  "version": "1.0.0",
+  "description": "User web interface integration tests for the GRID",
+  "author": "Matthew Kemp",
+  "main": "main.js",
+  "scripts": {
+    "test": "casperjs run main.js"
+  }
+}
