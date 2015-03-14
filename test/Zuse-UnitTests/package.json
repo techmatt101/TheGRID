@@ -1,0 +1,12 @@
+{
+  "name": "MasterControl-UnitTests",
+  "version": "1.0.0",
+  "description": "Developer Interface unit tests to the GRID",
+  "author": "Matthew Kemp",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
+  },
+  "dependencies": {
+  }
+}
