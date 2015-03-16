@@ -1,7 +1,7 @@
 /// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
-import asciify  = require('asciify ');
+import asciify = require('asciify');
 import fs = require('fs');
 import Hapi = require('hapi');
 import Joi = require('joi');
@@ -11,6 +11,10 @@ import services = require('services');
 asciify('End Of Line', {font:'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
+var MasterControl = new services.MasterControlService(
+    config.get('MasterControlService.port'),
+    config.get('MasterControlService.host')
+);
 
 server.connection({
     port: config.get('Server.port'),
@@ -65,6 +69,15 @@ server.route({
     },
     config: {id: 'styleGuide'}
 });
+
+//Docs
+server.route({
+    method: 'GET',
+    path: '/docs',
+    handler: (request, reply) => reply.redirect('http://docs.thegrid.apiary.io/'),
+    config: {id: 'docs'}
+});
+
 
 // Home
 server.route({
@@ -122,16 +135,6 @@ server.route({
         reply.view('dashboard/activity');
     },
     config: {id: 'activity'}
-});
-
-// Games
-server.route({
-    method: 'GET',
-    path: '/games',
-    handler: (request, reply) => {
-        reply.view('dashboard/games');
-    },
-    config: {id: 'games'}
 });
 
 // Settings
