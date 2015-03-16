@@ -1,11 +1,14 @@
 /// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
+import asciify = require('asciify');
 import Hapi = require('hapi');
 import Boom = require('boom');
 import services = require('services');
 
 import LeaderboardController = require('./controllers/LeaderboardController');
+
+asciify('Zuse', {font:'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 var MasterControlService = new services.MasterControlService(

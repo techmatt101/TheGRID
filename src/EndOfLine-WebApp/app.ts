@@ -1,11 +1,14 @@
 /// <reference path="typings/tsd.d.ts" />
 
 import config = require('config');
+import asciify  = require('asciify ');
 import fs = require('fs');
 import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
+
+asciify('End Of Line', {font:'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 

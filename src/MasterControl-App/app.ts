@@ -2,9 +2,12 @@
 
 import config = require('config');
 import net = require('net');
+import asciify = require('asciify');
 import JsonSocket = require('json-socket');
 import SocketRouter = require('socket-router');
 import mongoose = require('mongoose');
+
+asciify('Master Control', {font:'smslant'}, (err, res) => console.log(res));
 
 mongoose.connect(config.get("mongodbServerUrl"), (err) => {
     if (err) throw err;
