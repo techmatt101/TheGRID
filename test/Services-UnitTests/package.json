@@ -1,7 +1,7 @@
 {
-  "name": "Zuse-UnitTests",
+  "name": "Services-UnitTests",
   "version": "1.0.0",
-  "description": "Developer Interface unit tests to the GRID",
+  "description": "Internal service interface unit tests for the GRID",
   "author": "Matthew Kemp",
   "scripts": {
     "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"

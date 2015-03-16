@@ -1,0 +1,11 @@
+{
+  "name": "Zuse-IntegrationTests",
+  "version": "1.0.0",
+  "description": "Developer Interface integration tests to the GRID",
+  "author": "Matthew Kemp",
+  "scripts": {
+    "test": "dredd ../../apiary.md http://localhost --dry-run"
+  },
+  "dependencies": {
+  }
+}

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Games controller unit tests for the GRID",
   "author": "Matthew Kemp",
-  "main": "index.js",
   "scripts": {
     "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
   },
