@@ -5,9 +5,13 @@ import Hapi = require('hapi');
 import Boom = require('boom');
 import services = require('services');
 
-import LeaderboardRoutes = require('./routes/LeaderboardRoutes');
+import LeaderboardController = require('./controllers/LeaderboardController');
 
 var server = new Hapi.Server();
+var MasterControlService = new services.MasterControlService(
+    config.get('MasterControlService.port'),
+    config.get('MasterControlService.host')
+);
 
 // Setup
 server.connection({
@@ -33,10 +37,7 @@ server.start(() => {
 
 
 // Routes
-LeaderboardRoutes(server, new services.MasterControlService(
-    config.get('MasterControlService.port'),
-    config.get('MasterControlService.host')
-));
+LeaderboardController(server, MasterControlService);
 
 // 404
 server.route({

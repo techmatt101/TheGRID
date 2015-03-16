@@ -2,7 +2,7 @@ import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
 
-function LeaderboardRoutes (server : Hapi.Server, MasterControlService : services.MasterControlService) {
+function LeaderboardController (server : Hapi.Server, MasterControlService : services.MasterControlService) {
     // List Scores
     server.route({
         method: 'GET',
@@ -71,4 +71,4 @@ function LeaderboardRoutes (server : Hapi.Server, MasterControlService : service
     });
 }
 
-export = LeaderboardRoutes;
+export = LeaderboardController;

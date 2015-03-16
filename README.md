@@ -12,3 +12,23 @@ The GRID, a dynamic Web Application designed for the modern day gamer, built usi
 ## Vision
 - Allow developers to easily integrate a leaderboard mechanic into their games without the necessity of setting up their own service.
 - Providing players with a more social and competitive atmosphere using the online platform.
+
+
+## Requirements
+
+#### Building
+
+- [nodeJS](http://nodejs.org/)
+- **gulp** - `npm install gulp -g`
+- **bower** - `npm install bower -g`
+- **typescript** - `npm install typescript -g`
+- **tsd** - `npm install tsd -g`
+
+#### Testing
+
+- **karma-cli** - `npm install karma-cli -g`
+- **jasmine** - `npm install jasmine -g`
+- **dredd** - `npm install dredd -g`
+- **casperjs** - `npm install casperjs -g`
+- **phantomjs** - `npm install phantomjs -g`
+- **surveyorsaurus** - `npm install surveyorsaurus -g`
