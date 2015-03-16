@@ -17,7 +17,7 @@ gulp.task('services', ['build'], function() {
 
 gulp.task('update-typings', ['master-control']);
 
-buildAppTypings('master-control', '../../MasterControl-App/');
+buildAppTypings('master-control', '../MasterControl-App/');
 
 function buildAppTypings(appName, appPath) {
     gulp.task(appName + '-shell', shell.task(('(cd ' + appPath + ' && npm install)')));
@@ -26,7 +26,7 @@ function buildAppTypings(appName, appPath) {
         dts.bundle({
             name: appName,
             main: appPath + 'build/app.d.ts',
-            out: '../../Common-Lib/services/typings/' + appName + '.d.ts',
+            out: '../Services-Lib/typings/' + appName + '.d.ts',
             prefix: '',
             externals: true
         });
