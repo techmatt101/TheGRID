@@ -1,3 +1,6 @@
+# Jetbrains IDE
+.idea/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -10,3 +13,13 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# Build Tools
+bower_components/
+node_modules/
+npm-debug.log
+
+# Build
+build/
+bin/
+tmp/
