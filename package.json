@@ -1,0 +1,17 @@
+{
+  "name": "TheGRID",
+  "version": "1.0.0",
+  "description": "Leaderboard API with Social Platform for HTML5 Games",
+  "author": "Matthew Kemp",
+  "scripts": {
+    "mongodb": "mongod --dbpath=data --port 27017"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techmatt101/TheGRID.git"
+  },
+  "bugs": {
+    "url": "https://github.com/techmatt101/TheGRID/issues"
+  },
+  "homepage": "https://github.com/techmatt101/TheGRID"
+}

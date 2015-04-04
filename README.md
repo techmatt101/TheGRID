@@ -30,5 +30,4 @@ The GRID, a dynamic Web Application designed for the modern day gamer, built usi
 - **jasmine** - `npm install jasmine -g`
 - **dredd** - `npm install dredd -g`
 - **casperjs** - `npm install casperjs -g`
-- **phantomjs** - `npm install phantomjs -g`
 - **surveyorsaurus** - `npm install surveyorsaurus -g`

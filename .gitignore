@@ -23,3 +23,6 @@ npm-debug.log
 build/
 bin/
 tmp/
+
+# Database
+/data
