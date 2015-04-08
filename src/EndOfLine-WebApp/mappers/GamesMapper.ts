@@ -1,4 +1,5 @@
-import MCRoutes = require('master-control');
+/// <reference path="../models/IGame" />
+import MCRoutes = require('services/master-control');
 
 module GamesMapper {
     export function games(data :  MCRoutes.Games.List.Return) : IGame[] {
