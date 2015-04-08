@@ -1,4 +1,4 @@
-import Games = require('../modules/Games');
+import Games = require('../services/Games');
 
 module GamesController {
 

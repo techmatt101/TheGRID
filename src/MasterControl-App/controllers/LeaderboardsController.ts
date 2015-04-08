@@ -1,4 +1,4 @@
-import Leaderboards = require('../modules/Leaderboards');
+import Leaderboards = require('../services/Leaderboards');
 
 module LeaderboardsController {
 
