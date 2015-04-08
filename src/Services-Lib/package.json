@@ -14,7 +14,8 @@
     "socket-router": "^1.0.6",
     "dts-bundle": "^0.2.0",
     "gulp": "^3.8.11",
-    "gulp-shell": "^0.4.0"
+    "gulp-shell": "^0.4.0",
+    "gulp-replace": "^0.5.3"
   },
   "typescript": {
     "definitions": [
