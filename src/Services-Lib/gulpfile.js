@@ -5,17 +5,17 @@ var dts = require('dts-bundle');
 
 gulp.task('default', ['services']);
 
-gulp.task('build', shell.task('tsc index.ts --outDir bin/ --target ES5 --module commonjs --declaration'));
+gulp.task('build', shell.task('tsc index.ts --outDir build/ --target ES5 --module commonjs --declaration'));
 
 gulp.task('services', ['build'], function() {
     dts.bundle({
         name: 'services',
-        main: 'bin/index.d.ts',
+        main: 'build/index.d.ts',
         prefix: '',
         externals: true
     });
 
-    gulp.src('bin/services.d.ts')
+    gulp.src('build/services.d.ts')
         .pipe(replace('/index//', '/'))
         .pipe(gulp.dest('build/'));
 });
@@ -30,7 +30,7 @@ function buildAppTypings(appName, appPath) {
     gulp.task(appName, [appName + '-shell'], function() {
         dts.bundle({
             name: appName,
-            main: appPath + 'bin/app.d.ts',
+            main: appPath + 'build/app.d.ts',
             out: '../Services-Lib/typings/' + appName + '.d.ts',
             prefix: '',
             externals: true
