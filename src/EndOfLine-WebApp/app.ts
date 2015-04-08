@@ -4,14 +4,17 @@ import config = require('config');
 import asciify = require('asciify');
 import fs = require('fs');
 import Hapi = require('hapi');
-import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
 
-asciify('End Of Line', {font:'smslant'}, (err, res) => console.log(res));
+import AccountController = require('./controllers/AccountController');
+import DashboardController = require('./controllers/DashboardController');
+import GamesController = require('./controllers/GamesController');
+
+asciify('End Of Line', {font: 'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
-var MasterControl = new services.MasterControlService(
+var MasterControlService = new services.MasterControlService(
     config.get('MasterControlService.port'),
     config.get('MasterControlService.host')
 );
@@ -43,6 +46,11 @@ server.views({
     path: 'views',
     partialsPath: 'views/partials'
 });
+
+// Controllers
+AccountController(server);
+DashboardController(server);
+GamesController(server, MasterControlService);
 
 // Content Resources
 server.route({
@@ -78,7 +86,6 @@ server.route({
     config: {id: 'docs'}
 });
 
-
 // Home
 server.route({
     method: 'GET',
@@ -97,52 +104,4 @@ server.route({
         reply.view('public/developers');
     },
     config: {id: 'developers'}
-});
-
-// Login
-server.route({
-    method: 'GET',
-    path: '/login',
-    handler: (request, reply) => {
-        reply.view('public/login');
-    },
-    config: {id: 'login'}
-});
-
-server.route({
-    method: 'POST',
-    path: '/login',
-    handler: (request, reply) => {
-        reply.redirect('/');
-    }
-});
-
-// Register
-server.route({
-    method: 'GET',
-    path: '/join',
-    handler: (request, reply) => {
-        reply.view('public/register');
-    },
-    config: {id: 'register'}
-});
-
-// Activity
-server.route({
-    method: 'GET',
-    path: '/activity',
-    handler: (request, reply) => {
-        reply.view('dashboard/activity');
-    },
-    config: {id: 'activity'}
-});
-
-// Settings
-server.route({
-    method: 'GET',
-    path: '/settings',
-    handler: (request, reply) => {
-        reply.view('dashboard/settings');
-    },
-    config: {id: 'settings'}
 });

@@ -1,4 +1,3 @@
-import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
 
@@ -25,8 +24,7 @@ function GamesController (server : Hapi.Server, MasterControlService : services.
                 if(err) reply(Boom.badImplementation()); //TODO: hmmm....
                 reply.view('dashboard/games', GamesMapper.games(data));
             });
-        },
-        config: {id: 'games'}
+        }
     });
 }
 
