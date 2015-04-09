@@ -5,7 +5,7 @@ var dts = require('dts-bundle');
 
 gulp.task('default', ['services']);
 
-gulp.task('build', shell.task('tsc index.ts --outDir build/ --target ES5 --module commonjs --declaration'));
+gulp.task('build', ['update-typings'], shell.task('tsc index.ts --outDir build/ --target ES5 --module commonjs --declaration'));
 
 gulp.task('services', ['build'], function() {
     dts.bundle({
@@ -22,7 +22,7 @@ gulp.task('services', ['build'], function() {
 
 gulp.task('update-typings', ['master-control']);
 
-buildAppTypings('master-control', '../MasterControl-App/');
+buildAppTypings('master-control', '../../../MasterControl-App/');
 
 function buildAppTypings(appName, appPath) {
     gulp.task(appName + '-shell', shell.task(('(cd ' + appPath + ' && npm install)')));
@@ -31,7 +31,7 @@ function buildAppTypings(appName, appPath) {
         dts.bundle({
             name: appName,
             main: appPath + 'build/app.d.ts',
-            out: '../Services-Lib/typings/' + appName + '.d.ts',
+            out: process.cwd() + '/typings/' + appName + '.d.ts',
             prefix: '',
             externals: true
         });
