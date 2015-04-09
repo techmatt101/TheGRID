@@ -11,7 +11,7 @@ declare module "json-socket" {
         isClosed() : boolean;
 
         on(event: string, listener: Function);
-        connect(host : string, port : number);
+        connect(port : number, host : string);
         //end();
     }
 
