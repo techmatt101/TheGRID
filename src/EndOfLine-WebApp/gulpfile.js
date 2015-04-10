@@ -25,16 +25,15 @@ gulp.task('size', function() {
         .pipe($.size({ title: 'Build size total for', showFiles: true, gzip: true }));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['build'], function() {
     gulp.watch('styles/**/*.less', ['styles']);
     gulp.watch('scripts/**/*.ts', ['scripts']);
-    gulp.watch('images/**/*.{png,jpg}', ['images']);
 });
 
 //===================================================//
 
 gulp.task('server', function() {
-    return gulp.src('app.ts')
+    return gulp.src(['**/*.ts', '!node_modules/**', '!scripts/**'])
         .pipe($.typescript({
             target: 'ES5'
         }))
