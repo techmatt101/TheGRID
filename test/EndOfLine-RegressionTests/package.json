@@ -1,0 +1,9 @@
+{
+  "name": "EndOfLine-RegressionTests",
+  "version": "1.0.0",
+  "description": "User web interface regression tests for the GRID",
+  "author": "Matthew Kemp",
+  "scripts": {
+    "test": "casperjs test main.js"
+  }
+}
