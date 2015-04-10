@@ -1,4 +1,6 @@
-import Games = require('../services/Games');
+import GamesDb = require('../services/GamesDbService');
+import GamesMapper = require('../mappers/GamesMapper');
+import GameList = require('../models/GameList');
 
 module GamesController {
 
@@ -14,12 +16,13 @@ module GamesController {
         }
 
         export function handler(reply : SocketRouter.Reply<Return>, data : Data) {
-            Games.getList((err, games) => {
-                if (err) reply.error(err);
-                reply( {
-                    games: games
-                });
-            });
+            GamesDb.getList()
+                .then((games) => {
+                    reply({
+                        games: GamesMapper.mapGameList(games, new GameList()).toArray()
+                    });
+                })
+                .error((err) => reply.error(err));
         }
     }
 }

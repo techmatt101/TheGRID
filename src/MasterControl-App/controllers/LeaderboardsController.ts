@@ -1,4 +1,7 @@
-import Leaderboards = require('../services/Leaderboards');
+import LeaderboardsDb = require('../services/LeaderboardsDbService');
+import LeaderboardsMapper = require('../mappers/LeaderboardsMapper');
+import Leaderboard = require('../models/Leaderboard');
+import Score = require('../models/Score');
 
 module LeaderboardsController {
 
@@ -11,16 +14,18 @@ module LeaderboardsController {
         }
 
         export interface Return {
-            scores : any[]
+            scores : Score[]
         }
 
         export function handler(reply : SocketRouter.Reply<Return>, data : Data) {
-            Leaderboards.getScoreList(data.id, (err, leaderboard) => {
-                if (err) reply.error(err);
-                reply({
-                    scores: leaderboard.scores
-                });
-            });
+            LeaderboardsDb.getScoreList(data.id)
+                .then((leaderboardData) => {
+                    var leaderboard = LeaderboardsMapper.mapLeaderboard(leaderboardData, new Leaderboard());
+                    reply({
+                        scores: leaderboard.scores
+                    });
+                })
+                .error((err) => reply.error(err));
         }
     }
 }

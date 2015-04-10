@@ -38,9 +38,9 @@ function loadController(controller) {
 
 // Controllers
 
-export import Leaderboards = require('./controllers/LeaderboardsController');
-loadController(Leaderboards);
+export import LeaderboardsController = require('./controllers/LeaderboardsController');
+loadController(LeaderboardsController);
 
-export import Games = require('./controllers/GamesController');
-loadController(Games);
+export import GamesController = require('./controllers/GamesController');
+loadController(GamesController);
 
