@@ -4,9 +4,11 @@
 @import "base/fonts";
 @import "base/form";
 @import "base/layout";
+@import "base/animations";
 
 @import "components/buttons";
 @import "components/loader";
+@import "components/action-bar";
 
 @import "helpers/unstyle";
 
@@ -15,6 +17,11 @@
 
 html, body, .flex { //TODO: hmmm...
     height: 100%;
+}
+
+aside {
+    flex: 0 0 80px;
+    margin: @global-margin;
 }
 
 h1 {
@@ -38,99 +45,12 @@ main {
     overflow-y: scroll;
 }
 
-aside {
-    flex: 0 0 80px;
-    margin: @global-margin;
-}
-
-aside ul {
-    .unstyle-list();
-
-    display: flex;
-    flex-direction: column;
-
-    i {
-        font-size: 36px;
-        text-shadow: -2px 3px 3px #000;
-    }
-
-    li {
-        text-align: center;
-    }
-
-    a {
-        padding: 15px 0;
-        display: inline-block;
-    }
-
-    a:hover {
-        background: none;
-        i {
-            color: @brand-highlight--light;
-            text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight--light;
-        }
-    }
-
-    .icon-inbox {
-        color: @brand-highlight;
-    }
-
-    .icon-play {
-        color: #FFD500;
-    }
-
-    .spacer {
-        flex: 0 0 75px; //TOD: hack
-    }
-
-    span {
-        opacity: 0;
-        position: absolute;
-        background: @brand-highlight;
-        color: #fff;
-        padding: 5px 10px;
-        margin: 0 5px;
-    }
-
-    span:after { //TODO: polish
-        right: 100%;
-        top: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-color: rgba(136, 183, 213, 0);
-        border-right-color: @brand-highlight;
-        border-width: 10px;
-        margin-top: -10px;
-    }
-
-    a:hover span {
-        animation: 0.3s ease-out slide-in 0.5s;
-        animation-fill-mode: forwards;
-    }
-}
-
-
-@keyframes slide-in {
-    0% {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-}
 
 .section {
     background: fade(@body-bg--tint, 50%);
     box-shadow: 0 0 5px #000, 0 0 10px fade(@brand-primary--light, 30%);
-    border-style: solid;
     border-width: 10px;
-    border-image: 34% repeat repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MDdDQzJCQ0JDNDU2MTFFNEIyQTBGQkJBN0ZFQzZEQjEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDdDQzJCQ0FDNDU2MTFFNEIyQTBGQkJBN0ZFQzZEQjEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkE2NkEwQUVGQzQ1MzExRTRCRTczQkNFRTU5NzUzM0ExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkE2NkEwQUYwQzQ1MzExRTRCRTczQkNFRTU5NzUzM0ExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+LwQAswAAAHlJREFUeNpiZLj+9xkDFvBfg0kKmc94418kAxEAqG85mj6s5jMxDBBgRPKxFJrLqWPBjX/oQs8G1Mcjz2LG////jwb18LaYBVYioZc4NEtUUPtG43jU4lGLRy0erZ1GLcZbO422Mod5HKOHPRKgSt8Ji7kD62OAAAMA8HYqgP4oZgwAAAAASUVORK5CYII=);
+    border-image: 34% repeat repeat url('/images/border.png');
 }
 
 .banner {
@@ -150,16 +70,3 @@ aside ul {
         animation: zoom 0.7s ease-out;
     }
 }
-
-@keyframes zoom {
-    0% {
-        transform: scale(0) translateY(0%);
-    }
-    30% {
-        transform: scale(0) translateY(0%);
-    }
-    100% {
-        transform: scale(1) translateY(-50%);
-    }
-}
-
