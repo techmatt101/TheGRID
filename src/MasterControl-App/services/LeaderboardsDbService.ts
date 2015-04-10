@@ -32,7 +32,7 @@ module LeaderboardsDbService {
 
 
     export function getScoreList (id : number) : mongoose.Promise<ILeaderboard> {
-        return Model.findOne({id: id}).exec();
+        return Model.findOne({ id: id }).exec();
     }
 }
 

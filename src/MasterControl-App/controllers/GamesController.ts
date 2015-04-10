@@ -15,7 +15,7 @@ module GamesController {
             games : any[]
         }
 
-        export function handler(reply : SocketRouter.Reply<Return>, data : Data) {
+        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
             GamesDb.getList()
                 .then((games) => {
                     reply({

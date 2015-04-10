@@ -3,7 +3,7 @@ import Game = require('./Game');
 class GameList {
     games : Game[];
 
-    toArray() {
+    toArray () {
         return [];
     }
 }
