@@ -8,7 +8,7 @@ import services = require('services');
 
 import LeaderboardController = require('./controllers/LeaderboardsController');
 
-asciify('Zuse', {font: 'smslant'}, (err, res) => console.log(res));
+asciify('Zuse', { font: 'smslant' }, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 var MasterControlService = new services.MasterControlService(
@@ -27,7 +27,7 @@ server.register({
     options: {
         reporters: [{
             reporter: require('good-console'),
-            args: [{log: '*', response: '*'}]
+            args: [{ log: '*', response: '*' }]
         }]
     }
 }, (err) => {

@@ -1,7 +1,7 @@
 import MCRoutes = require('services/master-control');
 
 module LeaderboardMapper {
-    export function  mapScoreList (mcData : MCRoutes.Leaderboards.Scores.Return) {
+    export function mapScoreList (mcData : MCRoutes.Leaderboards.Scores.Return) {
         return {
             scores: mcData.scores.map((score) => {
                 return {

@@ -11,7 +11,7 @@ import AccountController = require('./controllers/AccountController');
 import DashboardController = require('./controllers/DashboardController');
 import GamesController = require('./controllers/GamesController');
 
-asciify('End Of Line', {font: 'smslant'}, (err, res) => console.log(res));
+asciify('End Of Line', { font: 'smslant' }, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 var MasterControlService = new services.MasterControlService(
@@ -31,7 +31,7 @@ server.register([
         options: {
             reporters: [{
                 reporter: require('good-console'),
-                args: [{log: '*', response: '*'}]
+                args: [{ log: '*', response: '*' }]
             }]
         }
     }
@@ -41,7 +41,7 @@ server.register([
 });
 
 server.views({
-    engines: {hbs: require('handlebars')},
+    engines: { hbs: require('handlebars') },
     relativeTo: process.cwd(),
     path: 'views',
     partialsPath: 'views/partials'
@@ -75,7 +75,7 @@ server.route({
     handler: (request, reply) => {
         reply.view('style-guide');
     },
-    config: {id: 'styleGuide'}
+    config: { id: 'styleGuide' }
 });
 
 //Docs
@@ -83,7 +83,7 @@ server.route({
     method: 'GET',
     path: '/docs',
     handler: (request, reply) => reply.redirect('http://docs.thegrid.apiary.io/'),
-    config: {id: 'docs'}
+    config: { id: 'docs' }
 });
 
 // Home
@@ -93,7 +93,7 @@ server.route({
     handler: (request, reply) => {
         reply.view('public/home');
     },
-    config: {id: 'home'}
+    config: { id: 'home' }
 });
 
 // Developers
@@ -103,5 +103,5 @@ server.route({
     handler: (request, reply) => {
         reply.view('public/developers');
     },
-    config: {id: 'developers'}
+    config: { id: 'developers' }
 });

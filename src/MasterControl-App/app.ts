@@ -7,7 +7,7 @@ import JsonSocket = require('json-socket');
 import SocketRouter = require('socket-router');
 import mongoose = require('mongoose');
 
-asciify('Master Control', {font:'smslant'}, (err, res) => console.log(res));
+asciify('Master Control', { font: 'smslant' }, (err, res) => console.log(res));
 
 mongoose.connect(config.get("mongodbServerUrl"), (err) => {
     if (err) throw err;
@@ -26,10 +26,10 @@ socketServer.on('connection', (socket) => {
 });
 JsonSocket.prototype.send = JsonSocket.prototype.sendMessage; //TODO: Hack :/
 
-function loadController(controller) {
-    for(var key in controller) {
+function loadController (controller) {
+    for (var key in controller) {
         var action = controller[key];
-        if(typeof action.PATH === undefined || typeof action.handler === undefined) {
+        if (typeof action.PATH === undefined || typeof action.handler === undefined) {
             throw new Error("Invalid Controller!")
         }
         server.route(action.PATH, action.handler);

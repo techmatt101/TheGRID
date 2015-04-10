@@ -6,7 +6,7 @@ function DashboardController (server : Hapi.Server) {
         handler: (request, reply) => {
             reply.view('dashboard/activity');
         },
-        config: {id: 'activity'}
+        config: { id: 'activity' }
     });
 }
 

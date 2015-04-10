@@ -6,7 +6,7 @@ var chalk = require('chalk');
 var isProduction = ($.util.env.dev || $.util.env.debug ? false : true);
 var isDebug = !isProduction;
 
-$.util.log('Environment: ' +  chalk.inverse.bold(isProduction ? 'PRODUCTION' : 'DEBUG'));
+$.util.log('Environment: ' + chalk.inverse.bold(isProduction ? 'PRODUCTION' : 'DEBUG'));
 
 gulp.task('default', ['clean'], function() {
     gulp.start('build');
@@ -40,7 +40,7 @@ gulp.task('server', function() {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('styles', function () {
+gulp.task('styles', function() {
     var bowerResolve = require('less-plugin-bower-resolve');
     return gulp.src('styles/*.less')
         .pipe($.if(isDebug, $.sourcemaps.init()))

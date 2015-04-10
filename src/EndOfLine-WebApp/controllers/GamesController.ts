@@ -9,11 +9,11 @@ function GamesController (server : Hapi.Server, MasterControlService : services.
         path: '/games',
         handler: (request, reply) => {
             MasterControlService.requestListOfGames({}, (err, data) => {
-                if(err) reply(Boom.badImplementation()); //TODO: hmmm....
+                if (err) reply(Boom.badImplementation()); //TODO: hmmm....
                 reply.view('dashboard/games', GamesMapper.games(data));
             });
         },
-        config: {id: 'games'}
+        config: { id: 'games' }
     });
 
     server.route({
@@ -21,7 +21,7 @@ function GamesController (server : Hapi.Server, MasterControlService : services.
         path: '/games/{name}',
         handler: (request, reply) => {
             MasterControlService.requestListOfGames({}, (err, data) => {
-                if(err) reply(Boom.badImplementation()); //TODO: hmmm....
+                if (err) reply(Boom.badImplementation()); //TODO: hmmm....
                 reply.view('dashboard/games', GamesMapper.games(data));
             });
         }

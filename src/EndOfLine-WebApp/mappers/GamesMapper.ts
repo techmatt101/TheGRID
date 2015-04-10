@@ -2,7 +2,7 @@
 import MCRoutes = require('services/master-control');
 
 module GamesMapper {
-    export function games(data :  MCRoutes.Games.List.Return) : IGame[] {
+    export function games (data : MCRoutes.Games.List.Return) : IGame[] {
         return data.games.map<IGame>(game);
     }
 

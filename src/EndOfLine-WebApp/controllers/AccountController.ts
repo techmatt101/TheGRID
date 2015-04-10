@@ -6,7 +6,7 @@ function AccountController (server : Hapi.Server) {
         handler: (request, reply) => {
             reply.view('public/register');
         },
-        config: {id: 'register'}
+        config: { id: 'register' }
     });
 
     // Login
@@ -16,7 +16,7 @@ function AccountController (server : Hapi.Server) {
         handler: (request, reply) => {
             reply.view('public/login');
         },
-        config: {id: 'login'}
+        config: { id: 'login' }
     });
 
     server.route({
@@ -44,7 +44,7 @@ function AccountController (server : Hapi.Server) {
         handler: (request, reply) => {
             reply.view('dashboard/settings');
         },
-        config: {id: 'settings'}
+        config: { id: 'settings' }
     });
 }
 
