@@ -6,14 +6,14 @@ import Hapi = require('hapi');
 import Boom = require('boom');
 import services = require('services');
 
-import LeaderboardController = require('./controllers/LeaderboardController');
+import LeaderboardController = require('./controllers/LeaderboardsController');
 
-asciify('Zuse', {font:'smslant'}, (err, res) => console.log(res));
+asciify('Zuse', {font: 'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 var MasterControlService = new services.MasterControlService(
-    config.get('MasterControlService.port'),
-    config.get('MasterControlService.host')
+    config.get('MasterControlService.host'),
+    config.get('MasterControlService.port')
 );
 
 // Setup

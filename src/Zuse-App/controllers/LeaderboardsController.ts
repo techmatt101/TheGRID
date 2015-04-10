@@ -1,8 +1,9 @@
 import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
+import LeaderboardMapper = require('../mappers/LeaderboardsMapper')
 
-function LeaderboardController (server : Hapi.Server, MasterControlService : services.MasterControlService) {
+function LeaderboardsController (server : Hapi.Server, MasterControlService : services.MasterControlService) {
     // List Scores
     server.route({
         method: 'GET',
@@ -14,7 +15,7 @@ function LeaderboardController (server : Hapi.Server, MasterControlService : ser
 
             MasterControlService.requestLeaderboardScores({ id: 1 }, (err, data) => {
                 if (err) return reply(Boom.badImplementation());
-                reply({ scores: data.scores });
+                reply(LeaderboardMapper.mapScoreList(data));
             });
         },
         config: {
@@ -71,4 +72,4 @@ function LeaderboardController (server : Hapi.Server, MasterControlService : ser
     });
 }
 
-export = LeaderboardController;
+export = LeaderboardsController;
