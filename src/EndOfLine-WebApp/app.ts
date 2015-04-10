@@ -15,8 +15,8 @@ asciify('End Of Line', {font: 'smslant'}, (err, res) => console.log(res));
 
 var server = new Hapi.Server();
 var MasterControlService = new services.MasterControlService(
-    config.get('MasterControlService.port'),
-    config.get('MasterControlService.host')
+    config.get('MasterControlService.host'),
+    config.get('MasterControlService.port')
 );
 
 server.connection({
