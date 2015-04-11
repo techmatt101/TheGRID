@@ -5,3 +5,4 @@
 /// <reference path="config.d.ts" />
 /// <reference path="asciify.d.ts" />
 /// <reference path="../node_modules/services/build/services.d.ts" />
+/// <reference path="es6-promise/es6-promise.d.ts" />

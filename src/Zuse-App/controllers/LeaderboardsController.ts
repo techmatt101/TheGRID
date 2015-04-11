@@ -13,10 +13,9 @@ function LeaderboardsController (server : Hapi.Server, MasterControlService : se
                 return reply(Boom.notAcceptable("LeaderboardId '" + request.params.leaderboardId + "' not found."));
             }
 
-            MasterControlService.requestLeaderboardScores({ id: 1 }, (err, data) => {
-                if (err) return reply(Boom.badImplementation());
-                reply(LeaderboardMapper.mapScoreList(data));
-            });
+            MasterControlService.requestLeaderboardScores({ id: 1 })
+                .then((data) => reply(LeaderboardMapper.mapScoreList(data)))
+                .catch((err) => reply(Boom.badImplementation()));
         },
         config: {
             validate: {

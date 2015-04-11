@@ -1,3 +1,4 @@
 # Tools
 #typings/**/ //TODO: hmmm.... need fixing
 typings/node
+typings/es6-promise

@@ -10,6 +10,9 @@
     },
     "joi/joi.d.ts": {
       "commit": "3882d337bb0808cde9fe4c08012508a48c135482"
+    },
+    "es6-promise/es6-promise.d.ts": {
+      "commit": "b04ad99e8b389bf377a2bd3ae582e7ecb553c09a"
     }
   }
 }

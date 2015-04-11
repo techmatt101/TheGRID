@@ -6,6 +6,7 @@ declare module 'master-control' {
 }
 
 declare module 'master-control/controllers/LeaderboardsController' {
+    import Score = require('master-control/models/Score');
     module LeaderboardsController {
         module Scores {
             var PATH: string;
@@ -13,7 +14,7 @@ declare module 'master-control/controllers/LeaderboardsController' {
                 id: number;
             }
             interface Return {
-                scores: any[];
+                scores: Score[];
             }
             function handler(reply: SocketRouter.Reply<Return>, data: Data): void;
         }
@@ -34,5 +35,13 @@ declare module 'master-control/controllers/GamesController' {
         }
     }
     export = GamesController;
+}
+
+declare module 'master-control/models/Score' {
+    interface Score {
+        value: number;
+        dateAchieved: Date;
+    }
+    export = Score;
 }
 
