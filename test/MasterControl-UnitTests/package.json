@@ -4,8 +4,12 @@
   "description": "Games controller unit tests for the GRID",
   "author": "Matthew Kemp",
   "scripts": {
-    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
+    "test": "mocha --recursive --ui bdd spec"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "should": "^6.0.1",
+    "sinon": "^1.14.1",
+    "sinon-promise": "^0.1.3"
   }
 }

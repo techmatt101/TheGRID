@@ -38,6 +38,9 @@ function loadController (controller) {
 
 // Controllers
 
+export import Users = require('./controllers/UsersController');
+loadController(Users);
+
 export import Leaderboards = require('./controllers/LeaderboardsController');
 loadController(Leaderboards);
 

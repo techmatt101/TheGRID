@@ -13,6 +13,12 @@
     },
     "es6-promise/es6-promise.d.ts": {
       "commit": "b04ad99e8b389bf377a2bd3ae582e7ecb553c09a"
+    },
+    "bcrypt/bcrypt.d.ts": {
+      "commit": "b0056383b51495b373a32b791de8112fcafe2ace"
+    },
+    "validator/validator.d.ts": {
+      "commit": "52fa2b9ce36f2c5843204e9bfbaada7cded9b47a"
     }
   }
 }
