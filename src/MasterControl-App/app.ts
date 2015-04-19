@@ -41,6 +41,9 @@ function loadController (controller) {
 export import Users = require('./controllers/UsersController');
 loadController(Users);
 
+export import UsersToken = require('./controllers/UsersTokenController');
+loadController(UsersToken);
+
 export import Leaderboards = require('./controllers/LeaderboardsController');
 loadController(Leaderboards);
 
