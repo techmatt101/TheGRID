@@ -6,6 +6,7 @@ interface User {
     password? : string
     developer : boolean
     date_created : Date
+    friendIds: string[]
 }
 
 export = User;
