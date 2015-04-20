@@ -17,15 +17,14 @@ module LeaderboardsController {
             scores : Score[]
         }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            LeaderboardsDb.getScoreList(data.id)
+        export function handler (data : Data) : Promise<Return> {
+            return LeaderboardsDb.getScoreList(data.id)
                 .then((leaderboardData) => {
                     var leaderboard = LeaderboardsMapper.mapLeaderboard(leaderboardData, new Leaderboard());
-                    reply({
+                    return {
                         scores: leaderboard.scores
-                    });
-                })
-                .error((err) => reply.error(err));
+                    };
+                });
         }
     }
 }

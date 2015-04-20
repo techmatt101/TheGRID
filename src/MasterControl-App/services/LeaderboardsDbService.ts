@@ -1,4 +1,5 @@
 import mongoose = require('mongoose');
+import DbHelpers = require('../helpers/DbHelpers');
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -31,8 +32,10 @@ module LeaderboardsDbService {
     var Model : mongoose.Model<ILeaderboard> = mongoose.model<ILeaderboard>('leaderboards', Schema);
 
 
-    export function getScoreList (id : number) : mongoose.Promise<ILeaderboard> {
-        return Model.findOne({ id: id }).exec();
+    export function getScoreList (id : number) : Promise<ILeaderboard> {
+        return DbHelpers.queryToPromise(
+            Model.findOne({ id: id })
+        );
     }
 }
 

@@ -15,14 +15,13 @@ module GamesController {
             games : any[]
         }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            GamesDb.getList()
+        export function handler (data : Data) : Promise<Return> {
+            return GamesDb.getList()
                 .then((games) => {
-                    reply({
+                    return {
                         games: GamesMapper.mapGameList(games, new GameList()).toArray()
-                    });
-                })
-                .error((err) => reply.error(err));
+                    };
+                });
         }
     }
 }

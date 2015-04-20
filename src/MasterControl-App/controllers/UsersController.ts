@@ -24,8 +24,8 @@ module UsersController {
             email? : boolean
         }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            parallel([
+        export function handler (data : Data) : Promise<Return> {
+            return parallel([
                 (data.username) ? UsersDbService.getUserByUsername(data.username) : null,
                 (data.email) ? UsersDbService.getUserByEmail(data.email) : null
             ])
@@ -37,13 +37,12 @@ module UsersController {
                             break;
                         }
                     }
-                    reply({
+                    return {
                         available: available,
                         username: results[0] === null,
                         email: results[1] === null
-                    });
-                })
-                .catch((err) => reply.error(err));
+                    };
+                });
         }
     }
 
@@ -57,14 +56,12 @@ module UsersController {
         }
         export interface Return extends User {}
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            (validator.isEmail(data.username) ? UsersDbService.getUserByUsername(data.username) : UsersDbService.getUserByEmail(data.username))
+        export function handler (data : Data) : Promise<Return> {
+            return (validator.isEmail(data.username) ? UsersDbService.getUserByUsername(data.username) : UsersDbService.getUserByEmail(data.username))
                 .then((userData) => UsersMapper.mapUserDbToUser(userData))
                 .then((user) => AuthService.testPassword(user, data.password)
                     .then((result) => (result) ? Promise.resolve(user) : Promise.reject('Incorrect password')))
                 .then((user) => UsersMapper.stripSensitiveData(user))
-                .then((user) => reply(user))
-                .catch((err) => reply.error(err));
         }
     }
 
@@ -75,12 +72,10 @@ module UsersController {
         export interface Data { id : string }
         export interface Return extends User {}
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            UsersDbService.getUserById(data.id)
+        export function handler (data : Data) : Promise<Return> {
+            return UsersDbService.getUserById(data.id)
                 .then((user) => UsersMapper.mapUserDbToUser(user))
-                .then((user) => UsersMapper.stripSensitiveData(user))
-                .then((user) => reply(user))
-                .catch((err) => reply.error(err));
+                .then((user) => UsersMapper.stripSensitiveData(user));
         }
     }
 
@@ -89,14 +84,11 @@ module UsersController {
         export var PATH = 'user/create';
 
         export interface Data extends NewUser {}
-        export interface Return { success : boolean }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            AuthService.encryptAccount(data)
+        export function handler (data : Data) : Promise<void> {
+            return AuthService.encryptAccount(data)
                 .then((data) => UsersMapper.mapNewUserToUserDb(data))
-                .then((data) => UsersDbService.createUser(data))
-                .then(() => reply({ success: true }))
-                .catch((err) => reply.error(err));
+                .then((data) => UsersDbService.createUser(data));
         }
     }
 
@@ -105,12 +97,9 @@ module UsersController {
         export var PATH = 'user/update';
 
         export interface Data extends User {}
-        export interface Return { success : boolean }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            UsersDbService.updateUser(data.id, UsersMapper.mapUserToDbUser(data))
-                .then(() => reply({ success: true }))
-                .catch((err) => reply.error(err));
+        export function handler (data : Data) : Promise<void> {
+            return UsersDbService.updateUser(data.id, UsersMapper.mapUserToDbUser(data))
         }
     }
 
@@ -122,14 +111,11 @@ module UsersController {
             userId : string
             friendId : string
         }
-        export interface Return { success : boolean }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            if(data.userId === data.friendId) return reply.error("User can't friend them selves");
-            UsersDbService.addFriend(data.userId, data.friendId)
-                .then(() => UsersDbService.addFriend(data.friendId, data.userId))
-                .then(() => reply({ success: true }))
-                .catch((err) => reply.error(err));
+        export function handler (data : Data) : Promise<void> {
+            if(data.userId === data.friendId) return Promise.reject(new Error("User can't friend them selves"));
+            return UsersDbService.addFriend(data.userId, data.friendId)
+                .then(() => UsersDbService.addFriend(data.friendId, data.userId));
         }
     }
 
@@ -141,13 +127,10 @@ module UsersController {
             userId : string
             friendId : string
         }
-        export interface Return { success : boolean }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            UsersDbService.removeFriend(data.userId, data.friendId)
-                .then(() => UsersDbService.removeFriend(data.friendId, data.userId))
-                .then(() => reply({ success: true }))
-                .catch((err) => reply.error(err));
+        export function handler (data : Data) : Promise<void> {
+            return UsersDbService.removeFriend(data.userId, data.friendId)
+                .then(() => UsersDbService.removeFriend(data.friendId, data.userId));
         }
     }
 }

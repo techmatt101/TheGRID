@@ -14,8 +14,8 @@ module UsersTokenController {
         export interface Data { }
         export interface Return { token : string }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
-            reply({ token: AuthTokenService.generateToken() });
+        export function handler (data : Data) : Promise<Return> {
+            return Promise.resolve({ token: AuthTokenService.generateToken() });
         }
     }
 
@@ -26,10 +26,10 @@ module UsersTokenController {
         export interface Data { token : string }
         export interface Return extends AuthTokenService.IToken<ITokenData> {}
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
+        export function handler (data : Data) : Promise<Return> {
             var token = AuthTokenService.getToken<ITokenData>(data.token);
-            if(token === null) return reply.error('Token not found');
-            reply(token);
+            if(token === null) return Promise.reject(new Error('Token not found'));
+            return Promise.resolve(token);
         }
     }
 
@@ -41,13 +41,12 @@ module UsersTokenController {
             token : string
             data : ITokenData
         }
-        export interface Return { }
 
-        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
+        export function handler (data : Data) : Promise<void> {
             var token = AuthTokenService.getToken<ITokenData>(data.token);
-            if(token === null) return reply.error('Token not found');
+            if(token === null) return Promise.reject('Token not found');
             token.data = data.data;
-            reply({ success: true });
+            return Promise.resolve<void>();
         }
     }
 }

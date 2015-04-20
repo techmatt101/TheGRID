@@ -1,4 +1,6 @@
 import mongoose = require('mongoose');
+import DbHelpers = require('../helpers/DbHelpers');
+
 import Leaderboards = require('./LeaderboardsDbService');
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -17,8 +19,10 @@ module GamesDbService {
     var Model : mongoose.Model<IGame> = mongoose.model<IGame>('games', Schema);
 
 
-    export function getList () : mongoose.Promise<IGame[]> {
-        return Model.find({}).populate('leaderboards').exec();
+    export function getList () : Promise<IGame[]> {
+        return DbHelpers.queryToPromise(
+            Model.find({}).populate('leaderboards')
+        );
     }
 }
 
