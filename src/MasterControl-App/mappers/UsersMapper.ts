@@ -11,7 +11,8 @@ module UsersMapper {
             email: dbData.email,
             password: dbData.password,
             developer: dbData.developer,
-            date_created: dbData.date_created
+            date_created: dbData.date_created,
+            friendIds: dbData.friends
         };
     }
 
@@ -27,18 +28,20 @@ module UsersMapper {
             email: newUser.email,
             password: newUser.password,
             date_created: new Date(),
-            developer: newUser.developer
+            developer: newUser.developer,
+            friends: []
         };
     }
 
-    export function mapUserToDbUser (newUser : User) : UsersDb.IUser {
+    export function mapUserToDbUser (user : User) : UsersDb.IUser {
         return {
-            username: newUser.username,
-            full_name: newUser.fullName,
-            email: newUser.email,
-            password: newUser.password,
-            date_created: new Date(),
-            developer: newUser.developer
+            username: user.username,
+            full_name: user.fullName,
+            email: user.email,
+            password: user.password,
+            date_created: new Date(), //TODO: hmmm...
+            developer: user.developer,
+            friends: user.friendIds
         };
     }
 }
