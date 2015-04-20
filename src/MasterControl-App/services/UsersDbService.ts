@@ -2,6 +2,8 @@ import mongoose = require('mongoose');
 
 import UsersMapper = require('../mappers/UsersMapper');
 
+var ObjectId = mongoose.Schema.Types.ObjectId;
+
 module UsersDbService {
 
     export interface IUserDoc extends IUser, mongoose.Document {}
@@ -12,15 +14,17 @@ module UsersDbService {
         password : string
         date_created : Date
         developer : boolean
+        friends: string[]
     }
 
     var Schema = new mongoose.Schema({
-        username: String,
-        full_name: String,
-        email: String,
+        username: { type: String, unique: true },
+        email: { type: String, unique: true },
         password: String,
+        full_name: String,
         date_created: Date,
-        developer: Boolean
+        developer: Boolean,
+        friends: [{ type: ObjectId, ref: 'users' }]
     });
 
     var Model : mongoose.Model<IUserDoc> = mongoose.model<IUserDoc>('users', Schema);
@@ -29,7 +33,7 @@ module UsersDbService {
     export function createUser (user : IUser) : Promise<void> {
         return new Promise<void>((resolve, reject) => {
             new Model(user).save((err) => {
-                if(err) reject(err);
+                if (err) reject(err);
                 resolve();
             });
         });
@@ -52,12 +56,23 @@ module UsersDbService {
     }
 
     export function updateUser (id : string, user : IUser) : Promise<IUserDoc> {
-        return queryToPromise(Model.update({ _id: id }, user));
+        return queryToPromise(Model.update({ _id: id }, { $set: user })); //TODO: hmmm...
+    }
+
+    export function addFriend (id : string, friendId : string) : Promise<IUserDoc> {
+        return queryToPromise(Model.update({ _id: id }, { $addToSet: { friends: friendId } }));
+    }
+
+    export function removeFriend (id : string, friendId : string) : Promise<IUserDoc> {
+        return queryToPromise(Model.update({ _id: id }, { $pull: { friends: friendId } }));
     }
 }
 
 function queryToPromise (promise : mongoose.Query<any>) {
-    return new Promise((resolve, reject) => promise.exec().then((x) => resolve(x)).error((x) => reject(x)));
+    return new Promise((resolve, reject) => promise.exec((err, x) => {
+        if(err) reject(err);
+        resolve(x);
+    }));
 }
 
 export = UsersDbService;

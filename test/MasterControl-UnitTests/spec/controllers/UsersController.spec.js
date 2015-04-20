@@ -158,4 +158,62 @@ describe('Users Controller', function() {
             UsersDbService.updateUser.restore();
         });
     });
+
+    describe('AddFriend', function() {
+        context('when given user id and friend id', function() {
+            it("it updates user with new friend", function() {
+                var response = new Response();
+                var stub = sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
+
+                UsersController.AddFriend.handler(response, {
+                    userId: '1235',
+                    friendId:"6789"
+                });
+
+                response.hasErrors.should.be.false;
+                stub.calledTwice.should.be.true;
+                response.data.should.have.property('success').and.be.true;
+            });
+        });
+
+        context('when given the same user id and friend id', function() {
+            it("it updates user with new friend", function() {
+                var response = new Response();
+                sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
+
+                UsersController.AddFriend.handler(response, {
+                    userId: '1235',
+                    friendId:"1235"
+                });
+
+                response.hasErrors.should.be.true;
+            });
+        });
+
+        afterEach(function() {
+            UsersDbService.addFriend.restore();
+        });
+    });
+
+    describe('RemoveFriend', function() {
+        context('when given user id and friend id', function() {
+            it("it removes friend from user", function() {
+                var response = new Response();
+                var stub = sinon.stub(UsersDbService, 'removeFriend', sinon.promise().resolves());
+
+                UsersController.RemoveFriend.handler(response, {
+                    userId: '1235',
+                    friendId:"6789"
+                });
+
+                response.hasErrors.should.be.false;
+                stub.calledTwice.should.be.true;
+                response.data.should.have.property('success').and.be.true;
+            });
+        });
+
+        afterEach(function() {
+            UsersDbService.removeFriend.restore();
+        });
+    });
 });

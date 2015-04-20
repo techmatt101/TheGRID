@@ -113,6 +113,43 @@ module UsersController {
                 .catch((err) => reply.error(err));
         }
     }
+
+    export module AddFriend {
+
+        export var PATH = 'user/add-friend';
+
+        export interface Data {
+            userId : string
+            friendId : string
+        }
+        export interface Return { success : boolean }
+
+        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
+            if(data.userId === data.friendId) return reply.error("User can't friend them selves");
+            UsersDbService.addFriend(data.userId, data.friendId)
+                .then(() => UsersDbService.addFriend(data.friendId, data.userId))
+                .then(() => reply({ success: true }))
+                .catch((err) => reply.error(err));
+        }
+    }
+
+    export module RemoveFriend {
+
+        export var PATH = 'user/remove-friend';
+
+        export interface Data {
+            userId : string
+            friendId : string
+        }
+        export interface Return { success : boolean }
+
+        export function handler (reply : SocketRouter.Reply<Return>, data : Data) {
+            UsersDbService.removeFriend(data.userId, data.friendId)
+                .then(() => UsersDbService.removeFriend(data.friendId, data.userId))
+                .then(() => reply({ success: true }))
+                .catch((err) => reply.error(err));
+        }
+    }
 }
 
 export = UsersController;
