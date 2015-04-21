@@ -1,6 +1,6 @@
 import Score = require('./Score');
 
-class Leaderboard {
+interface Leaderboard {
     name : string;
     scores : Score[];
 }

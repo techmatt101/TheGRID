@@ -1,17 +1,21 @@
 import LeaderboardsDb = require('../services/LeaderboardsDbService')
 import Leaderboard = require('../models/Leaderboards/Leaderboard')
+import Score = require('../models/Leaderboards/Score')
 
 module LeaderboardsMapper {
-    export function mapLeaderboard (dbData : LeaderboardsDb.ILeaderboard, leaderboard : Leaderboard) {
-        leaderboard.name = dbData.name;
-        leaderboard.scores = dbData.scores.map((score) => {
-            return {
-                value: score.score,
-                dateAchieved: score.date_achieved
-            }
-        });
 
-        return leaderboard;
+    export function mapDbLeaderboardToLeaderboard (dbData : LeaderboardsDb.ILeaderboardDoc) : Leaderboard {
+        return {
+            name: dbData.name,
+            scores: (dbData.scores) ? dbData.scores.map((score) => LeaderboardsMapper.mapDbScoreToScore(score)) : null
+        };
+    }
+
+    export function mapDbScoreToScore (dbData : LeaderboardsDb.IScoreDoc) : Score {
+        return {
+            value : dbData.value,
+            dateAchieved : dbData.date_achieved
+        };
     }
 }
 

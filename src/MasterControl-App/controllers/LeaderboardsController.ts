@@ -20,7 +20,7 @@ module LeaderboardsController {
         export function handler (data : Data) : Promise<Return> {
             return LeaderboardsDb.getScoreList(data.id)
                 .then((leaderboardData) => {
-                    var leaderboard = LeaderboardsMapper.mapLeaderboard(leaderboardData, new Leaderboard());
+                    var leaderboard = LeaderboardsMapper.mapDbLeaderboardToLeaderboard(leaderboardData);
                     return {
                         scores: leaderboard.scores
                     };
