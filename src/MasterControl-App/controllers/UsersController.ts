@@ -3,9 +3,9 @@ import validator = require('validator');
 import UsersDb = require('../services/UsersDbService');
 import AuthService = require('../services/AuthService');
 import UsersMapper = require('../mappers/UsersMapper');
-import NewUser = require('../models/NewUser');
-import UpdateUser = require('../models/UpdateUser');
-import User = require('../models/User');
+import NewUser = require('../models/Users/NewUser');
+import UpdateUser = require('../models/Users/UpdateUser');
+import User = require('../models/Users/User');
 
 module UsersController {
 

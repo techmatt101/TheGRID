@@ -1,5 +1,5 @@
 import LeaderboardsDb = require('../services/LeaderboardsDbService')
-import Leaderboard = require('../models/Leaderboard')
+import Leaderboard = require('../models/Leaderboards/Leaderboard')
 
 module LeaderboardsMapper {
     export function mapLeaderboard (dbData : LeaderboardsDb.ILeaderboard, leaderboard : Leaderboard) {

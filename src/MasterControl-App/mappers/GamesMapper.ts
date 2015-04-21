@@ -1,6 +1,6 @@
 import GamesDb = require('../services/GamesDbService');
-import GameList = require('../models/GameList');
-import Game = require('../models/Game');
+import GameList = require('../models/Games/GameList');
+import Game = require('../models/Games/Game');
 
 module GamesMapper {
     export function mapGameList (dbData : GamesDb.IGame[], gameList : GameList) {

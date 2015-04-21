@@ -1,7 +1,7 @@
 import UsersDb = require('../services/UsersDbService')
-import User = require('../models/User')
-import NewUser = require('../models/NewUser');
-import UpdateUser = require('../models/UpdateUser');
+import User = require('../models/Users/User')
+import NewUser = require('../models/Users/NewUser');
+import UpdateUser = require('../models/Users/UpdateUser');
 
 module UsersMapper {
 

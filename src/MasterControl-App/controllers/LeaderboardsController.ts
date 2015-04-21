@@ -1,7 +1,7 @@
 import LeaderboardsDb = require('../services/LeaderboardsDbService');
 import LeaderboardsMapper = require('../mappers/LeaderboardsMapper');
-import Leaderboard = require('../models/Leaderboard');
-import Score = require('../models/Score');
+import Leaderboard = require('../models/Leaderboards/Leaderboard');
+import Score = require('../models/Leaderboards/Score');
 
 module LeaderboardsController {
 

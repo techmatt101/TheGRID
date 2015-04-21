@@ -1,6 +1,6 @@
 import GamesDb = require('../services/GamesDbService');
 import GamesMapper = require('../mappers/GamesMapper');
-import GameList = require('../models/GameList');
+import GameList = require('../models/Games/GameList');
 
 module GamesController {
 
