@@ -114,7 +114,7 @@ describe('Users Controller', function() {
 
         context('when given correct username and password', function() {
             before(function() {
-                getUserByUsernamePromise.resolves(UsersMockData.dbUser);
+                getUserByUsernamePromise.resolves(UsersMockData.dbUserWithPassword);
                 promise = UsersController.Login.handler({
                     username: 'username',
                     password: 'password'
@@ -144,7 +144,7 @@ describe('Users Controller', function() {
 
         context('when given an email instead of username', function() {
             before(function() {
-                getUserByEmailPromise.resolves(UsersMockData.dbUser);
+                getUserByEmailPromise.resolves(UsersMockData.dbUserWithPassword);
                 promise = UsersController.Login.handler({
                     username: 'foo@test.com',
                     password: 'password'
@@ -172,6 +172,10 @@ describe('Users Controller', function() {
 
             it("returns user details", function() {
                 return promise.should.finally.eql(UsersMockData.mappedUser);
+            });
+
+            it("returns password as null", function() {
+                return promise.should.finally.have.property('password').and.equal(null);
             });
         });
     });
@@ -233,7 +237,11 @@ describe('Users Controller', function() {
             });
 
             it("updates user info in database", function() {
-                stub.called.should.be.true;
+                stub.firstCall.args.should.eql(["34jhb234", {
+                    developer: false,
+                    email: "email",
+                    full_name: "full_name"
+                }]);
             });
         });
 

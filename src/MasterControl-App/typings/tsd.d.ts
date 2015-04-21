@@ -5,7 +5,6 @@
 /// <reference path="asciify.d.ts" />
 /// <reference path="json-socket.d.ts" />
 /// <reference path="uid.d.ts" />
-/// <reference path="promise-parallel.d.ts" />
 /// <reference path="../node_modules/socket-router/dist/socket-router.d.ts" />
 /// <reference path="bcrypt/bcrypt.d.ts" />
 /// <reference path="validator/validator.d.ts" />

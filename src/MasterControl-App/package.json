@@ -15,7 +15,6 @@
     "config": "^1.10.0",
     "json-socket": "^0.1.2",
     "mongoose": "^4.0.1",
-    "promise-parallel": "^1.0.1",
     "socket-router": "^1.0.4",
     "uid": "0.0.2",
     "validator": "^3.38.0"

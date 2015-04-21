@@ -11,10 +11,9 @@ module UsersTokenController {
 
         export var PATH = 'user-token/new';
 
-        export interface Data { }
         export interface Return { token : string }
 
-        export function handler (data : Data) : Promise<Return> {
+        export function handler () : Promise<Return> {
             return Promise.resolve({ token: AuthTokenService.generateToken() });
         }
     }

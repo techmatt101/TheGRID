@@ -1,10 +1,10 @@
 import validator = require('validator');
-import parallel = require('promise-parallel');
 
-import UsersDbService = require('../services/UsersDbService');
+import UsersDb = require('../services/UsersDbService');
 import AuthService = require('../services/AuthService');
 import UsersMapper = require('../mappers/UsersMapper');
 import NewUser = require('../models/NewUser');
+import UpdateUser = require('../models/UpdateUser');
 import User = require('../models/User');
 
 module UsersController {
@@ -25,9 +25,9 @@ module UsersController {
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return parallel([
-                (data.username) ? UsersDbService.getUserByUsername(data.username) : null,
-                (data.email) ? UsersDbService.getUserByEmail(data.email) : null
+            return Promise.all([
+                (data.username) ? UsersDb.getUserByUsername(data.username) : null,
+                (data.email) ? UsersDb.getUserByEmail(data.email) : null
             ])
                 .then((results) => {
                     var available = true;
@@ -54,14 +54,16 @@ module UsersController {
             username : string
             password : string
         }
-        export interface Return extends User {}
+
+        export interface Return extends User {
+        }
 
         export function handler (data : Data) : Promise<Return> {
-            return (validator.isEmail(data.username) ? UsersDbService.getUserByEmail(data.username) : UsersDbService.getUserByUsername(data.username))
-                .then((userData) => UsersMapper.mapUserDbToUser(userData))
-                .then((user) => AuthService.testPassword(user, data.password)
+            return (validator.isEmail(data.username) ? UsersDb.getUserByEmail(data.username, true) : UsersDb.getUserByUsername(data.username, true))
+                .then((userData) => UsersMapper.mapDbUserToUser(userData))
+                .then((user) => AuthService.testPassword(user.password, data.password)
                     .then((result) => (result) ? Promise.resolve(user) : Promise.reject('Incorrect password')))
-                .then((user) => UsersMapper.stripSensitiveData(user))
+                .then((user) => UsersMapper.stripSensitiveData(user));
         }
     }
 
@@ -69,13 +71,59 @@ module UsersController {
 
         export var PATH = 'user/info';
 
-        export interface Data { id : string }
-        export interface Return extends User {}
+        export interface Data {
+            id : string
+        }
+
+        export interface Return extends User {
+        }
 
         export function handler (data : Data) : Promise<Return> {
-            return UsersDbService.getUserById(data.id)
-                .then((user) => UsersMapper.mapUserDbToUser(user))
-                .then((user) => UsersMapper.stripSensitiveData(user));
+            return UsersDb.getUserById(data.id)
+                .then((user) => UsersMapper.mapDbUserToUser(user));
+        }
+    }
+
+    export module List {
+
+        export var PATH = 'user/list';
+
+        export interface Data {
+            ids : string[]
+        }
+
+        export interface Return {
+            users: User[]
+        }
+
+        export function handler (data : Data) : Promise<Return> {
+            return UsersDb.getUsers(data.ids)
+                .then((users) => users.map((user) => UsersMapper.mapDbUserToUser(user)))
+                .then((users) => {
+                    return { users: users };
+                });
+        }
+    }
+
+    export module Search {
+
+        export var PATH = 'user/search';
+
+        export interface Data {
+            search : string
+            maxResults? : number
+        }
+
+        export interface Return {
+            users: User[]
+        }
+
+        export function handler (data : Data) : Promise<Return> {
+            return UsersDb.searchUsers(data.search, data.maxResults)
+                .then((users) => users.map((user) => UsersMapper.mapDbUserToUser(user)))
+                .then((users) => {
+                    return { users: users };
+                });
         }
     }
 
@@ -83,12 +131,18 @@ module UsersController {
 
         export var PATH = 'user/create';
 
-        export interface Data extends NewUser {}
+        export interface Data extends NewUser {
+        }
 
-        export function handler (data : Data) : Promise<void> {
-            return AuthService.encryptAccount(data)
-                .then((data) => UsersMapper.mapNewUserToUserDb(data))
-                .then((data) => UsersDbService.createUser(data));
+        export function handler (data : Data) : Promise<string> {
+            return AuthService.encryptAccount(data.password)
+                .then((hashedPassword) => {
+                    data.password = hashedPassword;
+                    return data;
+                })
+                .then((data) => UsersMapper.mapNewUserToDbUser(data))
+                .then((data) => UsersDb.createUser(data))
+                .then((data) => data._id);
         }
     }
 
@@ -96,10 +150,27 @@ module UsersController {
 
         export var PATH = 'user/update';
 
-        export interface Data extends User {}
+        export interface Data {
+            id : string
+            updatedData : UpdateUser
+        }
 
         export function handler (data : Data) : Promise<void> {
-            return UsersDbService.updateUser(data.id, UsersMapper.mapUserToDbUser(data))
+            return Promise.resolve(data.updatedData)
+                .then((updatedData) => {
+                    if (updatedData.password) {
+                        return AuthService.encryptAccount(updatedData.password)
+                            .then((hashedPassword) => {
+                                updatedData.password = hashedPassword;
+                                return updatedData;
+                            });
+                    }
+                    return updatedData;
+                })
+                .then((updatedData) => UsersMapper.mapUpdateUserToDbUser(updatedData))
+                .then((updatedData) => {
+                    UsersDb.updateUser(data.id, updatedData);
+                });
         }
     }
 
@@ -113,9 +184,11 @@ module UsersController {
         }
 
         export function handler (data : Data) : Promise<void> {
-            if(data.userId === data.friendId) return Promise.reject(new Error("User can't friend them selves"));
-            return UsersDbService.addFriend(data.userId, data.friendId)
-                .then(() => UsersDbService.addFriend(data.friendId, data.userId));
+            if (data.userId === data.friendId) return Promise.reject(new Error("User can't friend them selves"));
+            return UsersDb.addFriend(data.userId, data.friendId)
+                .then(() => {
+                    UsersDb.addFriend(data.friendId, data.userId);
+                });
         }
     }
 
@@ -129,8 +202,10 @@ module UsersController {
         }
 
         export function handler (data : Data) : Promise<void> {
-            return UsersDbService.removeFriend(data.userId, data.friendId)
-                .then(() => UsersDbService.removeFriend(data.friendId, data.userId));
+            return UsersDb.removeFriend(data.userId, data.friendId)
+                .then(() => {
+                    UsersDb.removeFriend(data.friendId, data.userId);
+                });
         }
     }
 }
