@@ -180,6 +180,67 @@ describe('Users Controller', function() {
         });
     });
 
+    describe('List users', function() {
+        context('when given user ids', function() {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'getUsers', sinon.promise().resolves([
+                    UsersMockData.dbUser, UsersMockData.dbUser, UsersMockData.dbUser
+                ]));
+                promise = UsersController.List.handler({
+                    ids: ['1235', '4566', '76534']
+                });
+            });
+
+            after(function() {
+                UsersDbService.getUsers.restore();
+            });
+
+            it("returns list of 3 users", function() {
+                return promise.should.finally.property('users').and.have.lengthOf(3);
+            });
+
+            it("returns list of users with their details", function() {
+                return promise.should.finally.property('users').containEql(UsersMockData.mappedUser);
+            });
+
+            it("returns password as null", function() {
+                return promise.should.finally.have.property('users').and.have.property(0).and.have.property('password').and.equal(null);
+            });
+        });
+    });
+
+    describe('Search users', function() {
+        context('when given search text and max results to be returned', function() {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'searchUsers', sinon.promise().resolves([
+                    UsersMockData.dbUser, UsersMockData.dbUser, UsersMockData.dbUser
+                ]));
+                promise = UsersController.Search.handler({
+                    search: 'tron',
+                    maxResults: 3
+                });
+            });
+
+            after(function() {
+                UsersDbService.searchUsers.restore();
+            });
+
+            it("returns list of 3 users", function() {
+                return promise.should.finally.property('users').and.have.lengthOf(3);
+            });
+
+            it("returns list of users with their details", function() {
+                return promise.should.finally.property('users').containEql(UsersMockData.mappedUser);
+            });
+
+            it("returns password as null", function() {
+                return promise.should.finally.have.property('users').and.have.property(0).and.have.property('password').and.equal(null);
+            });
+        });
+    });
+
     describe('Create new user', function() {
         context('when given new user info', function() {
             var promise, stub;
