@@ -8,7 +8,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "clone": "^1.0.2",
     "should": "^6.0.1",
+    "should-promised": "^0.2.1",
     "sinon": "^1.14.1",
     "sinon-promise": "^0.1.3"
   }

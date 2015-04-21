@@ -57,7 +57,7 @@ module UsersController {
         export interface Return extends User {}
 
         export function handler (data : Data) : Promise<Return> {
-            return (validator.isEmail(data.username) ? UsersDbService.getUserByUsername(data.username) : UsersDbService.getUserByEmail(data.username))
+            return (validator.isEmail(data.username) ? UsersDbService.getUserByEmail(data.username) : UsersDbService.getUserByUsername(data.username))
                 .then((userData) => UsersMapper.mapUserDbToUser(userData))
                 .then((user) => AuthService.testPassword(user, data.password)
                     .then((result) => (result) ? Promise.resolve(user) : Promise.reject('Incorrect password')))

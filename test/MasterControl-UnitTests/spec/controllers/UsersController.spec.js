@@ -1,8 +1,9 @@
+var clone = require("clone");
 var should = require("should");
 var sinon = require("sinon");
+var shouldPromised = require("should-promised");
 var sinonPromise = require('sinon-promise');
 sinonPromise(sinon);
-var Response = require('../../helpers/Response');
 
 var srcPath = '../../../../src/MasterControl-App/build/';
 
@@ -14,206 +15,315 @@ var UsersMockData = require('../../mock-data/UsersMockData');
 
 describe('Users Controller', function() {
 
-    describe('Availability', function() {
+    describe('Check user availability', function() {
+        var promise, getUserByUsernamePromise, getUserByEmailPromise;
+
+        before(function() {
+            getUserByUsernamePromise = sinon.promise();
+            getUserByEmailPromise = sinon.promise();
+
+            sinon.stub(UsersDbService, 'getUserByUsername', getUserByUsernamePromise);
+            sinon.stub(UsersDbService, 'getUserByEmail', getUserByEmailPromise);
+        });
+
+        after(function() {
+            UsersDbService.getUserByUsername.restore();
+            UsersDbService.getUserByEmail.restore();
+        });
+
         context('when given a unique username and email', function() {
-            it("updates user info and returns success", function(done) {
-                var response = new Response();
+            before(function() {
+                getUserByUsernamePromise.resolves(null);
+                getUserByEmailPromise.resolves(null);
 
-                sinon.stub(UsersDbService, 'getUserByUsername', sinon.promise().resolves(null));
-                sinon.stub(UsersDbService, 'getUserByEmail', sinon.promise().resolves(null));
-
-                UsersController.Availability.handler(response, {
+                promise = UsersController.Availability.handler({
                     username: 'username',
                     email: 'email'
                 });
+            });
 
-                response.onReply = function() {
-                    response.hasErrors.should.be.false;
-                    response.data.should.have.property('available').and.be.true;
-                    response.data.should.have.property('username').and.be.true;
-                    response.data.should.have.property('email').and.be.true;
-                    done();
-                };
+            it("returns true for available", function() {
+                return promise.should.finally.have.property('available').and.be.true;
+            });
+
+            it("returns true for username", function() {
+                return promise.should.finally.have.property('username').and.be.true;
+            });
+
+            it("returns true for email", function() {
+                return promise.should.finally.have.property('email').and.be.true;
             });
         });
 
-        //TODO: when given used username and email
-        //TODO: when given used username and unique email
-        //TODO: when given only unique username
+        context('when given a used username and email', function() {
+            before(function() {
+                getUserByUsernamePromise.resolves(UsersMockData.dbUser);
+                getUserByEmailPromise.resolves(UsersMockData.dbUser);
 
-        afterEach(function() {
-            UsersDbService.getUserByUsername.restore();
-            UsersDbService.getUserByEmail.restore();
+                promise = UsersController.Availability.handler({
+                    username: 'username',
+                    email: 'email'
+                });
+            });
+
+            it("returns false for available", function() {
+                return promise.should.finally.have.property('available').and.be.false;
+            });
+
+            it("returns false for username", function() {
+                return promise.should.finally.have.property('username').and.be.false;
+            });
+
+            it("returns false for email", function() {
+                return promise.should.finally.have.property('email').and.be.false;
+            });
+        });
+
+        context('when given only unique username', function() {
+            before(function() {
+                getUserByUsernamePromise.resolves(null);
+                promise = UsersController.Availability.handler({
+                    username: 'username'
+                });
+            });
+
+            it("returns true for available", function() {
+                return promise.should.finally.have.property('available').and.be.true;
+            });
+
+            it("returns true for username", function() {
+                return promise.should.finally.have.property('username').and.be.true;
+            });
         });
     });
 
-    describe('Login', function() {
-        context('when given correct username and password', function(done) {
-            it("returns user info", function(done) {
-                var response = new Response();
+    describe('Login user', function() {
+        var promise, getUserByUsernamePromise, getUserByEmailPromise;
 
-                sinon.stub(UsersDbService, 'getUserByUsername', sinon.promise().resolves(UsersMockData.dbUser));
-                sinon.stub(UsersDbService, 'getUserByEmail', sinon.promise().resolves(UsersMockData.dbUser));
+        before(function() {
+            getUserByUsernamePromise = sinon.promise();
+            getUserByEmailPromise = sinon.promise();
 
-                UsersController.Login.handler(response, {
+            sinon.stub(UsersDbService, 'getUserByUsername', getUserByUsernamePromise);
+            sinon.stub(UsersDbService, 'getUserByEmail', getUserByEmailPromise);
+        });
+
+        after(function() {
+            UsersDbService.getUserByUsername.restore();
+        });
+
+        context('when given correct username and password', function() {
+            before(function() {
+                getUserByUsernamePromise.resolves(UsersMockData.dbUser);
+                promise = UsersController.Login.handler({
                     username: 'username',
                     password: 'password'
                 });
+            });
 
-                response.onReply = function() {
-                    response.hasErrors.should.be.false;
-                    response.data.should.eql(UsersMockData.mappedUser);
-                    done();
-                };
+            it("returns user info", function() {
+                return promise.should.finally.eql(UsersMockData.mappedUser);
             });
         });
 
-        //TODO: when not given incorrect password
-        //TODO: when given an email instead of username
+        context('when given incorrect password', function() {
+            before(function() {
+                var userData = clone(UsersMockData.dbUser);
+                userData.password = 'bad_password';
+                getUserByUsernamePromise.resolves(userData);
+                promise = UsersController.Login.handler({
+                    username: 'username',
+                    password: 'password'
+                });
+            });
 
-        afterEach(function() {
-            UsersDbService.getUserByUsername.restore();
-            UsersDbService.getUserByEmail.restore();
+            it("returns error", function() {
+                return promise.should.be.rejected;
+            });
+        });
+
+        context('when given an email instead of username', function() {
+            before(function() {
+                getUserByEmailPromise.resolves(UsersMockData.dbUser);
+                promise = UsersController.Login.handler({
+                    username: 'foo@test.com',
+                    password: 'password'
+                });
+            });
+
+            it("returns user info", function() {
+                return promise.should.finally.eql(UsersMockData.mappedUser);
+            });
         });
     });
 
-    describe('Info', function() {
+    describe('Get user details', function() {
         context('when given user id', function() {
-            it("returns user info", function() {
-                var response = new Response();
-                var stub = sinon.stub(UsersDbService, 'getUserById', sinon.promise().resolves(UsersMockData.dbUser));
-                UsersController.Info.handler(response, { id: '123' });
+            var promise, stub;
 
-                response.hasErrors.should.be.false;
-                stub.firstCall.args.should.eql(['123']);
-                response.data.should.eql(UsersMockData.mappedUser);
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'getUserById', sinon.promise().resolves(UsersMockData.dbUser));
+                promise = UsersController.Info.handler({ id: '123' });
             });
 
-            afterEach(function() {
+            after(function() {
                 UsersDbService.getUserById.restore();
             });
+
+            it("returns user details", function() {
+                return promise.should.finally.eql(UsersMockData.mappedUser);
+            });
         });
     });
 
-    describe('Create', function() {
+    describe('Create new user', function() {
         context('when given new user info', function() {
-            it("creates new user and returns success", function(done) {
-                var response = new Response();
-                var stub = sinon.stub(UsersDbService, 'createUser', sinon.promise().resolves());
+            var promise, stub;
 
-                UsersController.Create.handler(response, {
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'createUser', sinon.promise().resolves(UsersMockData.dbUser));
+                promise = UsersController.Create.handler({
                     username: 'username',
                     fullName: 'full_name',
                     email: 'email',
                     password: 'password',
                     developer: false
                 });
-
-                response.onReply = function() {
-                    response.hasErrors.should.be.false;
-                    stub.firstCall.args[0].should.have.properties(['username', 'full_name', 'email', 'developer']);
-                    stub.firstCall.args[0].should.have.property('password').and.not.equal('password');
-                    response.data.should.have.property('success').and.be.true;
-                    done();
-                };
             });
-        });
 
-        //TODO: when not given all user info
+            after(function() {
+                UsersDbService.createUser.restore();
+            });
 
-        afterEach(function() {
-            UsersDbService.createUser.restore();
+            it("returns success", function() {
+                return promise.should.be.fulfilled;
+            });
+
+            it("creates new user in database", function() {
+                stub.firstCall.args[0].should.have.properties(['username', 'full_name', 'email', 'developer', 'date_created', 'friends']);
+            });
+
+            it("encrypts password before creating user", function() {
+                stub.firstCall.args[0].should.have.property('password').and.not.equal('password');
+            });
         });
     });
 
-    describe.skip('Update', function() {
-        context('when given new user info', function() {
-            it("updates user info and returns success", function() {
-                var response = new Response();
-                var stub = sinon.stub(UsersDbService, 'updateUser', sinon.promise().resolves());
-
-                UsersController.Update.handler(response, {
+    describe('Update user details', function() {
+        context('when given updated user info', function() {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'updateUser', sinon.promise().resolves());
+                promise = UsersController.Update.handler({
                     id: '34jhb234',
-                    fullName: 'full_name',
-                    email: 'email',
-                    password: 'password',
-                    developer: false
+                    updatedData: {
+                        fullName: 'full_name',
+                        email: 'email',
+                        developer: false
+                    }
                 });
+            });
 
-                response.hasErrors.should.be.false;
-                stub.firstCall.args.should.eql(["34jhb234", {
-                    developer: false,
-                    email: "email",
-                    full_name: "full_name",
-                    password: "password"
-                }]);
-                response.data.should.have.property('success').and.be.true;
+            after(function() {
+                UsersDbService.updateUser.restore();
+            });
+
+            it("returns success", function() {
+                return promise.should.be.fulfilled;
+            });
+
+            it("updates user info in database", function() {
+                stub.called.should.be.true;
             });
         });
 
-        //TODO: when given half of user info
-        //TODO: when not given user info
+        context('when given new user info with password', function() {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'updateUser', sinon.promise().resolves());
+                promise = UsersController.Update.handler({
+                    id: '34jhb234',
+                    updatedData: {
+                        email: "email",
+                        password: 'password'
+                    }
+                });
+            });
 
-        afterEach(function() {
-            UsersDbService.updateUser.restore();
+            after(function() {
+                UsersDbService.updateUser.restore();
+            });
+
+            it("encrypts password before updating user", function() {
+                return promise.then(function() {
+                    stub.firstCall.args[1].should.have.property('password').and.not.equal('password');
+                });
+            });
         });
     });
 
-    describe('AddFriend', function() {
+    describe('Add friend to user', function() {
         context('when given user id and friend id', function() {
-            it("it updates user with new friend", function() {
-                var response = new Response();
-                var stub = sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
-
-                UsersController.AddFriend.handler(response, {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
+                promise = UsersController.AddFriend.handler({
                     userId: '1235',
-                    friendId:"6789"
+                    friendId: "6789"
                 });
+            });
 
-                response.hasErrors.should.be.false;
+            after(function() {
+                UsersDbService.addFriend.restore();
+            });
+
+            it("returns success", function() {
+                return promise.should.be.fulfilled;
+            });
+
+            it("add friend to both users", function() {
                 stub.calledTwice.should.be.true;
-                response.data.should.have.property('success').and.be.true;
             });
         });
 
         context('when given the same user id and friend id', function() {
-            it("it updates user with new friend", function() {
-                var response = new Response();
-                sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
-
-                UsersController.AddFriend.handler(response, {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'addFriend', sinon.promise().resolves());
+                promise = UsersController.AddFriend.handler({
                     userId: '1235',
-                    friendId:"1235"
+                    friendId: "1235"
                 });
-
-                response.hasErrors.should.be.true;
             });
-        });
 
-        afterEach(function() {
-            UsersDbService.addFriend.restore();
+            after(function() {
+                UsersDbService.addFriend.restore();
+            });
+
+            it("returns error", function() {
+                return promise.should.be.rejected;
+            });
         });
     });
 
-    describe('RemoveFriend', function() {
+    describe('Remove friend from user', function() {
         context('when given user id and friend id', function() {
-            it("it removes friend from user", function() {
-                var response = new Response();
-                var stub = sinon.stub(UsersDbService, 'removeFriend', sinon.promise().resolves());
-
-                UsersController.RemoveFriend.handler(response, {
+            var promise, stub;
+            before(function() {
+                stub = sinon.stub(UsersDbService, 'removeFriend', sinon.promise().resolves());
+                promise = UsersController.RemoveFriend.handler({
                     userId: '1235',
-                    friendId:"6789"
+                    friendId: "6789"
                 });
-
-                response.hasErrors.should.be.false;
-                stub.calledTwice.should.be.true;
-                response.data.should.have.property('success').and.be.true;
             });
-        });
 
-        afterEach(function() {
-            UsersDbService.removeFriend.restore();
+            after(function() {
+                UsersDbService.removeFriend.restore();
+            });
+
+            it("returns success", function() {
+                return promise.should.be.fulfilled;
+            });
         });
     });
 });

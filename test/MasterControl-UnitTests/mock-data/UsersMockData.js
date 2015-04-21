@@ -16,6 +16,6 @@ module.exports.mappedUser = {
     email: 'email',
     password: null,
     developer: false,
-    date_created: new Date(0),
-    friendIds: ['42342', '753432']
+    dateCreated: new Date(0),
+    friendIds: []
 };

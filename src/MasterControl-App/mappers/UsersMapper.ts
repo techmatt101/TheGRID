@@ -11,8 +11,8 @@ module UsersMapper {
             email: dbData.email,
             password: dbData.password,
             developer: dbData.developer,
-            date_created: dbData.date_created,
-            friendIds: dbData.friends
+            dateCreated: dbData.date_created,
+            friendIds: []
         };
     }
 

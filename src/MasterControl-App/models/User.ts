@@ -5,7 +5,7 @@ interface User {
     email : string
     password? : string
     developer : boolean
-    date_created : Date
+    dateCreated : Date
     friendIds: string[]
 }
 
