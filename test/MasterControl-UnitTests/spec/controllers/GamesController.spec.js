@@ -7,6 +7,7 @@ var srcPath = '../../../../src/MasterControl-App/build/';
 
 var GamesController = require(srcPath + 'controllers/GamesController');
 var GamesDbService = require(srcPath + 'services/GamesDbService');
+var CategoriesDbService = require(srcPath + 'services/CategoriesDbService');
 
 var GamesMockData = require('../../mock-data/GamesMockData');
 
@@ -179,6 +180,22 @@ describe('Games Controller', function() {
                     url: 'http://www.foo.co.uk'
                 }]);
             });
+        });
+    });
+
+    describe('List game categories', function() {
+        var promise, mockCategoriesData = { categories: ["Category1", "Category2", "Cateory3"] };
+        before(function() {
+            sinon.stub(CategoriesDbService, 'getCategories', sinon.promise().resolves(mockCategoriesData));
+            promise = GamesController.Categories.handler();
+        });
+
+        after(function() {
+            CategoriesDbService.getCategories.restore();
+        });
+
+        it("returns categories", function() {
+            return promise.should.finally.eql(mockCategoriesData);
         });
     });
 });

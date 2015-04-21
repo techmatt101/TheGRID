@@ -1,9 +1,11 @@
 import GamesDb = require('../services/GamesDbService');
+import CategoriesDb = require('../services/CategoriesDbService');
 import GamesMapper = require('../mappers/GamesMapper');
 
 import Game = require('../models/Games/Game');
 import NewGame = require('../models/Games/NewGame');
 import UpdateGame = require('../models/Games/UpdateGame');
+import Categories = require('../models/Games/Categories');
 
 module GamesController {
 
@@ -109,6 +111,18 @@ module GamesController {
             return Promise.resolve(data.updatedData)
                 .then((updatedData) => GamesMapper.mapUpdateGameToDbGame(updatedData))
                 .then<void>((updatedData) => GamesDb.updateGame(data.id, updatedData));
+        }
+    }
+
+    export module Categories {
+
+        export var PATH = 'game/categories';
+
+        export interface Return extends Categories {
+        }
+
+        export function handler () : Promise<Return> {
+            return CategoriesDb.getCategories();
         }
     }
 }
