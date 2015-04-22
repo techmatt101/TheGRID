@@ -122,6 +122,34 @@ describe('Leaderboards Controller', function() {
             it("returns full list of scores", function() {
                 return promise.should.finally.have.property('scores').and.have.lengthOf(7);
             });
+
+            it("returns full list of scores in sort of highest score", function() {
+                return promise.then(function(data) {
+                    var lastVal = 10000000;
+                    var results = data.scores.filter(function(x) {
+                        if(lastVal > x.value){
+                            lastVal = x.value;
+                            return true;
+                        }
+                        return false;
+                    });
+                    results.length.should.equal(data.scores.length);
+                });
+            });
+
+            it("returns full list of scores with positions", function() {
+                return promise.then(function(data) {
+                    var lastVal = 0;
+                    var results = data.scores.filter(function(x) {
+                        if(lastVal < x.position){
+                            lastVal = x.position;
+                            return true;
+                        }
+                        return false;
+                    });
+                    results.length.should.equal(data.scores.length);
+                });
+            });
         });
 
         context('when given id and maxResults of 3', function() {
@@ -180,6 +208,20 @@ describe('Leaderboards Controller', function() {
 
             it("returns list of 3 friends scores", function() {
                 return promise.should.finally.have.property('scores').and.have.lengthOf(3);
+            });
+
+            it("returns full list of scores with positions", function() {
+                return promise.then(function(data) {
+                    var lastVal = 0;
+                    var results = data.scores.filter(function(x) {
+                        if(lastVal < x.position){
+                            lastVal = x.position;
+                            return true;
+                        }
+                        return false;
+                    });
+                    results.length.should.equal(data.scores.length);
+                });
             });
         });
 

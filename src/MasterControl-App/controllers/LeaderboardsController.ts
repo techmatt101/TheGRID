@@ -97,6 +97,19 @@ module LeaderboardsController {
                     }
                     return leaderboard;
                 })
+                .then((leaderboards) => {
+                    leaderboards.scores.sort((a, b) => {
+                        if (a.value < b.value) return 1;
+                        if (a.value > b.value) return -1;
+                        return 0;
+                    });
+
+                    for (var i = 0; i < leaderboards.scores.length; i++) {
+                        leaderboards.scores[i].position = i + 1;
+                    }
+
+                    return leaderboards;
+                })
                 .then((leaderboard) => {
                     if (data.maxResults) {
                         var begin, end;
@@ -112,11 +125,6 @@ module LeaderboardsController {
                     return leaderboard;
                 })
                 .then((leaderboards) => {
-                    leaderboards.scores.sort((a, b) => {
-                        if (a.value < b.value) return 1;
-                        if (a.value > b.value) return -1;
-                        return 0;
-                    });
                     return { scores: leaderboards.scores };
                 });
         }
@@ -202,8 +210,7 @@ module LeaderboardsController {
                         ]);
                     }
                 })
-                .then(() => {
-                }); //hmmm... hack to return void
+                .then(() => {}); //hmmm... hack to return void
         }
     }
 }

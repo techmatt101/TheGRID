@@ -20,7 +20,7 @@ module AuthTokenService {
     }, 1000 * 60 * 60); // 1 hour
 
 
-    export function generateToken (data = null, timespan = 1000 * 60 * 2, tokenSize = 16) {
+    export function generateToken (data = null, timespan = 1000 * 60 * 5, tokenSize = 16) {
         var token = uid(tokenSize);
         tokenTable[token] = {
             created: Date.now() + timespan,

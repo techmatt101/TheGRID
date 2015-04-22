@@ -73,7 +73,7 @@ module LeaderboardsDbService {
 
     export function getLeaderboardWithScores (id : string) : Promise<ILeaderboardDoc> {
         return DbHelpers.queryToPromise(
-            Model.findOne({ _id: id }).select('scores')
+            Model.findOne({ _id: id }).select('+scores')
         );
     }
 

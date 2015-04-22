@@ -26,6 +26,7 @@ module LeaderboardsMapper {
 
     export function mapDbScoreToScore (dbData : LeaderboardsDb.IScoreDoc) : Score {
         return {
+            position: null,
             userId : dbData.user.toString(),
             username : dbData.username,
             value : dbData.value,
