@@ -34,7 +34,7 @@ module UsersTokenController {
 
     export module Update {
 
-        export var PATH = 'user-token/get-token';
+        export var PATH = 'user-token/update';
 
         export interface Data {
             token : string

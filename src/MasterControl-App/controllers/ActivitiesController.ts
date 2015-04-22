@@ -24,7 +24,7 @@ module ActivitiesController {
 
     export module Feed {
 
-        export var PATH = 'activity/list';
+        export var PATH = 'activity/feed';
 
         export interface Data {
             userId : string

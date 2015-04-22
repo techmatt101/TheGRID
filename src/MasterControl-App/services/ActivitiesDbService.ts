@@ -38,6 +38,8 @@ module ActivitiesDbService {
 
     var autoPopulate = function(next) {
         this.populate('user');
+        this.populate('comments');
+        this.populate('comments.user');
         next();
     };
 
@@ -73,7 +75,7 @@ module ActivitiesDbService {
     }
 
     export function getActivitiesByUser (userIds : string[], maxResults = 10) : Promise<IActivityDoc[]> {
-        return DbHelpers.queryToPromise(Model.find({ user: { $or: userIds }}).limit(maxResults).sort({ date_created : -1 }));
+        return DbHelpers.queryToPromise(Model.find({ user: { $in: userIds }}).limit(maxResults).sort({ date_created : -1 }));
     }
 
     export function addLike (id : string, userId : string) : Promise<void> {

@@ -14,7 +14,7 @@ module UsersMapper {
             password: dbData.password || null,
             developer: dbData.developer,
             dateCreated: dbData.date_created,
-            friendIds: dbData.friends.map((friendId) => friendId.toString())
+            friendIds: dbData.friends
         };
     }
 
@@ -41,7 +41,7 @@ module UsersMapper {
         if (typeof user.fullName !== 'undefined')    obj.full_name = user.fullName;
         if (typeof user.email !== 'undefined')       obj.email = user.email;
         if (typeof user.password !== 'undefined')    obj.password = user.password;
-        if (typeof user.developer !== 'undefined')    obj.developer = user.developer;
+        if (typeof user.developer !== 'undefined')   obj.developer = user.developer;
 
         return obj;
     }

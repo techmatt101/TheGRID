@@ -73,13 +73,13 @@ module UsersDbService {
     }
 
     export function getUserByUsername (username : string, includePassword = false) : Promise<IUserDoc> {
-        var query = Model.findOne({ username: username });
+        var query = Model.findOne({ username: username.toLowerCase() });
         if(includePassword) query.select('password');
         return DbHelpers.queryToPromise(query);
     }
 
     export function getUserByEmail (email : string, includePassword = false) : Promise<IUserDoc> {
-        var query = Model.findOne({ email: email });
+        var query = Model.findOne({ email: email.toLowerCase() });
         if(includePassword) query.select('password');
         return DbHelpers.queryToPromise(query);
     }
