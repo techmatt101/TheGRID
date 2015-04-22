@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "install": "tsd reinstall -s -o && npm run build",
-    "build": "gulp",
+    "build": "gulp && npm run build-server",
+    "build-server": "tsc app.ts --outDir build/ --target ES5 --module commonjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

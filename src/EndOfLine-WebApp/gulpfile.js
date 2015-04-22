@@ -14,7 +14,7 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('clean', del.bind(null, ['content/**/*', 'build/**/*']));
 
-gulp.task('build', ['server', 'styles', 'scripts', 'bowerScripts', 'images', 'fonts', 'other'], function() {
+gulp.task('build', ['styles', 'scripts', 'bowerScripts', 'images', 'fonts', 'other'], function() {
     if (isProduction) {
         gulp.start('size');
     }
@@ -31,14 +31,6 @@ gulp.task('watch', ['build'], function() {
 });
 
 //===================================================//
-
-gulp.task('server', function() {
-    return gulp.src(['**/*.ts', '!node_modules/**', '!scripts/**'])
-        .pipe($.typescript({
-            target: 'ES5'
-        }))
-        .pipe(gulp.dest('build'));
-});
 
 gulp.task('styles', function() {
     var bowerResolve = require('less-plugin-bower-resolve');
