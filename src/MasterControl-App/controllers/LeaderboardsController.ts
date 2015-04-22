@@ -80,20 +80,19 @@ module LeaderboardsController {
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return LeaderboardsDb.getLeaderboardWithScores(data.id)
-                .then((leaderboard) => LeaderboardsMapper.mapDbLeaderboardToLeaderboard(leaderboard))
-                .then((leaderboard) => {
-                    if (data.userId && data.friendsOnly) {
-                        return UsersDb.getUserById(data.userId)
-                            .then((user) => UsersMapper.mapDbUserToUser(user))
-                            .then((user) => {
-                                leaderboard.scores = leaderboard.scores.filter((x) => (user.friendIds.indexOf(x.userId) !== -1 || x.userId === user.id));
-                                return leaderboard;
-                            });
+            return Promise.all<any>([
+                LeaderboardsDb.getLeaderboardWithScores(data.id),
+                (data.userId && data.friendsOnly) ? UsersDb.getUserById(data.userId) : null
+            ])
+                .then((results) => {
+                    var leaderboard = LeaderboardsMapper.mapDbLeaderboardToLeaderboard(results[0]);
+                    if(results[1]) {
+                        var user = UsersMapper.mapDbUserToUser(results[1]);
+                        leaderboard.scores = leaderboard.scores.filter((x) => (user.friendIds.indexOf(x.userId) !== -1 || x.userId === user.id));
                     }
                     return leaderboard;
                 })
-                .then((leaderboard : Leaderboard) => {
+                .then((leaderboard) => {
                     if (data.maxResults) {
                         var begin, end;
                         if (data.showPlayer) {
@@ -115,6 +114,21 @@ module LeaderboardsController {
                     });
                     return { scores: leaderboards.scores };
                 });
+        }
+    }
+
+    export module Score {
+
+        export var PATH = 'leaderboard/score';
+
+        export interface Data {
+        }
+
+        export interface Return {
+        }
+
+        export function handler (data : Data) : Promise<Return> {
+            return Promise.reject(new Error('not yet implemented'));
         }
     }
 
@@ -143,12 +157,13 @@ module LeaderboardsController {
                             .then((score) => LeaderboardsDb.addScore(data.id, score));
                     }
                     var score = leaderboard.scores[index];
-                    if(data.score > score.value) {
+                    if (data.score > score.value) {
                         score.value = data.score;
                         return LeaderboardsDb.updateScores(data.id, LeaderboardsMapper.mapScoreToDbScore(score));
                     }
                 })
-                .then(() => {}); //hmmm... hack to return void
+                .then(() => {
+                }); //hmmm... hack to return void
         }
     }
 }
