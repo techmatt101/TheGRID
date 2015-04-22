@@ -3,11 +3,13 @@ var replace = require('gulp-replace');
 var shell = require('gulp-shell');
 var dts = require('dts-bundle');
 
-gulp.task('default', ['services']);
+var local = process.argv.indexOf('--local') !== -1;
 
-gulp.task('build', ['update-typings'], shell.task('tsc index.ts --outDir build/ --target ES5 --module commonjs --declaration'));
+var path = local ? '../' : '../../../';
 
-gulp.task('services', ['build'], function() {
+gulp.task('default', ['compile']);
+
+gulp.task('compile', ['build'],  function() {
     dts.bundle({
         name: 'services',
         main: 'build/index.d.ts',
@@ -20,9 +22,11 @@ gulp.task('services', ['build'], function() {
         .pipe(gulp.dest('build/'));
 });
 
+gulp.task('build', ['update-typings'],  shell.task('tsc index.ts --outDir build/ --target ES5 --module commonjs --declaration'));
+
 gulp.task('update-typings', ['master-control']);
 
-buildAppTypings('master-control', '../../../MasterControl-App/');
+buildAppTypings('master-control', path + 'MasterControl-App/');
 
 function buildAppTypings(appName, appPath) {
     gulp.task(appName + '-shell', shell.task(('(cd ' + appPath + ' && npm install)')));
