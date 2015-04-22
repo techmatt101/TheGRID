@@ -8,7 +8,7 @@ data.dbUser = {
     email: 'email',
     date_created: new Date(0),
     developer: false,
-    friends: ['42342', '753432']
+    friends: ['4w23h42k', '75ls43p2']
 };
 
 data.dbUserWithPassword = clone(data.dbUser);
@@ -22,7 +22,7 @@ data.mappedUser = {
     password: null,
     developer: false,
     dateCreated: new Date(0),
-    friendIds: ['42342', '753432']
+    friendIds: ['4w23h42k', '75ls43p2']
 };
 
 module.exports = data;

@@ -90,6 +90,18 @@ module GamesDbService {
             Model.update({ _id: id }, { $set: game })
         );
     }
+
+    export function addLeaderboard (id : string, leaderboardId : string) : Promise<IGameDoc> {
+        return DbHelpers.queryToPromise(
+            Model.update({ _id: id }, { $addToSet: { leaderboards: leaderboardId } })
+        );
+    }
+
+    export function removeLeaderboard (id : string, leaderboardId : string) : Promise<IGameDoc> {
+        return DbHelpers.queryToPromise(
+            Model.update({ _id: id }, { $pull: { leaderboards: leaderboardId } })
+        );
+    }
 }
 
 export = GamesDbService;
