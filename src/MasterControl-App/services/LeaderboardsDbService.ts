@@ -85,13 +85,13 @@ module LeaderboardsDbService {
 
     export function addScore (id : string, score : IScore) : Promise<ILeaderboardDoc[]> {
         return DbHelpers.queryToPromise(
-            Model.update({ _id: id }, { $push: { score: score } })
+            Model.update({ _id: id }, { $push: { scores: score } })
         );
     }
 
-    export function updateScores (id : string, score : IScore) : Promise<ILeaderboardDoc[]> {
+    export function updateScores (id : string, userId : string, value : number) : Promise<ILeaderboardDoc[]> {
         return DbHelpers.queryToPromise(
-            Model.update({ _id: id }, { $set: { score: score } })
+            Model.update({ _id: id, 'scores.user': userId }, { $set: { 'scores.$.value': value } })
         );
     }
 }

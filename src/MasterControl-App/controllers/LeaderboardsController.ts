@@ -2,10 +2,15 @@
 var polyfills = require('../helpers/polyfills');
 
 import LeaderboardsDb = require('../services/LeaderboardsDbService');
+import PlayerDataDb = require('../services/PlayerDataDbService');
 import UsersDb = require('../services/UsersDbService');
 import GamesDb = require('../services/GamesDbService');
+import Messages = require('../services/MessagesService');
 import LeaderboardsMapper = require('../mappers/LeaderboardsMapper');
 import UsersMapper = require('../mappers/UsersMapper');
+import GamesMapper = require('../mappers/GamesMapper');
+import PlayerDataMapper = require('../mappers/PlayerDataMapper');
+import ActivitiesController = require('./ActivitiesController');
 
 import Leaderboard = require('../models/Leaderboards/Leaderboard');
 import NewLeaderboard = require('../models/Leaderboards/NewLeaderboard');
@@ -86,7 +91,7 @@ module LeaderboardsController {
             ])
                 .then((results) => {
                     var leaderboard = LeaderboardsMapper.mapDbLeaderboardToLeaderboard(results[0]);
-                    if(results[1]) {
+                    if (results[1]) {
                         var user = UsersMapper.mapDbUserToUser(results[1]);
                         leaderboard.scores = leaderboard.scores.filter((x) => (user.friendIds.indexOf(x.userId) !== -1 || x.userId === user.id));
                     }
@@ -122,13 +127,26 @@ module LeaderboardsController {
         export var PATH = 'leaderboard/score';
 
         export interface Data {
+            id : string
+            userId : string
         }
 
         export interface Return {
+            score : number
+            dateAchieved : Date
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return Promise.reject(new Error('not yet implemented'));
+            return PlayerDataDb.getPlayerData(data.userId)
+                .then((playerData) => PlayerDataMapper.mapDbPlayerDataToPlayerData(playerData))
+                .then((playerData) => {
+                    var score = playerData.scores.find((x) => x.leaderboardId === data.id);
+                    if (typeof score === 'undefined') return Promise.reject(new Error('No score found for user in leaderboard'));
+                    return {
+                        score: score.value,
+                        dateAchieved: score.dateAchieved
+                    };
+                });
         }
     }
 
@@ -143,23 +161,44 @@ module LeaderboardsController {
         }
 
         export function handler (data : Data) : Promise<void> {
-            return LeaderboardsDb.getLeaderboardWithScores(data.id)
-                .then((leaderboard) => LeaderboardsMapper.mapDbLeaderboardToLeaderboard(leaderboard))
-                .then((leaderboard) => {
-                    var index = leaderboard.scores.findIndex((x) => x.userId === data.userId);
-                    if (index === -1) {
+            return PlayerDataDb.getPlayerData(data.userId)
+                .then((playerData) => PlayerDataMapper.mapDbPlayerDataToPlayerData(playerData))
+                .then((playerData) => {
+                    var index = playerData.scores.findIndex((x) => x.leaderboardId === data.id);
+                    var score = playerData.scores[index];
+                    if (typeof score === 'undefined') {
                         return UsersDb.getUserById(data.id)
                             .then((user) => UsersMapper.mapDbUserToUser(user))
-                            .then((user) => LeaderboardsMapper.mapNewScoreToDbScore({
-                                userId: data.userId,
-                                value: data.score
-                            }, user))
-                            .then((score) => LeaderboardsDb.addScore(data.id, score));
+                            .then((user) => Promise.all<any>([
+                                LeaderboardsDb.addScore(data.id, LeaderboardsMapper.mapNewScoreToDbScore({
+                                    userId: data.userId,
+                                    value: data.score
+                                }, user)),
+                                LeaderboardsDb.getLeaderboard(data.id)
+                                    .then((game) => Promise.all<any>([
+                                        PlayerDataDb.addScore(user.id, PlayerDataMapper.mapNewPlayerScoreToDbPlayerScore(game._id, data.id, data.score)),
+                                        GamesDb.getGame(game._id)
+                                            .then((game) => GamesMapper.mapDbGameToGame(game))
+                                            .then((game) => ActivitiesController.New.handler(Messages.Activities.firstScore(user, game, data.score)))
+                                    ]))
+                            ]));
                     }
-                    var score = leaderboard.scores[index];
                     if (data.score > score.value) {
-                        score.value = data.score;
-                        return LeaderboardsDb.updateScores(data.id, LeaderboardsMapper.mapScoreToDbScore(score));
+                        return Promise.all<any>([
+                            PlayerDataDb.updateScores(data.userId, data.id, data.score),
+                            LeaderboardsDb.updateScores(data.id, data.userId, data.score),
+                            Promise.all<any>([
+                                UsersDb.getUserById(data.id).then((user) => UsersMapper.mapDbUserToUser(user)),
+                                GamesDb.getGame(score.gameId).then((game) => GamesMapper.mapDbGameToGame(game))
+                            ]).then((results) => ActivitiesController.New.handler(Messages.Activities.beatScore(results[0], results[1], data.score, score.value)))
+                            //TODO: send out notifications out to friends!
+                            // - get friends
+                            // - get their scores
+                            // - filter to leaderboard
+                            // - compare scores with old score
+                            // - compare with new
+                            // - send notification
+                        ]);
                     }
                 })
                 .then(() => {

@@ -6,12 +6,16 @@ sinonPromise(sinon);
 var srcPath = '../../../../src/MasterControl-App/build/';
 
 var LeaderboardsController = require(srcPath + 'controllers/LeaderboardsController');
+var ActivitiesController = require(srcPath + 'controllers/ActivitiesController');
 var LeaderboardsDbService = require(srcPath + 'services/LeaderboardsDbService');
 var GamesDbService = require(srcPath + 'services/GamesDbService');
 var UsersDbService = require(srcPath + 'services/UsersDbService');
+var PlayerDataDbService = require(srcPath + 'services/PlayerDataDbService');
 
 var LeaderboardsMockData = require('../../mock-data/LeaderboardsMockData');
+var GamesMockData = require('../../mock-data/GamesMockData');
 var UsersMockData = require('../../mock-data/UsersMockData');
+var PlayerDataMockData = require('../../mock-data/PlayerDataMockData');
 
 
 describe('Leaderboards Controller', function() {
@@ -200,33 +204,97 @@ describe('Leaderboards Controller', function() {
         });
     });
 
-    describe('Submit score to leaderboard', function() {
-        var addScoreStub, updateScoresStub;
+    describe('Get users score', function() {
         before(function() {
-            sinon.stub(LeaderboardsDbService, 'getLeaderboardWithScores', sinon.promise().resolves(LeaderboardsMockData.dbLeaderboardWithScores));
-            addScoreStub = sinon.stub(LeaderboardsDbService, 'addScore', sinon.promise().resolves());
-            updateScoresStub = sinon.stub(LeaderboardsDbService, 'updateScores', sinon.promise().resolves());
-            sinon.stub(UsersDbService, 'getUserById', sinon.promise().resolves(UsersMockData.dbUser));
+            sinon.stub(PlayerDataDbService, 'getPlayerData', sinon.promise().resolves(PlayerDataMockData.dbPlayerData));
         });
 
         after(function() {
-            LeaderboardsDbService.getLeaderboardWithScores.restore();
+            PlayerDataDbService.getPlayerData.restore();
+        });
+
+        context('when user has score', function() {
+            var promise;
+            before(function() {
+                promise = LeaderboardsController.Score.handler({
+                    id: 'kj4h5k6',
+                    userId: 'j43dr33'
+                });
+            });
+
+            it("returns score", function() {
+                return promise.should.finally.have.properties(['dateAchieved', 'score']);
+            });
+        });
+
+        context('when user has no score', function() {
+            var promise;
+            before(function() {
+                promise = LeaderboardsController.Score.handler({
+                    id: '123',
+                    userId: 'j43dr33'
+                });
+            });
+
+            it("returns score", function() {
+                return promise.should.be.rejected;
+            });
+        });
+    });
+
+    describe('Submit score to leaderboard', function() {
+        var addLeaderboardScoreStub, addPlayerScoreStub, updateLeaderboardScoresStub, updatePlayerScoresStub, newActivityStub;
+        before(function() {
+            sinon.stub(LeaderboardsDbService, 'getLeaderboard', sinon.promise().resolves(LeaderboardsMockData.dbLeaderboard));
+            sinon.stub(GamesDbService, 'getGame', sinon.promise().resolves(GamesMockData.dbGame));
+            sinon.stub(UsersDbService, 'getUserById', sinon.promise().resolves(UsersMockData.dbUser));
+            sinon.stub(PlayerDataDbService, 'getPlayerData', sinon.promise().resolves(PlayerDataMockData.dbPlayerData));
+
+            addLeaderboardScoreStub = sinon.stub(LeaderboardsDbService, 'addScore', sinon.promise().resolves());
+            addPlayerScoreStub = sinon.stub(PlayerDataDbService, 'addScore', sinon.promise().resolves());
+            updateLeaderboardScoresStub = sinon.stub(LeaderboardsDbService, 'updateScores', sinon.promise().resolves());
+            updatePlayerScoresStub = sinon.stub(PlayerDataDbService, 'updateScores', sinon.promise().resolves());
+
+            newActivityStub = sinon.stub(ActivitiesController.New, 'handler', sinon.promise().resolves());
+        });
+
+        after(function() {
+            LeaderboardsDbService.getLeaderboard.restore();
+            GamesDbService.getGame.restore();
             UsersDbService.getUserById.restore();
+            PlayerDataDbService.getPlayerData.restore();
+
+            LeaderboardsDbService.addScore.restore();
+            PlayerDataDbService.addScore.restore();
+            LeaderboardsDbService.updateScores.restore();
+            PlayerDataDbService.updateScores.restore();
+
+            ActivitiesController.New.handler.restore();
         });
 
         context('when score is greater then previous', function() {
             var promise;
             before(function() {
-                updateScoresStub.reset();
+                updateLeaderboardScoresStub.reset();
+                updatePlayerScoresStub.reset();
+                newActivityStub.reset();
                 promise = LeaderboardsController.SubmitScore.handler({
-                    id: '123',
+                    id: 'l3l4j2',
                     userId: 'j43dr33',
                     score: 9001 //it's over 9000!!!
                 });
             });
 
-            it("updates score", function() {
-                updateScoresStub.called.should.be.true;
+            it("updates leaderboard score", function() {
+                updateLeaderboardScoresStub.called.should.be.true;
+            });
+
+            it("updates players data score", function() {
+                updatePlayerScoresStub.called.should.be.true;
+            });
+
+            it("creates a new activity", function() {
+                newActivityStub.called.should.be.true;
             });
 
             it("returns successful", function() {
@@ -237,16 +305,26 @@ describe('Leaderboards Controller', function() {
         context('when score is less than previous', function() {
             var promise;
             before(function() {
-                updateScoresStub.reset();
+                updateLeaderboardScoresStub.reset();
+                updatePlayerScoresStub.reset();
+                newActivityStub.reset();
                 promise = LeaderboardsController.SubmitScore.handler({
-                    id: '123',
+                    id: 'l3l4j2',
                     userId: 'j43dr33',
                     score: 3453
                 });
             });
 
-            it("doesn't updates score", function() {
-                updateScoresStub.called.should.be.true;
+            it("doesn't update leaderboard score", function() {
+                updateLeaderboardScoresStub.called.should.be.true;
+            });
+
+            it("doesn't update players data score", function() {
+                updatePlayerScoresStub.called.should.be.true;
+            });
+
+            it("doesn't create new activity", function() {
+                newActivityStub.called.should.be.true;
             });
 
             it("returns successful", function() {
@@ -257,16 +335,26 @@ describe('Leaderboards Controller', function() {
         context('when first time submitting score for user', function() {
             var promise;
             before(function() {
-                addScoreStub.reset();
+                addLeaderboardScoreStub.reset();
+                addPlayerScoreStub.reset();
+                newActivityStub.reset();
                 promise = LeaderboardsController.SubmitScore.handler({
-                    id: '123',
+                    id: 'l3j45k5',
                     userId: '6jk34h45',
                     score: 3453
                 });
             });
 
             it("adds score to leaderboard", function() {
-                addScoreStub.called.should.be.true;
+                addLeaderboardScoreStub.called.should.be.true;
+            });
+
+            it("adds score to player data", function() {
+                addPlayerScoreStub.called.should.be.true;
+            });
+
+            it("creates a new activity", function() {
+                newActivityStub.called.should.be.true;
             });
 
             it("returns successful", function() {

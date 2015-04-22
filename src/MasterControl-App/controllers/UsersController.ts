@@ -1,8 +1,10 @@
 import validator = require('validator');
 
 import UsersDb = require('../services/UsersDbService');
+import PlayerDataDb = require('../services/PlayerDataDbService');
 import AuthService = require('../services/AuthService');
 import UsersMapper = require('../mappers/UsersMapper');
+import PlayerDataMapper = require('../mappers/PlayerDataMapper');
 
 import NewUser = require('../models/Users/NewUser');
 import UpdateUser = require('../models/Users/UpdateUser');
@@ -143,7 +145,8 @@ module UsersController {
                 })
                 .then((data) => UsersMapper.mapNewUserToDbUser(data))
                 .then((data) => UsersDb.createUser(data))
-                .then((data) => data._id);
+                .then((user) => PlayerDataDb.newPlayerData(PlayerDataMapper.mapNewPlayerDataToDbPlayerData(user._id))
+                    .then(() => user._id))
         }
     }
 

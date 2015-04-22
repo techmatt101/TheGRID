@@ -9,6 +9,7 @@ var srcPath = '../../../../src/MasterControl-App/build/';
 
 var UsersController = require(srcPath + 'controllers/UsersController');
 var UsersDbService = require(srcPath + 'services/UsersDbService');
+var PlayerDataDbService = require(srcPath + 'services/PlayerDataDbService');
 
 var UsersMockData = require('../../mock-data/UsersMockData');
 
@@ -243,10 +244,11 @@ describe('Users Controller', function() {
 
     describe('Create new user', function() {
         context('when given new user info', function() {
-            var promise, stub;
+            var promise, userStub, playerStub;
 
             before(function() {
-                stub = sinon.stub(UsersDbService, 'createUser', sinon.promise().resolves(UsersMockData.dbUser));
+                userStub = sinon.stub(UsersDbService, 'createUser', sinon.promise().resolves(UsersMockData.dbUser));
+                playerStub = sinon.stub(PlayerDataDbService, 'newPlayerData', sinon.promise().resolves());
                 promise = UsersController.Create.handler({
                     username: 'username',
                     fullName: 'full_name',
@@ -258,6 +260,7 @@ describe('Users Controller', function() {
 
             after(function() {
                 UsersDbService.createUser.restore();
+                PlayerDataDbService.newPlayerData.restore();
             });
 
             it("returns success", function() {
@@ -265,11 +268,15 @@ describe('Users Controller', function() {
             });
 
             it("creates new user in database", function() {
-                stub.firstCall.args[0].should.have.properties(['username', 'full_name', 'email', 'developer', 'date_created', 'friends']);
+                userStub.firstCall.args[0].should.have.properties(['username', 'full_name', 'email', 'developer', 'date_created', 'friends']);
             });
 
             it("encrypts password before creating user", function() {
-                stub.firstCall.args[0].should.have.property('password').and.not.equal('password');
+                userStub.firstCall.args[0].should.have.property('password').and.not.equal('password');
+            });
+
+            it("creates new player data in database for user", function() {
+                playerStub.called.should.be.true;
             });
         });
     });

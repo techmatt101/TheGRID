@@ -33,15 +33,6 @@ module LeaderboardsMapper {
         };
     }
 
-    export function mapScoreToDbScore (score : Score) : LeaderboardsDb.IScore {
-        return {
-            user : score.userId,
-            username : score.username,
-            value : score.value,
-            date_achieved : score.dateAchieved
-        };
-    }
-
     export function mapNewScoreToDbScore (newScore : NewScore, user : User) : LeaderboardsDb.IScore {
         return {
             user : user.id,
