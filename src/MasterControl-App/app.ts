@@ -24,7 +24,7 @@ socketServer.on('connection', (socket) => {
     server.listen(new JsonSocket(socket));
     console.info("New Connection");
 });
-JsonSocket.prototype.send = JsonSocket.prototype.sendMessage; //TODO: Hack :/
+JsonSocket.prototype.send = JsonSocket.prototype.sendMessage; //TODO: remove work around hack :/
 
 function loadController (controller) {
     for (var key in controller) {
@@ -44,9 +44,14 @@ loadController(Users);
 export import UsersToken = require('./controllers/UsersTokenController');
 loadController(UsersToken);
 
-export import Leaderboards = require('./controllers/LeaderboardsController');
-loadController(Leaderboards);
-
 export import Games = require('./controllers/GamesController');
 loadController(Games);
 
+export import Leaderboards = require('./controllers/LeaderboardsController');
+loadController(Leaderboards);
+
+export import Activities = require('./controllers/ActivitiesController');
+loadController(Activities);
+
+export import Notifications = require('./controllers/NotificationsController');
+loadController(Notifications);
