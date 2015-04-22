@@ -31,7 +31,7 @@ module GamesDbService {
     }
 
     var autoPopulate = function(next) {
-        this.populate('users');
+        this.populate('developer');
         this.populate('leaderboards');
         next();
     };

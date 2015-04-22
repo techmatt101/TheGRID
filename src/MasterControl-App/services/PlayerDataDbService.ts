@@ -42,7 +42,7 @@ module PlayerDataDbService {
         }]
     });
 
-    var Model : mongoose.Model<IPlayerDataDoc> = mongoose.model<IPlayerDataDoc>('player_data', Schema);
+    var Model : mongoose.Model<IPlayerDataDoc> = mongoose.model<IPlayerDataDoc>('players', Schema);
 
 
     export function newPlayerData (newPlayerData : IPlayerData) : Promise<IPlayerDataDoc> {

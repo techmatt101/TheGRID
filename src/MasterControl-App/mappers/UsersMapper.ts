@@ -7,14 +7,14 @@ module UsersMapper {
 
     export function mapDbUserToUser (dbData : UsersDb.IUserDoc) : User {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             username: dbData.username,
             fullName: dbData.full_name,
             email: dbData.email,
             password: dbData.password || null,
             developer: dbData.developer,
             dateCreated: dbData.date_created,
-            friendIds: dbData.friends
+            friendIds: dbData.friends.map((friendId) => friendId.toString())
         };
     }
 

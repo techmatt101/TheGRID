@@ -14,24 +14,24 @@ module PlayerDataMapper {
 
     export function mapNewPlayerScoreToDbPlayerScore (gameId : string, leaderboardId : string, value : number) : PlayerDataDb.IPlayerScore {
         return {
-            gameId : gameId,
-            leaderboardId : leaderboardId,
+            game : gameId,
+            leaderboard : leaderboardId,
             value : value,
-            dateAchieved : new Date()
+            date_achieved : new Date()
         };
     }
 
     export function mapDbPlayerDataToPlayerData (dbData : PlayerDataDb.IPlayerDataDoc) : PlayerData {
         return {
-            gameIds: dbData.games,
+            gameIds: dbData.games.map((gameId) => gameId.toString()),
             scores: dbData.scores.map((score) => PlayerDataMapper.mapDbPlayerScoreToPlayerScore(score))
         };
     }
 
     export function mapDbPlayerScoreToPlayerScore (dbData : PlayerDataDb.IPlayerScoreDoc) : PlayerScore {
         return {
-            gameId: dbData.game,
-            leaderboardId : dbData.leaderboard,
+            gameId: dbData.game.toString(),
+            leaderboardId : dbData.leaderboard.toString(),
             value : dbData.value,
             dateAchieved : dbData.date_achieved
         };

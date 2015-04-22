@@ -9,7 +9,7 @@ module GamesMapper {
 
     export function mapDbGameToGame (dbData : GamesDb.IGameDoc) : Game {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             name: dbData.name,
             description: dbData.description,
             poster: dbData.poster,

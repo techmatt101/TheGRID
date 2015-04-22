@@ -39,7 +39,7 @@ module LeaderboardsDbService {
         scores: {
             select: false,
             type: [{
-                users: { type: ObjectId, ref: 'users' },
+                user: { type: ObjectId, ref: 'users' },
                 username: String,
                 value: Number,
                 date_achieved: Date

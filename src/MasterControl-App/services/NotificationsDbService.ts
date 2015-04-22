@@ -21,7 +21,7 @@ module NotificationsDbService {
     }
 
     var autoPopulate = function(next) {
-        this.populate('users');
+        this.populate('user');
         next();
     };
 

@@ -37,7 +37,7 @@ module ActivitiesDbService {
     }
 
     var autoPopulate = function(next) {
-        this.populate('users');
+        this.populate('user');
         next();
     };
 

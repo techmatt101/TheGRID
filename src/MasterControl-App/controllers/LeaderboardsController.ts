@@ -167,7 +167,7 @@ module LeaderboardsController {
                     var index = playerData.scores.findIndex((x) => x.leaderboardId === data.id);
                     var score = playerData.scores[index];
                     if (typeof score === 'undefined') {
-                        return UsersDb.getUserById(data.id)
+                        return UsersDb.getUserById(data.userId)
                             .then((user) => UsersMapper.mapDbUserToUser(user))
                             .then((user) => Promise.all<any>([
                                 LeaderboardsDb.addScore(data.id, LeaderboardsMapper.mapNewScoreToDbScore({
@@ -175,9 +175,10 @@ module LeaderboardsController {
                                     value: data.score
                                 }, user)),
                                 LeaderboardsDb.getLeaderboard(data.id)
-                                    .then((game) => Promise.all<any>([
-                                        PlayerDataDb.addScore(user.id, PlayerDataMapper.mapNewPlayerScoreToDbPlayerScore(game._id, data.id, data.score)),
-                                        GamesDb.getGame(game._id)
+                                    .then((leaderboard) => LeaderboardsMapper.mapDbLeaderboardToLeaderboard(leaderboard))
+                                    .then((leaderboard) => Promise.all<any>([
+                                        PlayerDataDb.addScore(user.id, PlayerDataMapper.mapNewPlayerScoreToDbPlayerScore(leaderboard.gameId, data.id, data.score)),
+                                        GamesDb.getGame(leaderboard.gameId)
                                             .then((game) => GamesMapper.mapDbGameToGame(game))
                                             .then((game) => ActivitiesController.New.handler(Messages.Activities.firstScore(user, game, data.score)))
                                     ]))
@@ -188,7 +189,7 @@ module LeaderboardsController {
                             PlayerDataDb.updateScores(data.userId, data.id, data.score),
                             LeaderboardsDb.updateScores(data.id, data.userId, data.score),
                             Promise.all<any>([
-                                UsersDb.getUserById(data.id).then((user) => UsersMapper.mapDbUserToUser(user)),
+                                UsersDb.getUserById(data.userId).then((user) => UsersMapper.mapDbUserToUser(user)),
                                 GamesDb.getGame(score.gameId).then((game) => GamesMapper.mapDbGameToGame(game))
                             ]).then((results) => ActivitiesController.New.handler(Messages.Activities.beatScore(results[0], results[1], data.score, score.value)))
                             //TODO: send out notifications out to friends!

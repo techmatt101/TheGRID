@@ -9,7 +9,7 @@ module ActivitiesMapper {
 
     export function mapDbActivityToActivity (dbData : ActivitiesDb.IActivityDoc) : Activity {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             user: UsersMapper.mapDbUserToUser(dbData.user),
             type: dbData.type,
             message: dbData.message,
@@ -32,7 +32,7 @@ module ActivitiesMapper {
 
     export function mapDbCommentToComment (dbData : ActivitiesDb.ICommentDoc) : ActivityComment {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             user: UsersMapper.mapDbUserToUser(dbData.user),
             message: dbData.message,
             dateCreated: dbData.date_created

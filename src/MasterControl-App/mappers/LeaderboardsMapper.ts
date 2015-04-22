@@ -9,9 +9,9 @@ module LeaderboardsMapper {
 
     export function mapDbLeaderboardToLeaderboard (dbData : LeaderboardsDb.ILeaderboardDoc) : Leaderboard {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             name: dbData.name,
-            gameId: dbData.game,
+            gameId: dbData.game.toString(),
             scores: (dbData.scores) ? dbData.scores.map((score) => LeaderboardsMapper.mapDbScoreToScore(score)) : null
         };
     }
@@ -26,7 +26,7 @@ module LeaderboardsMapper {
 
     export function mapDbScoreToScore (dbData : LeaderboardsDb.IScoreDoc) : Score {
         return {
-            userId : dbData.user,
+            userId : dbData.user.toString(),
             username : dbData.username,
             value : dbData.value,
             dateAchieved : dbData.date_achieved

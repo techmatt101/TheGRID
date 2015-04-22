@@ -6,7 +6,7 @@ module NotificationsMapper {
 
     export function mapDbNotificationToNotification (dbData : NotificationsDb.INotificationDoc) : Notification {
         return {
-            id: dbData._id,
+            id: dbData._id.toString(),
             type: dbData.type,
             message: dbData.message,
             dateCreated: dbData.date_created,
