@@ -6,6 +6,7 @@ import Hapi = require('hapi');
 import Boom = require('boom');
 import services = require('services');
 
+import UserController = require('./controllers/UserController');
 import LeaderboardController = require('./controllers/LeaderboardsController');
 
 asciify('Zuse', { font: 'smslant' }, (err, res) => console.log(res));
@@ -53,6 +54,7 @@ server.ext('onPreResponse', (request, reply) => {
 
 
 // Routes
+UserController(server, MasterControlService);
 LeaderboardController(server, MasterControlService);
 
 // 404
