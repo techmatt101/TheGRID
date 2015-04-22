@@ -1,17 +1,24 @@
 import MCRoutes = require('services/master-control');
 
 module LeaderboardMapper {
-    export function mapScoreList (mcData : MCRoutes.Leaderboards.Scores.Return) {
+    export function mapScores (mcData : MCRoutes.Leaderboards.Scores.Return) {
         return {
             scores: mcData.scores.map((score) => {
                 return {
-                    id: ~~(Math.random() * 1000),
-                    username: "tron" + ~~(Math.random() * 100),
-                    value: score.value,
-                    date_achieved: score.dateAchieved,
-                    position: 1
-                }
+                    user_id: score.userId,
+                    username: score.username,
+                    score: score.value,
+                    date_achieved: new Date(score.dateAchieved.toString()),
+                    position: score.position
+                };
             })
+        };
+    }
+
+    export function mapSingleScore (score : MCRoutes.Leaderboards.Score.Return) {
+        return {
+            score: score.score,
+            date_achieved: new Date(score.dateAchieved.toString()),
         };
     }
 }
