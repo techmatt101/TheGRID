@@ -18,7 +18,7 @@ module UsersMapper {
         };
     }
 
-    export function stripSensitiveData (user : User) : User { //TODO: hmmm... should this logic be moved to the database schema?
+    export function stripSensitiveData (user : User) : User {
         user.password = null;
         return user;
     }

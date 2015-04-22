@@ -32,7 +32,7 @@ module AuthTokenService {
     export function getToken<T> (tokenKey) : IToken<T> {
         var token = tokenTable[tokenKey];
         if(typeof token === 'undefined') return null;
-        if(token.created > Date.now()) return null;
+        if(token.created < Date.now()) return null;
         return token;
     }
 }

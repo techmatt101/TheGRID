@@ -28,8 +28,8 @@ module UsersDbService {
     }
 
     var Schema = new mongoose.Schema({
-        username: { type: String, unique: true },
-        email: { type: String, unique: true },
+        username: { type: String, unique: true, lowercase: true },
+        email: { type: String, unique: true, lowercase: true },
         password: { type: String, select: false },
         full_name: String,
         date_created: Date,
