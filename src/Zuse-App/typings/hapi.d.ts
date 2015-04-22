@@ -340,7 +340,7 @@ declare module Hapi {
             strategy: any;
         };
 
-        ext (event : any, method : string, options? : any) : void;
+        ext (event : any, method : any, options? : any) : void;
         method (method : Array<{name: string; fn: () => void; options: any}>) : void;
         method (name : string, fn : Function, options : any) : void;
         inject (options : any, callback : any) : void;

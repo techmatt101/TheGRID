@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "asciify": "^1.3.5",
-    "boom": "^2.6.1",
-    "config": "^1.10.0",
-    "good": "^5.1.1",
+    "boom": "^2.7.1",
+    "config": "^1.12.0",
+    "good": "^5.1.2",
     "good-console": "^4.1.0",
-    "hapi": "^8.1.0",
+    "hapi": "^8.4.0",
     "joi": "^5.1.0",
     "services": "file:..\\Services-Lib"
   }

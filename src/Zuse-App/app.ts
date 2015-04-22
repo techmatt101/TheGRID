@@ -38,6 +38,19 @@ server.start(() => {
     console.log('Server running at: ' + server.info.uri);
 });
 
+server.ext('onPreResponse', (request, reply) => {
+    var response = request.response;
+    if (response.isBoom) {
+        response.output.payload.success = false;
+    } else {
+        response.source = {
+            success: true,
+            response: response.source
+        };
+    }
+    return reply.continue();
+});
+
 
 // Routes
 LeaderboardController(server, MasterControlService);
