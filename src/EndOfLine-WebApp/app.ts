@@ -7,9 +7,12 @@ import Hapi = require('hapi');
 import Boom = require('boom');
 import services = require('services');
 
+var nunjucks = require('nunjucks-hapi');
+var good = require('good');
+var goodConsole = require('good-console');
+
 import GeneralController = require('./controllers/GeneralController');
 import AccountController = require('./controllers/AccountController');
-import DashboardController = require('./controllers/DashboardController');
 import GamesController = require('./controllers/GamesController');
 
 asciify('End Of Line', { font: 'smslant' }, (err, res) => console.log(res));
@@ -26,12 +29,11 @@ server.connection({
 });
 
 server.register([
-    require('hapi-named-routes'),
     {
-        register: require('good'),
+        register: good,
         options: {
             reporters: [{
-                reporter: require('good-console'),
+                reporter: goodConsole,
                 args: [{ log: '*', response: '*' }]
             }]
         }
@@ -42,16 +44,13 @@ server.register([
 });
 
 server.views({
-    engines: { hbs: require('handlebars') },
-    relativeTo: process.cwd(),
-    path: 'views',
-    partialsPath: 'views/partials'
+    engines: { html: nunjucks },
+    path: 'views'
 });
 
 // Controllers
 GeneralController(server);
 AccountController(server);
-DashboardController(server);
 GamesController(server, MasterControlService);
 
 // Content Resources

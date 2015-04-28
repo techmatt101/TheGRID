@@ -1,0 +1,18 @@
+<section class="section activity">
+    <i class="icon icon-profile"></i>
+    <h2>{{ activity.user.fullName }}</h2>
+    <p>{{ activity.dateCreated }}</p>
+    <p>{{ activity.message }}</p>
+    <p>{{ activity.likes }} UP's</p>
+
+    {%if credentials %}
+        <button class="btn"> +1 UP</button>
+        <button class="btn">comment</button>
+        <button class="btn">share</button>
+    {% endif %}
+
+    {% for comment in comments %}
+        <h3>{{ comment.user.fullName }}</h3>
+        <p>{{ comment.message }}</p>
+    {% endfor %}
+</section>

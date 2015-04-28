@@ -1,0 +1,28 @@
+{% extends './basic.html' %}
+
+{% block body %}
+    <div class="site">
+        <aside class="site__aside section">
+            {% include "../components/action-bar.html" %}
+        </aside>
+
+        <div class="site__content">
+            <header class="site__header" role="banner">
+                <a href="/">
+                    <img src="/images/the-grid-logo.svg" alt="The GRID" width="100%">
+                </a>
+                <h1>{% block title %}{% endblock %}</h1>
+                {% block header %}{% endblock %}
+            </header>
+
+            <main class="site__main" role="main">
+                {% block content %}{% endblock %}
+            </main>
+
+            <footer class="site__footer" role="contentinfo">
+                {% block footer %}{% endblock %}
+                <small>The GRID &copy All rights reserved.</small>
+            </footer>
+        </div>
+    </div>
+{% endblock %}

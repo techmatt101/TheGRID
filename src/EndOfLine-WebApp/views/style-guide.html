@@ -1,6 +1,9 @@
-{{> head}}
-{{> header}}
-<main>
+{% extends 'layouts/default.html' %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+
     <section class="section">
         <h1>Visual Style Guide</h1>
         <ol class="summary-header__anchor-list list-links">
@@ -199,6 +202,5 @@
     <section class="section" id="grid">
         <h2>Grid</h2>
     </section>
-</main>
-{{> footer}}
-{{> foot}}
+
+{% endblock %}

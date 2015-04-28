@@ -1,0 +1,69 @@
+<ul class="action-bar">
+    <li class="action-bar__group">
+        <ul>
+            <li class="action-bar__item">
+                <a href="{{ path.activity }}">
+                    <i class="icon icon-inbox"></i><span class="action-bar__item__label">Activity</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
+                <a href="{{ path.search }}">
+                    <i class="icon icon-search"></i><span class="action-bar__item__label">Search</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
+                <a href="{{ path.games }}">
+                    <i class="icon icon-play"></i><span class="action-bar__item__label">Arcade</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    {% if credentials.developer %}
+        <li class="action-bar__group">
+            <ul>
+                <li class="action-bar__item">
+                    <a href="{{ path.console }}">
+                        <i class="icon icon-cube"></i><span class="action-bar__item__label">Console</span>
+                    </a>
+                </li>
+                <li class="action-bar__item">
+                    <a href="{{ path.docs }}" target="_blank">
+                        <i class="icon icon-book"></i><span class="action-bar__item__label">Documentation</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <li class="action-bar__group">
+        <ul>
+            {% if credentials %}
+            <li class="action-bar__item">
+                <a href="{{ path.notifications }}">
+                    <i class="icon icon-chat"></i><span class="action-bar__item__label">Notifications</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
+                <a href="{{ path.profile }}">
+                    <i class="icon icon-profile"></i><span class="action-bar__item__label">Profile</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
+                <a href="{{ path.settings }}">
+                    <i class="icon icon-cog"></i><span class="action-bar__item__label">Settings</span>
+                </a>
+            </li>
+            {% else %}
+                <li class="action-bar__item">
+                    <a href="{{ path.login }}">
+                        <i class="icon icon-profile"></i><span class="action-bar__item__label">Sign in</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="action-bar__item">
+                <a href="{{ path.help }}">
+                    <i class="icon icon-help"></i><span class="action-bar__item__label">Help</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
