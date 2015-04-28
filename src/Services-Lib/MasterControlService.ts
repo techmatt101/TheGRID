@@ -73,8 +73,8 @@ class MasterControlService extends Service {
         return this._socket.send<MCRoutes.Games.List.Return>('game/list', data);
     }
 
-    searchGames (data : MCRoutes.Games.List.Data) {
-        return this._socket.send<MCRoutes.Games.List.Return>('game/search', data);
+    searchGames (data : MCRoutes.Games.Search.Data) {
+        return this._socket.send<MCRoutes.Games.Search.Return>('game/search', data);
     }
 
     createNewGame (data : MCRoutes.Games.Create.Data) {
@@ -153,11 +153,11 @@ class MasterControlService extends Service {
     //===================
 
     createNewNotification (data : MCRoutes.Notifications.New.Data) {
-        return this._socket.send<string>('leaderboard/info', data);
+        return this._socket.send<string>('notifications/new', data);
     }
 
     getNotifications (data : MCRoutes.Notifications.Get.Data) {
-        return this._socket.send<MCRoutes.Notifications.Get.Return>('Leaderboard/create', data);
+        return this._socket.send<MCRoutes.Notifications.Get.Return>('notifications/get', data);
     }
 }
 

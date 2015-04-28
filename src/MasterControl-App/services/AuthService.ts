@@ -2,7 +2,7 @@ import bcrypt = require('bcrypt');
 
 module AuthService {
 
-    export function encryptAccount(password : string) : Promise<string> {
+    export function encryptPassword(password : string) : Promise<string> {
         return new Promise((resolve, reject) => {
             bcrypt.genSalt(10, (err, salt) => {
                 if(err) return reject(err);

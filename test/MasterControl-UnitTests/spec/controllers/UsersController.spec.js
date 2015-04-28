@@ -23,13 +23,13 @@ describe('Users Controller', function() {
             getUserByUsernamePromise = sinon.promise();
             getUserByEmailPromise = sinon.promise();
 
-            sinon.stub(UsersDbService, 'getUserByUsername', getUserByUsernamePromise);
-            sinon.stub(UsersDbService, 'getUserByEmail', getUserByEmailPromise);
+            sinon.stub(UsersDbService, 'getUseByUsername', getUserByUsernamePromise);
+            sinon.stub(UsersDbService, 'getUseByEmail', getUserByEmailPromise);
         });
 
         after(function() {
-            UsersDbService.getUserByUsername.restore();
-            UsersDbService.getUserByEmail.restore();
+            UsersDbService.getUseByUsername.restore();
+            UsersDbService.getUseByEmail.restore();
         });
 
         context('when given a unique username and email', function() {
@@ -105,12 +105,12 @@ describe('Users Controller', function() {
             getUserByUsernamePromise = sinon.promise();
             getUserByEmailPromise = sinon.promise();
 
-            sinon.stub(UsersDbService, 'getUserByUsername', getUserByUsernamePromise);
-            sinon.stub(UsersDbService, 'getUserByEmail', getUserByEmailPromise);
+            sinon.stub(UsersDbService, 'getUseByUsername', getUserByUsernamePromise);
+            sinon.stub(UsersDbService, 'getUseByEmail', getUserByEmailPromise);
         });
 
         after(function() {
-            UsersDbService.getUserByUsername.restore();
+            UsersDbService.getUseByUsername.restore();
         });
 
         context('when given correct username and password', function() {

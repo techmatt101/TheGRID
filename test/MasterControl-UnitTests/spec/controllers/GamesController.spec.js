@@ -37,7 +37,7 @@ describe('Games Controller', function() {
         context('when given game ids', function() {
             var promise, stub;
             before(function() {
-                stub = sinon.stub(GamesDbService, 'getGames', sinon.promise().resolves([
+                stub = sinon.stub(GamesDbService, 'getGamesByDeveloper', sinon.promise().resolves([
                     GamesMockData.dbGame, GamesMockData.dbGame, GamesMockData.dbGame
                 ]));
                 promise = GamesController.List.handler({
@@ -46,7 +46,7 @@ describe('Games Controller', function() {
             });
 
             after(function() {
-                GamesDbService.getGames.restore();
+                GamesDbService.getGamesByDeveloper.restore();
             });
 
             it("returns list of 3 games", function() {

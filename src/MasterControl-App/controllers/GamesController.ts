@@ -31,7 +31,7 @@ module GamesController {
         export var PATH = 'game/list';
 
         export interface Data {
-            ids : string[]
+            userId : string
         }
 
         export interface Return {
@@ -39,7 +39,7 @@ module GamesController {
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return GamesDb.getGames(data.ids)
+            return GamesDb.getGamesByDeveloper(data.userId)
                 .then((games) => games.map((game) => GamesMapper.mapDbGameToGame(game)))
                 .then((games) => {
                     return { games: games };
@@ -54,6 +54,7 @@ module GamesController {
         export interface Data {
             search : string
             maxResults? : number
+            categories? : number[] //TODO: support category filtering
         }
 
         export interface Return {

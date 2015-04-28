@@ -66,21 +66,21 @@ module UsersDbService {
         );
     }
 
-    export function getUserById (id : string) : Promise<IUserDoc> {
-        return DbHelpers.queryToPromise(
-            Model.findOne({ _id: id })
-        );
-    }
-
-    export function getUserByUsername (username : string, includePassword = false) : Promise<IUserDoc> {
-        var query = Model.findOne({ username: username.toLowerCase() });
-        if(includePassword) query.select('password');
+    export function getUserById (id : string, includePassword = false) : Promise<IUserDoc> {
+        var query = Model.findOne({ _id: id });
+        if(includePassword) query.select('+password');
         return DbHelpers.queryToPromise(query);
     }
 
-    export function getUserByEmail (email : string, includePassword = false) : Promise<IUserDoc> {
+    export function getUseByUsername (username : string, includePassword = false) : Promise<IUserDoc> {
+        var query = Model.findOne({ username: username.toLowerCase() });
+        if(includePassword) query.select('+password');
+        return DbHelpers.queryToPromise(query);
+    }
+
+    export function getUseByEmail (email : string, includePassword = false) : Promise<IUserDoc> {
         var query = Model.findOne({ email: email.toLowerCase() });
-        if(includePassword) query.select('password');
+        if(includePassword) query.select('+password');
         return DbHelpers.queryToPromise(query);
     }
 

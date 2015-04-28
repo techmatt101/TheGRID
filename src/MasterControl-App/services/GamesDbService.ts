@@ -73,9 +73,9 @@ module GamesDbService {
         );
     }
 
-    export function getGames (ids : string[]) : Promise<IGameDoc[]> {
+    export function getGamesByDeveloper (developerId : string) : Promise<IGameDoc[]> {
         return DbHelpers.queryToPromise(
-            Model.find({ _id: { $in: ids } })
+            Model.find({ developer: developerId })
         );
     }
 

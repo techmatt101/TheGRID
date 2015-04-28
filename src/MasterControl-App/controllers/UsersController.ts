@@ -29,8 +29,8 @@ module UsersController {
 
         export function handler (data : Data) : Promise<Return> {
             return Promise.all([
-                (data.username) ? UsersDb.getUserByUsername(data.username) : null,
-                (data.email) ? UsersDb.getUserByEmail(data.email) : null
+                (data.username) ? UsersDb.getUseByUsername(data.username) : null,
+                (data.email) ? UsersDb.getUseByEmail(data.email) : null
             ])
                 .then((results) => {
                     var available = true;
@@ -62,11 +62,13 @@ module UsersController {
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return (validator.isEmail(data.username) ? UsersDb.getUserByEmail(data.username, true) : UsersDb.getUserByUsername(data.username, true))
+            return (validator.isEmail(data.username) ? UsersDb.getUseByEmail(data.username, true) : UsersDb.getUseByUsername(data.username, true))
                 .then((userData) => UsersMapper.mapDbUserToUser(userData))
-                .then((user) => AuthService.testPassword(user.password, data.password)
-                    .then((result) => (result) ? Promise.resolve(user) : Promise.reject('Incorrect password')))
-                .then((user) => UsersMapper.stripSensitiveData(user));
+                .then((user) => {
+                    return AuthService.testPassword(user.password, data.password)
+                        .then((result) => (result) ? Promise.resolve(user) : Promise.reject('Incorrect password'))
+                })
+                .then((user : User) => UsersMapper.stripSensitiveData(user));
         }
     }
 
@@ -75,14 +77,15 @@ module UsersController {
         export var PATH = 'user/info';
 
         export interface Data {
-            id : string
+            id? : string
+            username? : string
         }
 
         export interface Return extends User {
         }
 
         export function handler (data : Data) : Promise<Return> {
-            return UsersDb.getUserById(data.id)
+            return (data.id ? UsersDb.getUserById(data.id) : UsersDb.getUseByUsername(data.username))
                 .then((user) => UsersMapper.mapDbUserToUser(user));
         }
     }
@@ -138,7 +141,7 @@ module UsersController {
         }
 
         export function handler (data : Data) : Promise<string> {
-            return AuthService.encryptAccount(data.password)
+            return AuthService.encryptPassword(data.password)
                 .then((hashedPassword) => {
                     data.password = hashedPassword;
                     return data;
@@ -163,7 +166,7 @@ module UsersController {
             return Promise.resolve(data.updatedData)
                 .then((updatedData) => {
                     if (updatedData.password) {
-                        return AuthService.encryptAccount(updatedData.password)
+                        return AuthService.encryptPassword(updatedData.password)
                             .then((hashedPassword) => {
                                 updatedData.password = hashedPassword;
                                 return updatedData;
