@@ -152,12 +152,12 @@ describe('Leaderboards Controller', function() {
             });
         });
 
-        context('when given id and maxResults of 3', function() {
+        context('when per page of 3', function() {
             var promise;
             before(function() {
                 promise = LeaderboardsController.Scores.handler({
                     id: '3453',
-                    maxResults: 3
+                    perPage: 3
                 });
             });
 
@@ -166,28 +166,28 @@ describe('Leaderboards Controller', function() {
             });
         });
 
-        context('when given id and maxResults of 4 and start of 1', function() {
+        context('when per page of 2 and page of 1', function() {
             var promise;
             before(function() {
                 promise = LeaderboardsController.Scores.handler({
                     id: '3453',
-                    maxResults: 4,
-                    start: 1
+                    perPage: 2,
+                    page: 1
                 });
             });
 
-            it("returns list of 4 scores", function() {
-                return promise.should.finally.have.property('scores').and.have.lengthOf(4);
+            it("returns list of 2 scores", function() {
+                return promise.should.finally.have.property('scores').and.have.lengthOf(2);
             });
         });
 
-        context('when given id and maxResults of 3 and start of 6', function() {
+        context('when per page of 3 and page of 2', function() {
             var promise;
             before(function() {
                 promise = LeaderboardsController.Scores.handler({
                     id: '3453',
-                    maxResults: 3,
-                    start: 6
+                    perPage: 3,
+                    page: 2
                 });
             });
 
@@ -196,7 +196,7 @@ describe('Leaderboards Controller', function() {
             });
         });
 
-        context('when given id and userId and friendsOnly', function() {
+        context('when friends only', function() {
             var promise;
             before(function() {
                 promise = LeaderboardsController.Scores.handler({
@@ -225,14 +225,14 @@ describe('Leaderboards Controller', function() {
             });
         });
 
-        context('when given id and userId and showPlayer and maxResults 5', function() {
+        context('when friends only with 5 per page', function() {
             var promise;
             before(function() {
                 promise = LeaderboardsController.Scores.handler({
                     id: '3453',
                     userId: '34jhb234',
                     showPlayer: true,
-                    maxResults: 5
+                    perPage: 5
                 });
             });
 
