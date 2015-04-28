@@ -12,7 +12,7 @@ gulp.task('default', ['clean'], function() {
     gulp.start('build');
 });
 
-gulp.task('clean', del.bind(null, ['content/**/*', 'build/**/*']));
+gulp.task('clean', del.bind(null, ['content/**/*']));
 
 gulp.task('build', ['styles', 'scripts', 'bowerScripts', 'images', 'fonts', 'other'], function() {
     if (isProduction) {
@@ -28,6 +28,7 @@ gulp.task('size', function() {
 gulp.task('watch', ['build'], function() {
     gulp.watch('styles/**/*.less', ['styles']);
     gulp.watch('scripts/**/*.ts', ['scripts']);
+    $.util.log(chalk.blue("Now watching project"))
 });
 
 //===================================================//

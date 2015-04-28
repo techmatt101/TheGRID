@@ -1,0 +1,29 @@
+@import (once) '../base/variables';
+
+.input-style() {
+    display: block;
+    margin: 0.5em 0 0.7em;
+    padding: 0.4em 0.6em;
+    border: 2px solid @grey;
+
+    font-size: 1em;
+    color: @white;
+    outline: none;
+    transition: 150ms border;
+    background-color: @black;
+    width: 100%;
+
+    &:focus {
+        border-color: @brand-primary;
+    }
+}
+
+.form {
+    &__input {
+        .input-style();
+    }
+
+    &__select {
+        .input-style();
+    }
+}

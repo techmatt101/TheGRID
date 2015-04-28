@@ -2,71 +2,14 @@
 
 @import "base/base";
 @import "base/fonts";
-@import "base/form";
 @import "base/layout";
 @import "base/animations";
 
+@import "components/sections";
+@import "components/form";
 @import "components/buttons";
 @import "components/loader";
 @import "components/action-bar";
+@import "components/site";
 
 @import "helpers/unstyle";
-
-
-//HACKS BELOW //TODO: clean up
-
-html, body, .flex { //TODO: hmmm...
-    height: 100%;
-}
-
-aside {
-    flex: 0 0 80px;
-    margin: @global-margin;
-}
-
-h1 {
-    color: @brand-highlight;
-    font-family: @font-family--marker;
-    text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight;
-}
-
-h2 {
-    color: @brand-highlight--light;
-    text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight--light;
-}
-
-section {
-    padding: @global-padding;
-    margin: @global-margin-y 0;
-}
-
-main {
-    padding-right: @global-margin-x;
-    overflow-y: scroll;
-}
-
-
-.section {
-    background: fade(@body-bg--tint, 50%);
-    box-shadow: 0 0 5px #000, 0 0 10px fade(@brand-primary--light, 30%);
-    border-width: 10px;
-    border-image: 34% repeat repeat url('/images/border.png');
-}
-
-.banner {
-    background-image: url("/images/bg.jpg");
-    background-position: center;
-    background-size: cover;
-    background-clip: padding-box;
-    height: 40vh;
-    text-align: center;
-
-    &__logo {
-        height: 50%;
-        max-width: 90%;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-        animation: zoom 0.7s ease-out;
-    }
-}

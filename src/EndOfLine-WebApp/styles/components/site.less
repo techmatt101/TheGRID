@@ -1,0 +1,56 @@
+@import (once) '../base/variables';
+@import (once) '../helpers/media-queries';
+
+.site {
+    display: flex;
+    height: 100%;
+
+    .responsive(@screen-m, {
+        padding: @global-padding;
+    });
+
+    &__header {
+        img {
+            display: block;
+            margin: 0 auto;
+            max-height: 15vh
+        }
+
+        h1 {
+            margin: -5vh 0 0;
+            text-align: center;
+            font-size: 5vh;
+        }
+    }
+
+    &__aside {
+        flex: 0 0 80px;
+        overflow-y: scroll;
+        height: 94%;
+        padding: 0;
+        margin: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        display: none;
+
+        .responsive(@screen-m, {
+            display: block;
+        });
+    }
+
+    &__content {
+        padding: 0 @global-margin-x;
+        overflow-y: scroll;
+        flex-grow: 1;
+    }
+
+    &__main {
+    }
+
+    &__footer {
+
+    }
+}

@@ -37,14 +37,14 @@
 @body-bg--tint: #0f1c34;
 @text-color: #89ebff;
 
-// Style =============================== //
+// Typography =============================== //
 @font-family: @font-family--mono;
 @font-family--plain: 'Roboto', 'Open Sans', sans-serif;
 @font-family--mono: 'Courier New', monospace;
 @font-family--outline: 'spyagency', 'Courier New', monospace;
 @font-family--marker: 'permanent-marker', @font-family--outline;
 
-@font-size: 18px;
+@font-size: 16px;
 @font-size--large: ceil((@font-size * 1.25));
 @font-size--small: ceil((@font-size * 0.85));
 
@@ -54,14 +54,34 @@
 @average-screen-width: 1366px;
 @average-screen-height: 768px;
 
-@global-margin-x: 2.5vw;
-@global-margin-y: 5vh;
+@global-margin-x: 3%;
+@global-margin-y: 3%;
 @global-margin: @global-margin-y @global-margin-x;
 
-@global-padding-x: 2.5vw;
-@global-padding-y: 2vh;
+@global-margin--small-x: 1.5%;
+@global-margin--small-y: 1.5%;
+@global-margin--small: @global-margin--small-y @global-margin--small-x;
+
+@global-padding-x: 4%;
+@global-padding-y: 2%;
 @global-padding: @global-padding-y @global-padding-x;
 
+@global-padding--small-x: 1.5%;
+@global-padding--small-y: 1%;
+@global-padding--small: @global-padding--small-y @global-padding--small-x;
+
+// Media query breakpoints
+@screen-xs: 20em;
+@screen-s: 30em;
+@screen-m: 50em;
+@screen-l: 70em;
+@screen-xl: 100em;
+
+// Style =============================== //
+
 @border: 2px solid @brand-primary;
-@border-radius: 3px;
-@box-shadow: 3px 3px 0 @brand-primary--dark;
+
+.border() {
+    border: 10px;
+    border-image: 34% repeat repeat url('/images/border.png');
+}

@@ -1,0 +1,10 @@
+@import (once) '../base/variables';
+
+.section {
+    background: fade(@body-bg--tint, 50%);
+    box-shadow: 0 0 5px #000, 0 0 10px fade(@brand-primary--light, 30%);
+    .border();
+
+    padding: @global-padding;
+    margin: @global-margin-y 0;
+}

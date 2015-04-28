@@ -24,10 +24,8 @@
 
         &-track {
             background: fade(@body-bg--tint, 50%);
-            border-radius: @border-radius;
             box-shadow: 0 0 5px #000, 0 0 10px fade(@brand-primary--light, 30%);
-            border-width: 10px;
-            border-image: 34% repeat repeat url('/images/border.png');
+            .border();
         }
 
         &-thumb {
@@ -42,12 +40,19 @@
     }
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
-    background: url("/images/bg-grid.png") center, url("/images/stars.png") fixed, linear-gradient(to bottom, #05030d 0%, #340d47 100%) @body-bg fixed;;
+    background: url("/images/bg-grid.png") center fixed, url("/images/stars.png") fixed, linear-gradient(to bottom, #05030d 0%, #340d47 100%) @body-bg fixed;;
     color: @text-color;
     font-family: @font-family;
     font-size: @font-size;
-    padding: @global-padding;
+
+    @media only screen and (min-width: @screen-m) {
+        font-size: @font-size + 2px;
+    }
 }
 
 a {
@@ -72,11 +77,15 @@ h1, h2, h3, h4 {
 
 h1 {
     font-size: 3em;
+    color: @brand-highlight;
     font-family: @font-family--marker;
+    text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight;
 }
 
 h2 {
     font-size: 2.2em;
+    color: @brand-highlight--light;
+    text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight--light;
 }
 
 h3 {

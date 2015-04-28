@@ -2,10 +2,14 @@
 @import (once) "../helpers/unstyle";
 
 .action-bar {
-    .unstyle-list();
-
     display: flex;
     flex-direction: column;
+    min-height: 100%;
+    .unstyle-list();
+
+    ul {
+        .unstyle-list();
+    }
 
     .icon-inbox {
         color: @brand-highlight;
@@ -15,14 +19,18 @@
         color: #FFD500;
     }
 
-    .spacer {
-        flex: 0 0 75px; //TOD: hack
+    &__group {
+        flex-grow: 1;
+
+        &:last-child {
+            flex-grow: 0;
+        }
     }
 
     &__item {
         text-align: center;
 
-        i {
+        .icon {
             font-size: 36px;
             text-shadow: -2px 3px 3px #000;
         }
@@ -31,18 +39,18 @@
             padding: 15px 0;
             display: inline-block;
 
+            &:focus,
             &:hover {
                 background: none;
                 text-decoration: none;
 
-                i {
+                .icon {
                     color: @brand-highlight--light;
                     text-shadow: -2px 3px 3px #000, 0 0 10px @brand-highlight--light;
                 }
 
-                span {
-                    animation: 0.3s ease-out slide-in 0.5s;
-                    animation-fill-mode: forwards;
+                .action-bar__item__label {
+                    display: inline-block;
                 }
             }
         }
@@ -53,9 +61,13 @@
             background: @brand-highlight;
             color: #fff;
             padding: 5px 10px;
-            margin: 0 5px;
+            margin-left: 20px;
+            display: none;
+            animation: 0.3s ease-out slide-in 0.2s;
+            animation-fill-mode: forwards;
+            z-index: 1000;
 
-            &:after { //TODO: polish
+            &:after {
                 right: 100%;
                 top: 50%;
                 border: solid transparent;
@@ -64,7 +76,6 @@
                 width: 0;
                 position: absolute;
                 pointer-events: none;
-                border-color: rgba(136, 183, 213, 0);
                 border-right-color: @brand-highlight;
                 border-width: 10px;
                 margin-top: -10px;

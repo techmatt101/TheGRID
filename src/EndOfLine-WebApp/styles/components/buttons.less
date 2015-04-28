@@ -19,6 +19,7 @@
     margin: 0.5em auto;
     padding: 0.5em 1em;
     max-width: 100%;
+    border: none;
 
     background: @brand-primary;
     box-shadow: none;
@@ -31,6 +32,10 @@
     text-decoration: none;
     text-transform: uppercase;
     transition: background 100ms ease-out, box-shadow 150ms ease-out;
+
+    &:before {
+        content: '> ';
+    }
 
     &:hover,
     &:focus, {
