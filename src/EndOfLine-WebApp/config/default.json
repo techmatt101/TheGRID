@@ -1,10 +1,15 @@
 {
   "Server": {
     "port": 80,
-    "host": "127.0.0.1"
+    "host": "127.0.0.1",
+    "domain": "127.0.0.1"
   },
   "MasterControlService": {
     "port": 9838,
     "host": "127.0.0.1"
+  },
+  "Auth": {
+    "allowInsecureCookies": true,
+    "salt": "21f405b39769cce8"
   }
 }

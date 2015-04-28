@@ -10,10 +10,15 @@ import services = require('services');
 var nunjucks = require('nunjucks-hapi');
 var good = require('good');
 var goodConsole = require('good-console');
+var hapiAuthCookie = require('hapi-auth-cookie');
+var hapiNamedRoutes = require('hapi-named-routes');
+var hapiContextCredentials = require('hapi-context-credentials');
 
 import GeneralController = require('./controllers/GeneralController');
 import AccountController = require('./controllers/AccountController');
 import GamesController = require('./controllers/GamesController');
+import ActivityController = require('./controllers/ActivityController');
+import DeveloperConsoleController = require('./controllers/DeveloperConsoleController');
 
 asciify('End Of Line', { font: 'smslant' }, (err, res) => console.log(res));
 
@@ -29,6 +34,9 @@ server.connection({
 });
 
 server.register([
+    hapiAuthCookie,
+    hapiNamedRoutes,
+    hapiContextCredentials,
     {
         register: good,
         options: {
@@ -43,6 +51,14 @@ server.register([
     server.start(() => console.log('Server running at: ' + server.info.uri));
 });
 
+server.auth.strategy('session', 'cookie', {
+    password: config.get('Auth.salt'),
+    cookie: 'anon',
+    redirectTo: '/login',
+    domain: config.get('Server.domain'),
+    isSecure: !config.get('Auth.allowInsecureCookies'),
+});
+
 server.views({
     engines: { html: nunjucks },
     path: 'views'
@@ -50,8 +66,10 @@ server.views({
 
 // Controllers
 GeneralController(server);
-AccountController(server);
+AccountController(server, MasterControlService);
 GamesController(server, MasterControlService);
+ActivityController(server, MasterControlService);
+DeveloperConsoleController(server, MasterControlService);
 
 // Content Resources
 server.route({

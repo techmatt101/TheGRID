@@ -1,0 +1,16 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    <p>Profile</p>
+    <p>Highscores...</p>
+
+    <button class="btn">Add Friend</button>
+
+    {% for activity in activities %}
+        {% include 'components/activity.html' %}
+    {% endfor %}
+
+{% endblock %}

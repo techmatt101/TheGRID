@@ -1,0 +1,29 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}Arcade{% endblock %}
+
+{% block head %}
+    <link href="/styles/games.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    <!--<form class="form">-->
+        <!--<input type="search" placeholder="Search games_" class="form__input">-->
+        <!--<button class="btn icon icon-search"></button>-->
+    <!--</form>-->
+
+    <ul class="games">
+        {% for game in games %}
+        <li class="section games__block" style="background-image: url('{{ game.poster }}')">
+            <a href="/games/{{ game.id }}">
+                <div class="games__block__caption">
+                    <h2 class="games__block__title">{{ game.name }}</h2>
+                    <p class="games__block__info">by {{ game.developer.fullName }}</p>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

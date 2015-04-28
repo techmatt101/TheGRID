@@ -1,0 +1,16 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}New Leaderboard{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <form class="form">
+            <label for="name" class="form__label">Name</label>
+            <input type="text" id="name" name="name" class="form__input">
+
+            <input type="submit" value="Save" class="btn">
+        </form>
+    </section>
+
+{% endblock %}

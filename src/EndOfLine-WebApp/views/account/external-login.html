@@ -1,0 +1,20 @@
+{% extends 'layouts/basic.html' %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block body %}
+
+    <h1>Sign in</h1>
+    <form action="/game-login" method="post" class="form section">
+        <input type="hidden" name="token" value="{{token}}">
+
+        <label for="username" class="form__label">Username</label>
+        <input type="text" id="username" name="username" class="form__input">
+
+        <label for="password" class="form__label">Password</label>
+        <input type="password" id="password" name="password" class="form__input">
+
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+{% endblock %}

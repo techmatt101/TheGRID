@@ -1,0 +1,17 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block head %}
+<link href="/styles/activity.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    {% for notification in notifications %}
+    <section class="section">
+        <p>{{ notification.message }}</p>
+    </section>
+    {% endfor %}
+
+{% endblock %}

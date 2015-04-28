@@ -1,0 +1,15 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}Activity{% endblock %}
+
+{% block head %}
+<link href="/styles/activity.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    {% for activity in activities %}
+        {% include 'components/activity.html' %}
+    {% endfor %}
+
+{% endblock %}

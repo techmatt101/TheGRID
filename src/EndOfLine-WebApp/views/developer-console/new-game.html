@@ -1,0 +1,31 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}New Game{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <form class="form">
+            <label for="name" class="form__label">Name</label>
+            <input type="text" id="name" name="name" class="form__input">
+
+            <label for="publish"  class="form__label">Publish</label>
+            <input type="checkbox" id="publish" name="publish" class="form__input">
+
+            <label for="description"  class="form__label">Description</label>
+            <textarea id="description" name="description" class="form__input"></textarea>
+
+            <label for="url"  class="form__label">Url</label>
+            <input type="url" id="url" name="url" class="form__input">
+
+            <label for="poster"  class="form__label">Poster</label>
+            <input type="text" id="poster" name="poster" class="form__input">
+
+            <label for="categories"  class="form__label">Categories</label>
+            <select id="categories" name="categories" class="form__select"></select>
+
+            <input type="submit" value="Save" class="btn">
+        </form>
+    </section>
+
+{% endblock %}

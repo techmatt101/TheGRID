@@ -1,0 +1,26 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}Console{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <ul>
+        {% for game in games %}
+            <li>
+                <a href="/console/games/{{ game.id }}">{{ game.name }}</a>
+                <ul>
+                    {% for leaderboard in game.leaderboards %}
+                        <li>
+                            <a href="/console/leaderboards/{{ leaderboard.id }}">{{ leaderboard.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="/console/leaderboard/new?gameId={{ game.id }}" class="btn">New Leaderboard</a>
+            </li>
+        {% endfor %}
+        </ul>
+        <a href="/console/games/new" class="btn">New Game</a>
+    </section>
+
+{% endblock %}

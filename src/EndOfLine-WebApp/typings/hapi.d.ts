@@ -156,7 +156,7 @@ declare module Hapi {
 //		vhost?: Array<string>;
         vhost?: any;
 //		handler: string;
-        handler: (request : Request, reply : any) => void;
+        handler: (request : Request, reply : Hapi.Reply) => void;
         config?: {
             handler?: any;
             bind?: any;
@@ -340,7 +340,7 @@ declare module Hapi {
             strategy: any;
         };
 
-        ext (event : any, method : string, options? : any) : void;
+        ext (event : any, method : any, options? : any) : void;
         method (method : Array<{name: string; fn: () => void; options: any}>) : void;
         method (name : string, fn : Function, options : any) : void;
         inject (options : any, callback : any) : void;
@@ -458,21 +458,21 @@ declare module Hapi {
     //}
 
     export interface Reply {
-        constructor(data : any);
-        file (path : string, options : {
+        (data : any)
+        file (path : string, options? : {
             filePath: string;
             options: {
                 filename: string;
                 mode: string
             }
-        }) : void;
+        }) : void
 
-        view (template : string, context? : any, options? : any) : Response;
-        close (options? : any) : void;
-        proxy (options : any) : void;
-        redirect (uri : string) : void;
-        continue (data : any) : void;
-        success () : void;
+        view (template : string, context? : any, options? : any) : Response
+        close (options? : any) : void
+        proxy (options : any) : void
+        redirect (uri : string) : void
+        continue (data : any) : void
+        success () : void
     }
 
     export function createServer (host : string, port : number, options? : ServerOptions) : Server;

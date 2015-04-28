@@ -1,0 +1,29 @@
+{% extends 'layouts/default.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+    <link href="/styles/games.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<div class="game">
+    <section class="section game__header" style="background-image: url('{{ game.poster }}')">
+        <a href="{{ game.url }}" class="btn game__play">Play</a>
+    </section>
+
+    <article class="section game__description">
+        <h2>Description</h2>
+        <p>{{ game.description }}</p>
+    </article>
+
+    <section class="section game__leaderboards">
+        <h2>Leaderboards</h2>
+        {% for leaderboard in game.leaderboards %}
+        <p>{{ leaderboard.name }}</p>
+        {% endfor %}
+    </section>
+</div>
+
+{% endblock %}
