@@ -19,20 +19,20 @@
         </ul>
     </li>
     {% if credentials.developer %}
-        <li class="action-bar__group">
-            <ul>
-                <li class="action-bar__item">
-                    <a href="{{ path.console }}">
-                        <i class="icon icon-cube"></i><span class="action-bar__item__label">Console</span>
-                    </a>
-                </li>
-                <li class="action-bar__item">
-                    <a href="{{ path.docs }}" target="_blank">
-                        <i class="icon icon-book"></i><span class="action-bar__item__label">Documentation</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+    <li class="action-bar__group">
+        <ul>
+            <li class="action-bar__item">
+                <a href="{{ path.console }}">
+                    <i class="icon icon-cube"></i><span class="action-bar__item__label">Console</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
+                <a href="{{ path.docs }}" target="_blank">
+                    <i class="icon icon-book"></i><span class="action-bar__item__label">Documentation</span>
+                </a>
+            </li>
+        </ul>
+    </li>
     {% endif %}
     <li class="action-bar__group">
         <ul>
@@ -48,22 +48,32 @@
                 </a>
             </li>
             <li class="action-bar__item">
+                <a href="{{ path.logout }}">
+                    <i class="icon icon-power"></i><span class="action-bar__item__label">Sign out</span>
+                </a>
+            </li>
+            <li class="action-bar__item">
                 <a href="{{ path.settings }}">
                     <i class="icon icon-cog"></i><span class="action-bar__item__label">Settings</span>
                 </a>
             </li>
             {% else %}
-                <li class="action-bar__item">
-                    <a href="{{ path.login }}">
-                        <i class="icon icon-profile"></i><span class="action-bar__item__label">Sign in</span>
-                    </a>
-                </li>
-            {% endif %}
             <li class="action-bar__item">
-                <a href="{{ path.help }}">
-                    <i class="icon icon-help"></i><span class="action-bar__item__label">Help</span>
+                <a href="{{ path.register }}">
+                    <i class="icon icon-profile"></i><span class="action-bar__item__label">Join</span>
                 </a>
             </li>
+            <li class="action-bar__item">
+                <a href="{{ path.login }}">
+                    <i class="icon icon-power"></i><span class="action-bar__item__label">Sign in</span>
+                </a>
+            </li>
+            {% endif %}
+            <!--<li class="action-bar__item">-->
+            <!--<a href="{{ path.help }}">-->
+            <!--<i class="icon icon-help"></i><span class="action-bar__item__label">Help</span>-->
+            <!--</a>-->
+            <!--</li>-->
         </ul>
     </li>
 </ul>
