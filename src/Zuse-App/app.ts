@@ -39,7 +39,7 @@ server.start(() => {
     console.log('Server running at: ' + server.info.uri);
 });
 
-server.ext('onPreResponse', (request, reply) => {
+server.ext('onPreResponse', (request : any, reply : any) => {
     var response = request.response;
     if (response.isBoom) {
         response.output.payload.success = false;

@@ -1,2 +1,3 @@
 # Tools
 typings/**/
+!typings/bluebird/

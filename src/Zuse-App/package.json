@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "install": "tsd reinstall -s -o && npm run build",
-    "build": "tsc app.ts --outDir build/ --target ES5 --module commonjs",
+    "build": "tsc app.ts --outDir build/ --target ES5 --module commonjs --sourceMap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

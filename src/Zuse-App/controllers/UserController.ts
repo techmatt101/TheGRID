@@ -1,3 +1,4 @@
+import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
@@ -9,7 +10,7 @@ function UserController (server : Hapi.Server, MasterControlService : services.M
     server.route({
         method: 'GET',
         path: '/users/tokens/generate',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
+        handler: (request, reply) => {
             MasterControlService.generateNewUserToken()
                 .then((data) => reply(UsersMapper.mapUserToken(data)))
                 .catch((err) => reply(Boom.badImplementation()));
@@ -22,8 +23,8 @@ function UserController (server : Hapi.Server, MasterControlService : services.M
     server.route({
         method: 'GET',
         path: '/users/tokens/{token_id}',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
-            MasterControlService.getUserToken({token : request.params.token_id } )
+        handler: (request, reply) => {
+            MasterControlService.getUserToken({token : request.params['token_id'] } )
                 .then((data) => reply(data))
                 .catch((err) => reply(Boom.notAcceptable('Token has expired')));
         },
@@ -36,9 +37,9 @@ function UserController (server : Hapi.Server, MasterControlService : services.M
     server.route({
         method: 'GET',
         path: '/users/{user_id}/info',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
+        handler: (request, reply) => {
             MasterControlService.getUserDetails({
-                id: request.params.user_id,
+                id: request.params['user_id'],
             })
                 .then((data) => reply(data))
                 .catch((err) => reply(Boom.notAcceptable("BOOM"))); //TODO: better message

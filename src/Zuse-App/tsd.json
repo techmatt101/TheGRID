@@ -13,6 +13,9 @@
     },
     "es6-promise/es6-promise.d.ts": {
       "commit": "b04ad99e8b389bf377a2bd3ae582e7ecb553c09a"
+    },
+    "hapi/hapi.d.ts": {
+      "commit": "b3834d886a95789e6ab56e8244775ec10c5293d0"
     }
   }
 }

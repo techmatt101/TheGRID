@@ -1,3 +1,4 @@
+import Hapi = require('hapi');
 import Joi = require('joi');
 import Boom = require('boom');
 import services = require('services');
@@ -8,17 +9,17 @@ function LeaderboardsController (server : Hapi.Server, MasterControlService : se
     server.route({
         method: 'GET',
         path: '/leaderboards/{leaderboard_id}/scores',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
+        handler: (request, reply) => {
             MasterControlService.getListOfScores({
-                id: request.params.leaderboard_id,
-                maxResults: request.query.max_results,
+                id: request.params['leaderboard_id'],
+                perPage: request.query.per_page,
+                page: request.query.page,
                 userId: request.query.player_id,
-                start: request.query.start,
                 friendsOnly: request.query.friends_only,
                 showPlayer: request.query.show_player
             })
                 .then((data) => reply(LeaderboardMapper.mapScores(data)))
-                .catch((err) => reply(Boom.notAcceptable("Leaderboard Id '" + request.params.leaderboard_id + "' not found."))); //TODO: better message
+                .catch((err) => reply(Boom.notAcceptable("Leaderboard Id '" + request.params['leaderboard_id'] + "' not found."))); //TODO: better message
         },
         config: {
             validate: {
@@ -26,9 +27,9 @@ function LeaderboardsController (server : Hapi.Server, MasterControlService : se
                     leaderboard_id: Joi.string().alphanum()
                 },
                 query: {
-                    max_results: Joi.number().integer().min(1).max(100).default(10),
+                    per_page: Joi.number().integer().min(1).max(100).default(10),
+                    page: Joi.number().integer(),
                     player_id: Joi.string().alphanum(),
-                    start: Joi.number().integer(),
                     friends_only: Joi.boolean(),
                     show_player: Joi.boolean()
                 }
@@ -41,13 +42,13 @@ function LeaderboardsController (server : Hapi.Server, MasterControlService : se
     server.route({
         method: 'GET',
         path: '/leaderboards/{leaderboard_id}/players/{player_id}/score',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
+        handler: (request, reply) => {
             MasterControlService.getScore({
-                id: request.params.leaderboard_id,
-                userId: request.params.player_id
+                id: request.params['leaderboard_id'],
+                userId: request.params['player_id']
             })
                 .then((data) => reply(LeaderboardMapper.mapSingleScore(data)))
-                .catch((err) => reply(Boom.notAcceptable("Player '" + request.params.player_id + "' has no recorded score for leaderboard '" + request.params.leaderboard_id + "'."))); //TODO: better message
+                .catch((err) => reply(Boom.notAcceptable("Player '" + request.params['player_id'] + "' has no recorded score for leaderboard '" + request.params['leaderboard_id'] + "'."))); //TODO: better message
         },
         config: {
             validate: {
@@ -62,12 +63,12 @@ function LeaderboardsController (server : Hapi.Server, MasterControlService : se
 
     // Submit Score
     server.route({
-        method: 'POST',
+        method: ['GET', 'POST'],
         path: '/leaderboards/{leaderboard_id}/players/{player_id}/submit',
-        handler: (request : Hapi.Request, reply : Hapi.Reply) => {
+        handler: (request, reply) => {
             MasterControlService.submitScore({
-                id: request.params.leaderboard_id,
-                userId: request.params.player_id,
+                id: request.params['leaderboard_id'],
+                userId: request.params['player_id'],
                 score: request.payload.score
             })
                 .then((data) => reply({ success: true}))
